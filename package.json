@@ -8,6 +8,8 @@
     "back": "node backend/index.js",
     "front": "cd frontend && npm start"
   },
+
+  
   "keywords": [],
   "author": "",
   "license": "ISC",
