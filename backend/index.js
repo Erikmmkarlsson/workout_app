@@ -18,14 +18,10 @@ app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
 
-console.log(2)
-
 // Root endpoint
 app.get("/", (req, res, next) => {
     res.json({"message":"Ok"})
 });
-
-console.log(3)
 
 
 app.get("/api/users", (req, res, next) => {
@@ -77,11 +73,10 @@ Example usage:
 
 app.post("/api/user/", (req, res, next) => {
   /*
-Posts a new user, for example a newly created user. 
+Posts a new user to be added to the db, for example a newly created user. 
 
 Example usage:
  $ curl http://localhost:5000/api/user -X POST \
-         -H "Authorization: Bearer <your_token>" \
              -d '
              {
                 "name": "erik33", 

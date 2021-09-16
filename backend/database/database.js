@@ -30,5 +30,4 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     }
 });
 
-console.log(1)
 module.exports = db
