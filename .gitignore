@@ -28,6 +28,10 @@ yarn-error.log*
 # production
 /build
 
+/node_modules
+
+db.sqlite
+
 # misc
 .DS_Store
 .env.local
