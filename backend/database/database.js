@@ -1,7 +1,7 @@
 var sqlite3 = require('sqlite3').verbose()
 var md5 = require('md5')
 
-const DBSOURCE = "./backend/database/db.sqlite"
+const DBSOURCE = "./backend/database/sqlite.db"
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) {
@@ -30,5 +30,5 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     }
 });
 
-
+console.log(1)
 module.exports = db
