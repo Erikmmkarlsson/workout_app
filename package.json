@@ -6,18 +6,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "back": "node backend/index.js",
-    "front": "cd frontend && npm start"
+    "front": "cd frontend && npm start",
+    "dev": "concurrently \"npm run back\" \"npm run front\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "concurrently": "^6.2.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "md5": "^2.3.0",
     "sequelize": "^6.6.5",
+    "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3000"
 }
