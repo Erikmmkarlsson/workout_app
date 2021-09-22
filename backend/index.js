@@ -1,9 +1,13 @@
 // Create express app
 var express = require("express")
+var bodyParser = require('body-parser')
+var {check, validationResult} = require('express-validator')
 var app = express()
 var db = require("./database/database.js")
 var md5 = require("md5")
 var cors = require('cors')
+
+
 app.use(cors())
 
 app.use(express.urlencoded());
@@ -71,50 +75,46 @@ Example usage:
 });
 
 
-app.post("/api/user/", (req, res, next) => {
-  /*
-Posts a new user to be added to the db, for example a newly created user. 
 
-Example usage:
- $ curl http://localhost:5000/api/user -X POST \
-             -d '
-             {
-                "name": "erik33", 
-                "email": "workoutapp",
-                "password": "t3r23",
-             }'
+const urlencodedParser = bodyParser.urlencoded({extended: false})
+app.post("/api/user/",urlencodedParser, [
+    check('name', 'The username must be 3+ characters long')
+       .exists()
+       .isLength({min:3}),
+    
+    check('email','Email is not valid')
+       .isEmail()
+       .normalizeEmail()
 
-  */
- console.log("Creating a new user...");
-  var errors=[]
-  if (!req.body.password){
-      errors.push("No password specified");
+], (req, res, next) => {
+  
+  const errors = validationResult(req)
+  if(errors.isEmpty())
+  {
+    console.log("Creating a new user...");    
+    var data = {
+        name: req.body.name,
+        email: req.body.email,
+        password : md5(req.body.password) //md5 hashes the password
+    }
+    var sql ='INSERT INTO user (name, email, password) VALUES (?,?,?)'
+    var params =[data.name, data.email, data.password]
+    db.run(sql, params, function (err, result) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": data,
+            "id" : this.lastID
+        })
+    });
+
   }
-  if (!req.body.email){
-      errors.push("No email specified");
+  else{
+      console.log(errors)
   }
-  if (errors.length){
-      res.status(400).json({"error":errors.join(",")});
-      return;
-  }
-  var data = {
-      name: req.body.name,
-      email: req.body.email,
-      password : md5(req.body.password) //md5 hashes the password
-  }
-  var sql ='INSERT INTO user (name, email, password) VALUES (?,?,?)'
-  var params =[data.name, data.email, data.password]
-  db.run(sql, params, function (err, result) {
-      if (err){
-          res.status(400).json({"error": err.message})
-          return;
-      }
-      res.json({
-          "message": "success",
-          "data": data,
-          "id" : this.lastID
-      })
-  });
 })
 
 
