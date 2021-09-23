@@ -1,9 +1,13 @@
 // Create express app
 var express = require("express")
+var bodyParser = require('body-parser')
+var {check, validationResult} = require('express-validator')
 var app = express()
 var db = require("./database/database.js")
 var md5 = require("md5")
 var cors = require('cors')
+
+
 app.use(cors())
 
 app.use(express.urlencoded());
@@ -70,42 +74,33 @@ app.get("/api/user/:id", (req, res, next) => {
 });
 
 
-app.post("/api/user/", (req, res, next) => {
-    /*
-    Posts a new user to be added to the db, for example a newly created user. 
+
+const urlencodedParser = bodyParser.urlencoded({extended: false})
+app.post("/api/user/",urlencodedParser, [
+    check('name', 'The username must be 3+ characters long')
+       .exists()
+       .isLength({min:3}),
+    
+    check('email','Email is not valid')
+       .isEmail()
+       .normalizeEmail()
+
+], (req, res, next) => {
   
-    Example usage:
-    $ curl http://localhost:8000/api/user -X POST \
-               -d '
-               {
-                  "name": "erik33", 
-                  "email": "workoutapp",
-                  "password": "t3r23",
-               }'
-  
-    */
-    console.log("Creating a new user...");
-    var errors = []
-    if (!req.body.password) {
-        errors.push("No password specified");
-    }
-    if (!req.body.email) {
-        errors.push("No email specified");
-    }
-    if (errors.length) {
-        res.status(400).json({ "error": errors.join(",") });
-        return;
-    }
+  const errors = validationResult(req)
+  if(errors.isEmpty())
+  {
+    console.log("Creating a new user...");    
     var data = {
         name: req.body.name,
         email: req.body.email,
-        password: md5(req.body.password) //md5 hashes the password
+        password : md5(req.body.password) //md5 hashes the password
     }
-    var sql = 'INSERT INTO user (name, email, password) VALUES (?,?,?)'
-    var params = [data.name, data.email, data.password]
+    var sql ='INSERT INTO user (name, email, password) VALUES (?,?,?)'
+    var params =[data.name, data.email, data.password]
     db.run(sql, params, function (err, result) {
-        if (err) {
-            res.status(400).json({ "error": err.message })
+        if (err){
+            res.status(400).json({"error": err.message})
             return;
         }
         res.json({
@@ -113,8 +108,102 @@ app.post("/api/user/", (req, res, next) => {
             "data": data,
             "id": this.lastID
         })
+   })};
+});
+
+
+/* 
+
+Methods for fetching and creating exercises
+
+*/
+
+
+app.get("/api/exercises/", (req, res, next) => {
+    /*
+    Returns all the exercises.
+    Example usage:
+  $ curl http://localhost:8000/api/exercises -X GET 
+   */
+    console.log("Returning all exercises...");
+
+    var sql = "select * from exercise"
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": rows
+        })
     });
-})
+});
+
+app.get("/api/exercises/:id", (req, res, next) => {
+
+    /*
+    Returns a specific exercise
+    Example usage:
+ $ curl http://localhost:8000/api/exercise/5 -X GET 
+  */
+    console.log("Returning one exercise...");
+
+    var sql = "select * from exercise where id = ?"
+    var params = [req.params.id]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
+
+app.post("/api/exercises/", (req, res, next) => {
+    /*
+    Posts a new exercise to be added to the db, for example a newly created exercise. 
+  
+    Example usage:
+    $ curl http://localhost:8000/api/exercises -X POST \
+               -d '
+               {
+                  "name": "sit ups", 
+                  "description": "sit and raise your upper body",
+               }'
+  
+    */
+    console.log("Creating a new exercise...");
+    var errors = []
+    if (!req.body.description) {
+        errors.push("No description specified");
+    }
+    if (errors.length) {
+        res.status(400).json({ "error": errors.join(",") });
+        return;
+    }
+    var data = {
+        name: req.body.name,
+        description: req.body.description
+    }
+    var sql = 'INSERT INTO exercise (name, description) VALUES (?,?)'
+    var params = [data.name, data.description]
+    db.run(sql, params, function (err, result) {
+        if (err) {
+            res.status(400).json({ "error": err.message })
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": data
+        })
+    });
+});
 
 
 

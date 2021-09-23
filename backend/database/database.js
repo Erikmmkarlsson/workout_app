@@ -22,9 +22,24 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 // Table already created
             }else{
                 // Table just created, creating some rows
-                var insert = 'INSERT INTO user (name, email, password) VALUES (?,?,?)'
-                db.run(insert, ["admin","admin@example.com",md5("admin123456")])
-                db.run(insert, ["user","user@example.com",md5("user123456")])
+                var insert_user = 'INSERT INTO user (name, email, password) VALUES (?,?,?)'
+                db.run(insert_user, ["admin","admin@example.com",md5("admin123456")])
+                db.run(insert_user, ["user","user@example.com",md5("user123456")])
+            }
+        });  
+        db.run(`CREATE TABLE exercise (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name text,
+            description text
+            )`,
+        (err) => {
+            if (err) {
+                // Table already created
+            }else{
+                // Table just created, creating some rows
+                var insert_exercise = 'INSERT INTO exercise (name, description) VALUES (?,?)'
+                db.run(insert_exercise, ["squats","bend your legs"])
+                db.run(insert_exercise, ["push ups","push up your body"])
             }
         });  
     }
