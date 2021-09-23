@@ -68,7 +68,97 @@ app.get("/api/user/:id", (req, res, next) => {
 });
 
 
-app.post("/api/user/", (req, res, next) => {
+
+const urlencodedParser = bodyParser.urlencoded({extended: false})
+app.post("/api/user/",urlencodedParser, [
+    check('name', 'The username must be 3+ characters long')
+       .exists()
+       .isLength({min:3}),
+    
+    check('email','Email is not valid')
+       .isEmail()
+       .normalizeEmail()
+
+], (req, res, next) => {
+  
+  const errors = validationResult(req)
+  if(errors.isEmpty())
+  {
+    console.log("Creating a new user...");    
+    var data = {
+        name: req.body.name,
+        email: req.body.email,
+        password : md5(req.body.password) //md5 hashes the password
+    }
+    var sql ='INSERT INTO user (name, email, password) VALUES (?,?,?)'
+    var params =[data.name, data.email, data.password]
+    db.run(sql, params, function (err, result) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": data,
+            "id": this.lastID
+        })
+   })};
+});
+
+
+/* 
+
+Methods for fetching and creating exercises
+
+*/
+
+
+app.get("/api/exercises/", (req, res, next) => {
+    /*
+    Returns all the exercises.
+    Example usage:
+  $ curl http://localhost:8000/api/exercises -X GET 
+   */
+    console.log("Returning all exercises...");
+
+    var sql = "select * from exercise"
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": rows
+        })
+    });
+});
+
+app.get("/api/exercises/:id", (req, res, next) => {
+
+    /*
+    Returns a specific exercise
+    Example usage:
+ $ curl http://localhost:8000/api/exercise/5 -X GET 
+  */
+    console.log("Returning one exercise...");
+
+    var sql = "select * from exercise where id = ?"
+    var params = [req.params.id]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
+app.post("/api/exercises/", (req, res, next) => {
     /*
     Posts a new user to be added to the db, for example a newly created user. 
   
@@ -113,6 +203,50 @@ app.post("/api/user/", (req, res, next) => {
         })
     });
 })
+
+app.delete("/api/exercises/:id", (req, res, next) => {
+    /*
+
+    Deletes an exercise from the db 
+  
+    */    
+    console.log("Deleting exercise...");
+
+    var sql = "delete from exercise where id = ?"
+    var params = [req.params.id]
+    db.get(sql, params, function (err, result) {
+            if (err){
+                res.status(400).json({"error": err.message})
+                return;
+            }
+            res.json({"message":"deleted", changes: this.changes})
+    });
+});
+
+app.patch("/api/exercises/:id", (req, res, next) => {
+    /*
+    
+    Modifies an existing exercise in the db. 
+  
+    */     
+    console.log("Updating exercise...");
+    var data = {
+        name: req.body.name,
+        description: req.body.description
+    }
+    var sql = "UPDATE exercise set name = COALESCE(?,name), description = COALESCE(?,description) WHERE id = ?"
+    var params = [data.name, data.description, req.params.id]
+    db.run(sql, params, function (err, row) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
 
 
 
