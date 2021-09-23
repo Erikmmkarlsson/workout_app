@@ -1,10 +1,17 @@
-.App {
-  text-align: center;
+.list {
+  text-align: left;
+  max-width: 750px;
+  margin: auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.submit-form {
+  max-width: 300px;
+  margin: auto;
+}
+
+.edit-form {
+  max-width: 300px;
+  margin: auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -36,3 +43,5 @@
     transform: rotate(360deg);
   }
 }
+
+
