@@ -15,3 +15,4 @@ ReactDOM.render(
 );
 
 serviceWorker.unregister();
+reportWebVitals();
