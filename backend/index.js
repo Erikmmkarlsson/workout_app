@@ -94,7 +94,7 @@ app.post("/api/user/",urlencodedParser, [
     var data = {
         name: req.body.name,
         email: req.body.email,
-        password : md5(req.body.password) //md5 hashes the password
+        password : bcrypt.hash(req.body.password,10) //md5 hashes the password bcrypt.hash(password, 10)
     }
     var sql ='INSERT INTO user (name, email, password) VALUES (?,?,?)'
     var params =[data.name, data.email, data.password]

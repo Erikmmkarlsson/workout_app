@@ -21,11 +21,12 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         (err) => {
             if (err) {
                 // Table already created
+                
             }else{
                 // Table just created, creating some rows
                 var insert_user = 'INSERT INTO user (name, email, password) VALUES (?,?,?)'
-                db.run(insert_user, ["admin","admin@example.com",md5("admin123456")])
-                db.run(insert_user, ["user","user@example.com",md5("user123456")])
+                db.run(insert_user, ["admin","admin@example.com",bcrypt.hash("admin123456", 10)])//bcrypt.hash(password, 10)
+                db.run(insert_user, ["user","user@example.com",bcrypt.hash("user123456", 10)])//md5("user123456")
             }
         });  
         db.run(`CREATE TABLE exercise (
