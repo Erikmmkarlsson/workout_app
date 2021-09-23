@@ -50,6 +50,28 @@ app.get("/api/users", (req, res, next) => {
     });
 });
 
+app.get("/api/managers", (req, res, next) => {
+    /*
+    Returns all the users.
+    Example usage:
+  $ curl http://localhost:8000/api/users -X GET 
+   */
+    console.log("Returning all managers...");
+
+    var sql = "select * from user where role='manager'"
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": rows
+        })
+    });
+});
+
 app.get("/api/user/:id", (req, res, next) => {
 
     /*
@@ -94,10 +116,11 @@ app.post("/api/user/",urlencodedParser, [
     var data = {
         name: req.body.name,
         email: req.body.email,
-        password : md5(req.body.password) //md5 hashes the password
+        password : md5(req.body.password), //md5 hashes the password
+        role: req.body.role,
     }
-    var sql ='INSERT INTO user (name, email, password) VALUES (?,?,?)'
-    var params =[data.name, data.email, data.password]
+    var sql ='INSERT INTO user (name, email, password,role) VALUES (?,?,?,?)'
+    var params =[data.name, data.email, data.password, data.role]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})

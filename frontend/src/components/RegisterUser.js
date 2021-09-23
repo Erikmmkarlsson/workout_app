@@ -12,6 +12,11 @@ import{
     Alert,
     Row,
     Col,
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+
 } from 'reactstrap';
 
 
@@ -19,6 +24,7 @@ export default class RegisterUser extends Component {
 
     state={
         modal: false,
+        DropDown: false,
         IsValidName: true,
         IsValidEmail: true,
         EmailMatches:true,
@@ -29,11 +35,25 @@ export default class RegisterUser extends Component {
         confirm_email:'',
         password:'',
         confirm_password:'',
+        manager:'',
         users:[],
     };
     toggle = () => {
         this.setState({
             modal: !this.state.modal
+        })
+
+    }
+    toggle2 = () => {
+        this.setState({
+            DropDown: !this.state.DropDown
+        })
+
+    }
+    toggle3 = (selectedManager) => {
+        this.setState({
+            manager: selectedManager
+
         })
 
     }
@@ -133,7 +153,8 @@ export default class RegisterUser extends Component {
             data: {
                 name: this.state.name,
                 email: this.state.email,
-                password: this.state.password
+                password: this.state.password,
+                role: 'user'
             }}
             ).then(res =>{
             console.log(res);
@@ -155,14 +176,13 @@ export default class RegisterUser extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8000/api/users`)
+        axios.get(`http://localhost:8000/api/managers`)
           .then(response => {
             this.setState({users: response.data.data})
           });
       }
     
     render(){
-        const {users } =this.state
         return(
             <div>
                 <Button
@@ -245,6 +265,16 @@ export default class RegisterUser extends Component {
                             </Col>
                             </Row>
                             <Row>
+                            <Dropdown group isOpen={this.state.DropDown} size="lg" toggle={this.toggle2}>
+                            <DropdownToggle caret>
+                               {this.state.manager}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {this.state.users.map(user => <DropdownItem onClick={() => this.toggle3(user.name)}>{user.name}</DropdownItem>)} 
+                            </DropdownMenu>
+                            </Dropdown>
+                            </Row>
+                            <Row>
                             <Button disabled={this.state.name.length<3 || 
                                               this.state.email.length<6||
                                               this.state.password.length<6||
@@ -285,9 +315,6 @@ export default class RegisterUser extends Component {
                     
                 </Modal>
                 
-                <ul>
-                    {this.state.users.map(user => <li>{user.name}</li>)} 
-                </ul>
 
             </div>
 
