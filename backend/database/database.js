@@ -16,7 +16,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             name text, 
             email text UNIQUE, 
             password text, 
-            role text,
+            role text DEFAULT "client",
             activated boolean DEFAULT false,
             CONSTRAINT email_unique UNIQUE (email)
             )`,
@@ -28,6 +28,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 var insert_user = 'INSERT INTO user (name, email, password,role) VALUES (?,?,?,?)'
                 db.run(insert_user, ["manager1","manager1@example.com",md5("admin123456"),"manager"])
                 db.run(insert_user, ["manager2","manager2@example.com",md5("user123456"),"manager"])
+                db.run(insert_user, ["Erik","Erik@example.com",md5("user123456")])
+
             }
         });  
         db.run(`CREATE TABLE exercise (
