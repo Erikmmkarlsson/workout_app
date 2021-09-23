@@ -15,8 +15,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             name text, 
             email text UNIQUE, 
             password text, 
-            CONSTRAINT email_unique UNIQUE (email),
-            role text
+            role text,
+            CONSTRAINT email_unique UNIQUE (email)
             )`,
         (err) => {
             if (err) {
