@@ -1,9 +1,13 @@
 // Create express app
 var express = require("express")
+var bodyParser = require('body-parser')
+var {check, validationResult} = require('express-validator')
 var app = express()
 var db = require("./database/database.js")
 var md5 = require("md5")
 var cors = require('cors')
+
+
 app.use(cors())
 app.use(express.urlencoded());
 
@@ -160,25 +164,21 @@ app.get("/api/exercises/:id", (req, res, next) => {
 
 app.post("/api/exercises/", (req, res, next) => {
     /*
-    Posts a new user to be added to the db, for example a newly created user. 
+    Posts a new exercise to be added to the db, for example a newly created exercise. 
   
     Example usage:
-    $ curl http://localhost:8000/api/user -X POST \
+    $ curl http://localhost:8000/api/exercises -X POST \
                -d '
                {
-                  "name": "erik33", 
-                  "email": "workoutapp",
-                  "password": "t3r23",
+                  "name": "sit ups", 
+                  "description": "sit and raise your upper body",
                }'
   
     */
-    console.log("Creating a new user...");
+    console.log("Creating a new exercise...");
     var errors = []
-    if (!req.body.password) {
-        errors.push("No password specified");
-    }
-    if (!req.body.email) {
-        errors.push("No email specified");
+    if (!req.body.description) {
+        errors.push("No description specified");
     }
     if (errors.length) {
         res.status(400).json({ "error": errors.join(",") });
@@ -186,11 +186,10 @@ app.post("/api/exercises/", (req, res, next) => {
     }
     var data = {
         name: req.body.name,
-        email: req.body.email,
-        password: md5(req.body.password) //md5 hashes the password
+        description: req.body.description
     }
-    var sql = 'INSERT INTO user (name, email, password) VALUES (?,?,?)'
-    var params = [data.name, data.email, data.password]
+    var sql = 'INSERT INTO exercise (name, description) VALUES (?,?)'
+    var params = [data.name, data.description]
     db.run(sql, params, function (err, result) {
         if (err) {
             res.status(400).json({ "error": err.message })
@@ -198,11 +197,10 @@ app.post("/api/exercises/", (req, res, next) => {
         }
         res.json({
             "message": "success",
-            "data": data,
-            "id": this.lastID
+            "data": data
         })
     });
-})
+});
 
 app.delete("/api/exercises/:id", (req, res, next) => {
     /*

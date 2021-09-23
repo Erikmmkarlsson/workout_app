@@ -182,7 +182,11 @@ export default class ExercisesList extends Component {
         <h4>Exercises</h4>
           <ul>
             {this.state.exercisesList.map(exercise => (
+<<<<<<< HEAD
               <li>{exercise.name} {exercise.description}</li>
+=======
+              <li>{exercise.name}</li>
+>>>>>>> 7acebdcfe4989cd20c083aa2ec9c5d1f5e6c33d4
             ))}
           </ul>
       </div> 

@@ -42,3 +42,7 @@ db.sqlite
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+frontend/src/App.css
+frontend/src/App.js
+frontend/src/http-common.js
+frontend/src/index.js
