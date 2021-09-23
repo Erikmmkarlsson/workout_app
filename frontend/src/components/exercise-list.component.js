@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { ReactDOM } from "react-dom";
 import axios from "axios";
 import _ from 'lodash';
+import { response } from "express";
+
 
 
 export default class ExercisesList extends Component {
@@ -9,42 +11,33 @@ export default class ExercisesList extends Component {
     super(props);
 
     this.state = {
-      exercises: []
+      exercisesList: []
     };
-
-    this.renderExercises = this.renderExercises.bind(this);
   }
 
-  componentWillMount() {
-    axios
-        .get('localhost:8000/api/exercises')
-        .then(({response}) => {
-            console.log(response.json);
-            this.setState(
-                { exercises: response }
-            );
-        })
-        .catch((err) => {})
+  componentDidMount() {
+    fetch("http://localhost:8000/api/exercises")
+      .then(response => {
+        return response.json();
+      })
+      .then((data) => {
+        this.setState({
+          exercisesList: data.map(exercise => ({
+            name: exercise.name,
+            description: exercise.description
+          }))
+        });
+        console.log(data[i])
+      })
   }
 
   render() {
-    console.log(this.state.exercises);
-    return (
-        <div>
-          <h4>Exercises List</h4>
-          <ul className="list-group">
-            {this.renderExercises()}
-          </ul>
-      </div>
-    );
+    return <ul>{this.renderItems()}</ul>;
   }
 
-  renderExercises() {
-      console.log(this.state.exercises);
-      return this.state.exercises.map(exercise => {
-          <li>
-              {exercise.name}
-          </li>
-      })
+  renderItems() {
+    return this.state.exercisesList.map(exercise => {
+      <key={exercise.name} name={exercise.name} />;
+    });
   }
 }
