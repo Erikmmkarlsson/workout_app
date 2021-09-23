@@ -9,6 +9,8 @@
     "front": "cd frontend && npm start",
     "dev": "concurrently \"npm run back\" \"npm run front\""
   },
+
+  
   "keywords": [],
   "author": "",
   "license": "ISC",
