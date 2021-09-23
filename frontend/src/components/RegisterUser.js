@@ -16,6 +16,7 @@ import{
 
 
 export default class RegisterUser extends Component {
+
     state={
         modal: false,
         IsValidName: true,
@@ -28,6 +29,7 @@ export default class RegisterUser extends Component {
         confirm_email:'',
         password:'',
         confirm_password:'',
+        users:[],
     };
     toggle = () => {
         this.setState({
@@ -151,8 +153,16 @@ export default class RegisterUser extends Component {
          
 
     }
+
+    componentDidMount() {
+        axios.get(`http://localhost:8000/api/users`)
+          .then(response => {
+            this.setState({users: response.data.data})
+          });
+      }
     
     render(){
+        const {users } =this.state
         return(
             <div>
                 <Button
@@ -274,7 +284,13 @@ export default class RegisterUser extends Component {
                     ):(null)}
                     
                 </Modal>
+                
+                <ul>
+                    {this.state.users.map(user => <li>{user.name}</li>)} 
+                </ul>
+
             </div>
+
         );
     }
 
