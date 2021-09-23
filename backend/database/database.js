@@ -3,6 +3,7 @@ var md5 = require('md5')
 
 const DBSOURCE = "./backend/database/sqlite.db"
 
+
 let db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) {
       // Cannot open database
@@ -15,8 +16,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             name text, 
             email text UNIQUE, 
             password text, 
-            CONSTRAINT email_unique UNIQUE (email),
-            role text
+            role text DEFAULT "client",
+            activated boolean DEFAULT false,
+            CONSTRAINT email_unique UNIQUE (email)
             )`,
         (err) => {
             if (err) {
@@ -24,9 +26,11 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 
             }else{
                 // Table just created, creating some rows
-                var insert_user = 'INSERT INTO user (name, email, password) VALUES (?,?,?)'
-                db.run(insert_user, ["admin","admin@example.com",bcrypt.hash("admin123456", 10)])//bcrypt.hash(password, 10)
-                db.run(insert_user, ["user","user@example.com",bcrypt.hash("user123456", 10)])//md5("user123456")
+                var insert_user = 'INSERT INTO user (name, email, password,role) VALUES (?,?,?,?)'
+                db.run(insert_user, ["manager1","manager1@example.com",md5("admin123456"),"manager"])
+                db.run(insert_user, ["manager2","manager2@example.com",md5("user123456"),"manager"])
+                db.run(insert_user, ["Erik","Erik@example.com",md5("user123456")])
+
             }
         });  
         db.run(`CREATE TABLE exercise (

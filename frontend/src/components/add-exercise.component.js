@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import axios from "axios";
 import ExerciseDataService from "../services/exercise.service";
+import { Link } from "react-router-dom";
 
 export default class AddExercise extends Component {
   constructor(props) {
@@ -32,26 +34,15 @@ export default class AddExercise extends Component {
   }
 
   saveExercise() {
-    var data = {
-      name: this.state.name,
-      description: this.state.description
-    };
+    axios({
+      method: 'post',
+      url: 'http://localhost:8000/api/exercises',
+      data: {
+        name: this.state.name,
+        description: this.state.description
+      }
+    });
 
-    ExerciseDataService.create(data)
-      .then(response => {
-        this.setState({
-          id: response.data.id,
-          name: response.data.name,
-          description: response.data.description,
-          // published: response.data.published,
-
-          submitted: true
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
   }
 
   newExercise() {
@@ -102,11 +93,20 @@ export default class AddExercise extends Component {
                 name="description"
               />
             </div>
-
-            <button onClick={this.saveExercise} className="btn btn-success">
-              Submit
-            </button>
+            <Link to="/exercises">
+              <button onClick={this.saveExercise} className="btn btn-success">
+                Submit
+              </button>
+            </Link>
+            <div>
+            <Link to="/exercises">
+                <button className="m-3 btn btn-sm btn-warning">
+                  <span>Back</span>
+                </button>
+              </Link>
+            </div>
           </div>
+          
         )}
       </div>
     );
