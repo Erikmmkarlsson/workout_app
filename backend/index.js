@@ -14,7 +14,7 @@ app.use(express.urlencoded());
 app.use(express.json());
 
 // Server port
-var HTTP_PORT = 3000
+var HTTP_PORT = 8000
 // Start server
 app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT))
