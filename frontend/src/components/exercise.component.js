@@ -1,22 +1,20 @@
 import React, { Component } from "react";
 import ExerciseDataService from "../services/exercise.service";
+import axios from 'axios';
+import { Link } from "react-router-dom";
 
 export default class Exercise extends Component {
   constructor(props) {
     super(props);
-    this.onChangeName = this.onChangeName.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.getExercise = this.getExercise.bind(this);
-    this.updatePublished = this.updatePublished.bind(this);
     this.updateExercise = this.updateExercise.bind(this);
     this.deleteExercise = this.deleteExercise.bind(this);
 
     this.state = {
       currentExercise: {
-        id: null,
-        name: "",
-        description: "",
-        published: false
+        id: this.props.match.params.id,
+        description: ""
       },
       message: ""
     };
@@ -24,19 +22,6 @@ export default class Exercise extends Component {
 
   componentDidMount() {
     this.getExercise(this.props.match.params.id);
-  }
-
-  onChangeName(e) {
-    const name = e.target.value;
-
-    this.setState(function(prevState) {
-      return {
-        currentExercise: {
-          ...prevState.currentExercise,
-          name: name
-        }
-      };
-    });
   }
 
   onChangeDescription(e) {
@@ -51,48 +36,18 @@ export default class Exercise extends Component {
   }
 
   getExercise(id) {
-    ExerciseDataService.get(id)
+    axios.get(id)
       .then(response => {
         this.setState({
-          currentExercise: response.data
+          currentExercise: response.data.data
         });
-        console.log(response.data);
       })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-
-  updatePublished(status) {
-    var data = {
-      id: this.state.currentExercise.id,
-      name: this.state.currentExercise.name,
-      description: this.state.currentExercise.description,
-      published: status
-    };
-
-    ExerciseDataService.update(this.state.currentExercise.id, data)
-      .then(response => {
-        this.setState(prevState => ({
-          currentExercise: {
-            ...prevState.currentExercise,
-            published: status
-          }
-        }));
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
   }
 
   updateExercise() {
-    ExerciseDataService.update(
-      this.state.currentExercise.id,
-      this.state.currentExercise
-    )
+    axios.patch("http://localhost:8000/api/exercises/" + this.state.currentExercise.id, this.state.currentExercise)
       .then(response => {
-        console.log(response.data);
+        console.log(response.data.data);
         this.setState({
           message: "The exercise was updated successfully!"
         });
@@ -103,15 +58,10 @@ export default class Exercise extends Component {
   }
 
   deleteExercise() {    
-    ExerciseDataService.delete(this.state.currentExercise.id)
-      .then(response => {
-        console.log(response.data);
-        this.props.history.push('/exercises')
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    axios.delete("http://localhost:8000/api/exercises/" + this.state.currentExercise.id);
   }
+
+  
 
   render() {
     const { currentExercise } = this.state;
@@ -120,18 +70,8 @@ export default class Exercise extends Component {
       <div>
         {currentExercise ? (
           <div className="edit-form">
-            <h4>Exercise</h4>
+            <h4>Edit Exercise</h4>
             <form>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="name"
-                  value={currentExercise.name}
-                  onChange={this.onChangeName}
-                />
-              </div>
               <div className="form-group">
                 <label htmlFor="description">Description</label>
                 <input
@@ -150,39 +90,31 @@ export default class Exercise extends Component {
                 {currentExercise.published ? "Published" : "Pending"}
               </div>
             </form>
-
-            {currentExercise.published ? (
+            <Link to="/exercises">
               <button
-                className="badge badge-primary mr-2"
-                onClick={() => this.updatePublished(false)}
-              >
-                UnPublish
+                className="m-3 btn btn-sm btn-danger"
+                onClick={this.deleteExercise}
+                >
+                Delete
               </button>
-            ) : (
-              <button
-                className="badge badge-primary mr-2"
-                onClick={() => this.updatePublished(true)}
-              >
-                Publish
-              </button>
-            )}
-
-            <button
-              className="badge badge-danger mr-2"
-              onClick={this.deleteExercise}
-            >
-              Delete
-            </button>
-
+            </Link>
             <button
               type="submit"
-              className="badge badge-success"
+              className="m-3 btn btn-sm btn-success"
               onClick={this.updateExercise}
             >
               Update
             </button>
             <p>{this.state.message}</p>
+            <div>
+            <Link to="/exercises">
+                <button className="m-3 btn btn-sm btn-warning">
+                  <span>Back</span>
+                </button>
+              </Link>
+            </div>
           </div>
+          
         ) : (
           <div>
             <br />

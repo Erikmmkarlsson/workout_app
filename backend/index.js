@@ -9,14 +9,12 @@ var cors = require('cors')
 
 
 app.use(cors())
-
 app.use(express.urlencoded());
 
 app.use(express.json());
 
-
 // Server port
-var HTTP_PORT = 8000
+var HTTP_PORT = 3000
 // Start server
 app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT))
@@ -187,7 +185,6 @@ app.get("/api/exercises/:id", (req, res, next) => {
     });
 });
 
-
 app.post("/api/exercises/", (req, res, next) => {
     /*
     Posts a new exercise to be added to the db, for example a newly created exercise. 
@@ -224,6 +221,50 @@ app.post("/api/exercises/", (req, res, next) => {
         res.json({
             "message": "success",
             "data": data
+        })
+    });
+});
+
+app.delete("/api/exercises/:id", (req, res, next) => {
+    /*
+
+    Deletes an exercise from the db 
+  
+    */    
+    console.log("Deleting exercise...");
+
+    var sql = "delete from exercise where id = ?"
+    var params = [req.params.id]
+    db.get(sql, params, function (err, result) {
+            if (err){
+                res.status(400).json({"error": err.message})
+                return;
+            }
+            res.json({"message":"deleted", changes: this.changes})
+    });
+});
+
+app.patch("/api/exercises/:id", (req, res, next) => {
+    /*
+    
+    Modifies an existing exercise in the db. 
+  
+    */     
+    console.log("Updating exercise...");
+    var data = {
+        name: req.body.name,
+        description: req.body.description
+    }
+    var sql = "UPDATE exercise set name = COALESCE(?,name), description = COALESCE(?,description) WHERE id = ?"
+    var params = [data.name, data.description, req.params.id]
+    db.run(sql, params, function (err, row) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
         })
     });
 });
