@@ -68,6 +68,15 @@ export default class Exercise extends Component {
 
     return (
       <div>
+        <div>
+          <Link
+            to={"/exercises/"}
+            className="btn btn-warning"
+            style={{ marginTop: 25 }}
+            >
+              Back
+          </Link>
+        </div>
         {currentExercise ? (
           <div className="edit-form">
             <h4>Edit Exercise</h4>
@@ -106,13 +115,6 @@ export default class Exercise extends Component {
               Update
             </button>
             <p>{this.state.message}</p>
-            <div>
-            <Link to="/exercises">
-                <button className="m-3 btn btn-sm btn-warning">
-                  <span>Back</span>
-                </button>
-              </Link>
-            </div>
           </div>
           
         ) : (

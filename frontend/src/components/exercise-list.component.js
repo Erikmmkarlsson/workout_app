@@ -160,6 +160,7 @@ export default class ExercisesList extends Component {
               <Link
                 to={"/exercises/" + currentExercise.id}
                 className="btn btn-warning"
+                style={{ marginTop: 25 }}
               >
                 Edit
               </Link>
@@ -170,6 +171,18 @@ export default class ExercisesList extends Component {
               <p>Please click on an Exercise...</p>
             </div>
           )}
+        </div>
+        <div>
+          
+        </div>
+        <div>
+        <Link
+          to={"/exercises/add"}
+          className="btn btn-success"
+          style={{ marginTop: 25 }}
+          >
+            Add new
+        </Link>
         </div>
       </div>
     );
