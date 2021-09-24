@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ExerciseDataService from "../services/exercise.service";
 import { Link } from "react-router-dom";
 
 export default class AddExercise extends Component {
@@ -8,6 +7,7 @@ export default class AddExercise extends Component {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
+    this.onChangeVideoLink = this.onChangeVideoLink.bind.bind(this);
     this.saveExercise = this.saveExercise.bind(this);
     this.newExercise = this.newExercise.bind(this);
 
@@ -15,11 +15,11 @@ export default class AddExercise extends Component {
       id: null,
       name: "",
       description: "", 
-      // published: false,
-
-      submitted: false
+      video_link: ""
     };
   }
+
+
 
   onChangeName(e) {
     this.setState({
@@ -33,16 +33,22 @@ export default class AddExercise extends Component {
     });
   }
 
+  onChangeVideoLink(e) {
+    this.setState({
+      video_link: e.target.value
+    });
+  }
+
   saveExercise() {
     axios({
       method: 'post',
       url: 'http://localhost:8000/api/exercises',
       data: {
         name: this.state.name,
-        description: this.state.description
+        description: this.state.description,
+        video_link: this.state.video_link
       }
     });
-
   }
 
   newExercise() {
@@ -50,23 +56,25 @@ export default class AddExercise extends Component {
       id: null,
       name: "",
       description: "",
-      // published: false,
-
-      submitted: false
+      video_link: ""
     });
   }
 
+
+
   render() {
     return (
-      <div className="submit-form">
-        {this.state.submitted ? (
-          <div>
-            <h4>You submitted successfully!</h4>
-            <button className="btn btn-success" onClick={this.newExercise}>
-              Add
-            </button>
-          </div>
-        ) : (
+      <div>
+        <div>
+          <Link
+            to={"/exercises/"}
+            className="btn btn-warning"
+            style={{ marginTop: 25 }}
+            >
+            Back
+          </Link>
+        </div>
+        <div className="submit-form">
           <div>
             <div className="form-group">
               <label htmlFor="name">Name</label>
@@ -78,9 +86,10 @@ export default class AddExercise extends Component {
                 value={this.state.name}
                 onChange={this.onChangeName}
                 name="name"
+                placeholder="Enter a name for the exercise"
+                style={{ width: "500px" }}
               />
             </div>
-
             <div className="form-group">
               <label htmlFor="description">Description</label>
               <input
@@ -91,23 +100,35 @@ export default class AddExercise extends Component {
                 value={this.state.description}
                 onChange={this.onChangeDescription}
                 name="description"
+                placeholder="Enter a description for the exercise"
+                style={{ width: "500px" }}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="description">Video Link</label>
+              <input
+                type="text"
+                className="form-control"
+                id="video_link"
+                required
+                value={this.state.video_link}
+                onChange={this.onChangeVideoLink}
+                name="video_link"
+                placeholder="Add a video link, format 'youtube.com/...'"
+                style={{ width: "500px" }}
               />
             </div>
             <Link to="/exercises">
-              <button onClick={this.saveExercise} className="btn btn-success">
+              <button 
+                onClick={this.saveExercise} 
+                className="btn btn-success"
+                style={{ marginTop: 25 }}
+                >
                 Submit
               </button>
             </Link>
-            <div>
-            <Link to="/exercises">
-                <button className="m-3 btn btn-sm btn-warning">
-                  <span>Back</span>
-                </button>
-              </Link>
-            </div>
           </div>
-          
-        )}
+        </div>
       </div>
     );
   }
