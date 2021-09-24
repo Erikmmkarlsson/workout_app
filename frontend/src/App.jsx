@@ -47,6 +47,8 @@ function App() {
               
               <Route exact path={["/exercises"]} component={ExerciseList} />
               <Route exact path="/add" component={AddExercise} />
+              <Route exact path="/exercises/add" component={AddExercise} />
+
               <Route path="/exercises/:id" component={Exercise} />
               <Route path = '/' component={() => <Login setToken={setToken} />}/>
 

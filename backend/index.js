@@ -195,6 +195,7 @@ app.post("/api/exercises/", (req, res, next) => {
                {
                   "name": "sit ups", 
                   "description": "sit and raise your upper body",
+                  "video_link": "youtube.com",
                }'
   
     */
@@ -209,10 +210,11 @@ app.post("/api/exercises/", (req, res, next) => {
     }
     var data = {
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        video_link: req.body.video_link
     }
-    var sql = 'INSERT INTO exercise (name, description) VALUES (?,?)'
-    var params = [data.name, data.description]
+    var sql = 'INSERT INTO exercise (name, description, video_link) VALUES (?,?,?)'
+    var params = [data.name, data.description, data.video_link]
     db.run(sql, params, function (err, result) {
         if (err) {
             res.status(400).json({ "error": err.message })
@@ -253,10 +255,11 @@ app.patch("/api/exercises/:id", (req, res, next) => {
     console.log("Updating exercise...");
     var data = {
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        video_link: req.body.video_link
     }
-    var sql = "UPDATE exercise set name = COALESCE(?,name), description = COALESCE(?,description) WHERE id = ?"
-    var params = [data.name, data.description, req.params.id]
+    var sql = "UPDATE exercise set name = COALESCE(?,name), description = COALESCE(?,description), video_link = COALESCE(?,video_link) WHERE id = ?"
+    var params = [data.name, data.description, data.video_link, req.params.id]
     db.run(sql, params, function (err, row) {
         if (err){
             res.status(400).json({"error": err.message})

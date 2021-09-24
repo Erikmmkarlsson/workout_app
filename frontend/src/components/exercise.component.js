@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ExerciseDataService from "../services/exercise.service";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 
@@ -7,6 +6,7 @@ export default class Exercise extends Component {
   constructor(props) {
     super(props);
     this.onChangeDescription = this.onChangeDescription.bind(this);
+    this.onChangeVideoLink = this.onChangeVideoLink.bind(this);
     this.getExercise = this.getExercise.bind(this);
     this.updateExercise = this.updateExercise.bind(this);
     this.deleteExercise = this.deleteExercise.bind(this);
@@ -14,7 +14,8 @@ export default class Exercise extends Component {
     this.state = {
       currentExercise: {
         id: this.props.match.params.id,
-        description: ""
+        description: "",
+        video_link: ""
       },
       message: ""
     };
@@ -35,8 +36,19 @@ export default class Exercise extends Component {
     }));
   }
 
+  onChangeVideoLink(e) {
+    const video_link = e.target.value;
+    
+    this.setState(prevState => ({
+      currentExercise: {
+        ...prevState.currentExercise,
+        video_link: video_link
+      }
+    }));
+  }
+
   getExercise(id) {
-    axios.get(id)
+    axios.get("http://localhost:8000/api/exercises/" + id)
       .then(response => {
         this.setState({
           currentExercise: response.data.data
@@ -60,8 +72,6 @@ export default class Exercise extends Component {
   deleteExercise() {    
     axios.delete("http://localhost:8000/api/exercises/" + this.state.currentExercise.id);
   }
-
-  
 
   render() {
     const { currentExercise } = this.state;
@@ -93,10 +103,14 @@ export default class Exercise extends Component {
               </div>
 
               <div className="form-group">
-                <label>
-                  <strong>Status:</strong>
-                </label>
-                {currentExercise.published ? "Published" : "Pending"}
+                <label htmlFor="video_link">Video Link</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="video_link"
+                  value={currentExercise.video_link}
+                  onChange={this.onChangeVideoLink}
+                />
               </div>
             </form>
             <Link to="/exercises">
@@ -107,16 +121,19 @@ export default class Exercise extends Component {
                 Delete
               </button>
             </Link>
-            <button
-              type="submit"
-              className="m-3 btn btn-sm btn-success"
-              onClick={this.updateExercise}
-            >
-              Update
-            </button>
-            <p>{this.state.message}</p>
+            <Link to="/exercises">
+              <button
+                type="submit"
+                className="m-3 btn btn-sm btn-success"
+                onClick={this.updateExercise}
+              >
+                Update
+              </button>
+            </Link>
+            <p>
+              {this.state.message}
+            </p>
           </div>
-          
         ) : (
           <div>
             <br />

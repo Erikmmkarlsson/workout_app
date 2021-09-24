@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { ReactDOM } from "react-dom";
 import axios from "axios";
-import _ from 'lodash';
 import { Link } from "react-router-dom";
 
 
@@ -12,7 +10,6 @@ export default class ExercisesList extends Component {
     this.onChangeSearchName = this.onChangeSearchName.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveExercise = this.setActiveExercise.bind(this);
-    this.removeAllExercises = this.removeAllExercises.bind(this);
     this.searchName = this.searchName.bind(this);
 
     this.state = {
@@ -24,22 +21,7 @@ export default class ExercisesList extends Component {
   }
 
   componentDidMount() {
-    /*
-    fetch("http://localhost:8000/api/exercises")
-      .then(response => {
-        return response.json();
-      })
-      .then((data) => {
-        this.setState({
-          exercisesList: data.data.map(exercise => ({
-            name: exercise.name,
-            description: exercise.description
-          }))
-        });
-        console.log(data)
-      })
-      */
-     axios.get("http://localhost:8000/api/exercises")
+    axios.get("http://localhost:8000/api/exercises")
       .then(response => {
         this.setState({
           exercisesList: response.data.data
@@ -49,7 +31,6 @@ export default class ExercisesList extends Component {
 
   onChangeSearchName(e) {
     const searchName = e.target.value;
-
     this.setState({
       searchName: searchName
     })
@@ -70,28 +51,8 @@ export default class ExercisesList extends Component {
     });
   }
 
-  removeAllExercises() {
-    /*
-    ExerciseDataService.deleteAll()
-      .then(response => {
-        console.log(response.data);
-        this.refreshList();
-      })
-      .catch(e => {
-        console.log(e);
-      });
-    */
-  }
-
   searchName() {
-    /*
-    ExerciseDataService.findByName(this.state.searchName)
-      .then(response => {
-        this.setState({
-          exercisesList: response.data.data
-        });
-      })
-    */
+    
   }
 
 
@@ -123,7 +84,6 @@ export default class ExercisesList extends Component {
         </div>
         <div className="col-md-6">
           <h4>Exercises</h4>
-
           <ul className="list-group">
             {exercisesList &&
               exercisesList.map((exercise, index) => (
@@ -137,7 +97,8 @@ export default class ExercisesList extends Component {
                 >
                   {exercise.name}
                 </li>
-              ))}
+              ))
+            }
           </ul>
         </div>
         <div className="col-md-6">
@@ -146,17 +107,20 @@ export default class ExercisesList extends Component {
               <h4>Exercise</h4>
               <div>
                 <label>
-                  <strong>Name:</strong>
+                  <strong>
+                    Name:
+                  </strong>
                 </label>{" "}
                 {currentExercise.name}
               </div>
               <div>
                 <label>
-                  <strong>Description:</strong>
+                  <strong>
+                    Description:
+                  </strong>
                 </label>{" "}
                 {currentExercise.description}
               </div>
-
               <Link
                 to={"/exercises/" + currentExercise.id}
                 className="btn btn-warning"
@@ -173,36 +137,15 @@ export default class ExercisesList extends Component {
           )}
         </div>
         <div>
-          
-        </div>
-        <div>
-        <Link
-          to={"/exercises/add"}
-          className="btn btn-success"
-          style={{ marginTop: 25 }}
+          <Link
+            to={"/exercises/add"}
+            className="btn btn-success"
+            style={{ marginTop: 25 }}
           >
             Add new
-        </Link>
+          </Link>
         </div>
       </div>
     );
   }
 }
-/*
-  render() {
-    return (
-      <div>
-        <h4>Exercises</h4>
-          <ul>
-            {this.state.exercisesList.map(exercise => (
-<<<<<<< HEAD
-              <li>{exercise.name} {exercise.description}</li>
-=======
-              <li>{exercise.name}</li>
->>>>>>> 7acebdcfe4989cd20c083aa2ec9c5d1f5e6c33d4
-            ))}
-          </ul>
-      </div> 
-    )
-  }
-*/
