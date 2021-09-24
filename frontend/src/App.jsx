@@ -1,16 +1,15 @@
 
 import React, { useState } from "react";
-import { Switch, Route, Link, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import AppNavbar from './components/AppNavbar';
 import RegisterUser from './components/RegisterUser'
-import AddExercise from "./components/add-exercise.component";
-import Exercise from "./components/exercise.component";
-import ExerciseList from "./components/exercise-list.component";
-import Login from "./components/Login/login"
-import { render } from 'react-dom';
+import AddExercise from "./components/Exercises/add-exercise.component";
+import Exercise from "./components/Exercises/exercise.component";
+import ExerciseList from "./components/Exercises/exercise-list.component";
+import Login from "./components/Login/login";
 
 
 
