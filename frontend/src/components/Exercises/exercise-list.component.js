@@ -52,7 +52,12 @@ export default class ExercisesList extends Component {
   }
 
   searchName() {
-    
+    axios.get("http://localhost:8000/api/exercises?search=" + this.state.searchName)
+      .then(response => {
+        this.setState({
+          exercisesList: response.data.data
+        });
+      })
   }
 
 

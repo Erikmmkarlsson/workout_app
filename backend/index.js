@@ -147,8 +147,15 @@ app.get("/api/exercises/", (req, res, next) => {
   $ curl http://localhost:8000/api/exercises -X GET 
    */
     console.log("Returning all exercises...");
-
-    var sql = "select * from exercise"
+    console.log("Search is set to: ");
+    console.log(req.query.search);
+    var search = req.query.search;
+    if(search==undefined){
+        var sql = "select * from exercise";
+    }
+    else{
+        var sql = `select * from exercise where name like '%${search}%'`
+    }
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
