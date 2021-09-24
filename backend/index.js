@@ -6,7 +6,7 @@ var app = express()
 var db = require("./database/database.js")
 var md5 = require("md5")
 var cors = require('cors')
-
+var jwt = require("jsonwebtoken")
 
 app.use(cors())
 app.use(express.urlencoded());
@@ -323,42 +323,56 @@ app.post("/register", async (req, res) => {
     // Our register logic ends here
   });
 
-  app.post("/login", async (req, res) => {
+  app.post("/api/login", async (req, res) => {
 
     // Our login logic starts here
     try {
-      // Get user input
-      const { email, password } = req.body;
-  
-      // Validate user input
-      if (!(email && password)) {
-        res.status(400).send("All input is required");
-      }
-      // Validate if user exist in our database
-      const user = await users.findOne({ email });
-  
-      if (user && (await bcrypt.compare(password, user.password))) {
-        // Create token
-        const token = jwt.sign(
-          { user_id: user.id, email },
-          process.env.TOKEN_KEY,
-          {
-            expiresIn: "2h",
-          }
-        );
-  
-        // save user token
-        user.token = token;
-  
-        // user
-        res.status(200).json(user);
-      }
-      res.status(400).send("Invalid Credentials");
-    } catch (err) {
-      console.log(err);
+        // Get user input
+        const { email, password } = req.body;
+
+        // Validate user input
+        if (!(email && password)) {
+            res.status(400).send("All input is required");
+        }
+        // Validate if user exist in our database
+
+        var sql = "select * from user where email = ?"
+        var params = [email]
+
+        db.get(sql, params, (err, row) => {
+            if (err) {
+                res.status(400).json({ "error": err.message });
+                return;
+            }
+
+            if (md5(password) === row.password) {
+
+                // Create token
+                const token = jwt.sign(
+                    { user_id: row.id, email },
+                    "process.env.TOKEN_KEY",
+                    {
+                        expiresIn: "2h",
+                    }
+                );
+                // save user token
+                row.token = token;
+
+                // user
+                res.status(200).json(row);
+            }else{
+            res.status(400).send("Invalid Credentials");
+            }
+        }); 
     }
-    // Our register logic ends here
-  });
+ catch (err) {
+            console.log(err);
+        }
+
+        // Our register logic ends here
+
+    });
+
 
   
 // Default response for any other request
