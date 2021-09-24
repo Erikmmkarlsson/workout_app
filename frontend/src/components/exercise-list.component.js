@@ -121,6 +121,14 @@ export default class ExercisesList extends Component {
                 </label>{" "}
                 {currentExercise.description}
               </div>
+              <div>
+                <label>
+                  <strong>
+                    Updated:
+                  </strong>
+                </label>{" "}
+                {currentExercise.last_updated} GMT
+              </div>
               <Link
                 to={"/exercises/" + currentExercise.id}
                 className="btn btn-warning"

@@ -37,16 +37,17 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name text,
             description text,
-            video_link text
+            video_link text,
+            last_updated smalldatetime
             )`,
             (err) => {
                 if (err) {
                     // Table already created
                 } else {
                     // Table just created, creating some rows
-                    var insert_exercise = 'INSERT INTO exercise (name, description, video_link) VALUES (?,?,?)'
-                    db.run(insert_exercise, ["squats", "bend your legs", "https://www.youtube.com/watch?v=aclHkVaku9U&ab_channel=Bowflex"])
-                    db.run(insert_exercise, ["push ups", "push up your body", "https://www.youtube.com/watch?v=Pkj8LLRsoDw&ab_channel=Bowflex"])
+                    var insert_exercise = 'INSERT INTO exercise (name, description, video_link, last_updated) VALUES (?,?,?,?)'
+                    db.run(insert_exercise, ["squats", "bend your legs", "https://www.youtube.com/watch?v=aclHkVaku9U&ab_channel=Bowflex", CURRENT_TIMESTAMP])
+                    db.run(insert_exercise, ["push ups", "push up your body", "https://www.youtube.com/watch?v=Pkj8LLRsoDw&ab_channel=Bowflex", CURRENT_TIMESTAMP])
                 }
             });
     }

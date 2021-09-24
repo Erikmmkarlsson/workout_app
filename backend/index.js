@@ -213,7 +213,7 @@ app.post("/api/exercises/", (req, res, next) => {
         description: req.body.description,
         video_link: req.body.video_link
     }
-    var sql = 'INSERT INTO exercise (name, description, video_link) VALUES (?,?,?)'
+    var sql = 'INSERT INTO exercise (name, description, video_link, last_updated) VALUES (?,?,?,CURRENT_TIMESTAMP)'
     var params = [data.name, data.description, data.video_link]
     db.run(sql, params, function (err, result) {
         if (err) {
@@ -258,7 +258,7 @@ app.patch("/api/exercises/:id", (req, res, next) => {
         description: req.body.description,
         video_link: req.body.video_link
     }
-    var sql = "UPDATE exercise set name = COALESCE(?,name), description = COALESCE(?,description), video_link = COALESCE(?,video_link) WHERE id = ?"
+    var sql = "UPDATE exercise set name = COALESCE(?,name), description = COALESCE(?,description), video_link = COALESCE(?,video_link), last_updated = CURRENT_TIMESTAMP WHERE id = ?"
     var params = [data.name, data.description, data.video_link, req.params.id]
     db.run(sql, params, function (err, row) {
         if (err){
