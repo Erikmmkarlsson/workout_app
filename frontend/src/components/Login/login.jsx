@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 
-//Communicates with api with fetch
+//Communicates with api (with fetch)
 async function loginUser(credentials) {
     return fetch('http://localhost:8000/api/login', {
       method: 'POST',
@@ -60,5 +60,5 @@ export default function Login({ setToken }) {
 
 
 Login.propTypes = {
-    setToken: PropTypes.func.isRequired
-  }
+  setToken: PropTypes.func.isRequired
+}

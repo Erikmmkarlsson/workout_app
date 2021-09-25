@@ -13,25 +13,6 @@ import Login from "./components/Login/login";
 
 
 
-function ProtectedRoute() { 
-  // This is a function that only lets logged in users access special resources
-    const { component: Component, ...props } = this.props
-
-    return (
-      <Route 
-        {...props} 
-        render={props => (
-          this.state.authenticated ?
-            <Component {...props} /> :
-            <Redirect to='/login' />
-        )} 
-      />
-    )
-
-}
-
-
-
 function App() {
   const [token, setToken] = useState();
 
@@ -56,5 +37,26 @@ function App() {
       </div>
     );
 }
+
+
+function ProtectedRoute() { 
+  // This is a function that only lets logged in users access a specific url route
+  // Use like <ProtectedRoute path="/exercises/:id" component={Exercise} />
+
+    const { component: Component, ...props } = this.props
+
+    return (
+      <Route 
+        {...props} 
+        render={props => (
+          this.state.authenticated ?
+            <Component {...props} /> :
+            <Redirect to='/login' />
+        )} 
+      />
+    )
+
+}
+
 
 export default App;
