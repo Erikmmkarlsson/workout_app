@@ -7,6 +7,7 @@ var db = require("./database/database.js")
 var md5 = require("md5")
 var cors = require('cors')
 var jwt = require("jsonwebtoken")
+var config = require("./config")
 app.use(cors())
 
 app.use(express.json());
@@ -346,7 +347,7 @@ app.post("/api/login", async (req, res) => {
                 // Create token
                 const token = jwt.sign(
                     { user_id: user.id, email },
-                    "process.env.TOKEN_KEY",
+                    config.TOKEN_KEY,
                     {
                         expiresIn: "2h",
                     }
