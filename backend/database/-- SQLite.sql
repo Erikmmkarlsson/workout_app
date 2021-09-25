@@ -1,1 +1,1 @@
--- SQLite
+-- SQLite Write your SQL Queries here.
