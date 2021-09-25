@@ -20,12 +20,6 @@ app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT))
 });
 
-// Root endpoint
-app.get("/", (req, res, next) => {
-    res.json({ "message": "Ok" })
-});
-
-
 app.get("/api/users", (req, res, next) => {
     /*
     Returns all the users.
@@ -93,9 +87,6 @@ app.get("/api/user/:id", (req, res, next) => {
     });
 });
 
-
-
-const urlencodedParser = bodyParser.urlencoded({extended: false})
 app.post("/api/user/",urlencodedParser, [
     check('name', 'The username must be 3+ characters long')
        .exists()
@@ -138,7 +129,6 @@ app.post("/api/user/",urlencodedParser, [
 Methods for fetching and creating exercises
 
 */
-
 
 app.get("/api/exercises/", (req, res, next) => {
     /*
@@ -280,6 +270,8 @@ app.patch("/api/exercises/:id", (req, res, next) => {
 });
 
 
+
+
 app.post("/register", async (req, res) => {
 
     // Our register logic starts here
@@ -328,9 +320,9 @@ app.post("/register", async (req, res) => {
       console.log(err);
     }
     // Our register logic ends here
-  });
+});
 
-  app.post("/api/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
 
     // Our login logic starts here
     try {
@@ -342,31 +334,30 @@ app.post("/register", async (req, res) => {
             res.status(400).send("All input is required");
         }
         // Validate if user exist in our database
-
         var sql = "select * from user where email = ?"
         var params = [email]
-
-        db.get(sql, params, (err, row) => {
+        db.get(sql, params, (err, user) => {
             if (err) {
                 res.status(400).json({ "error": err.message });
                 return;
             }
 
-            if (md5(password) === row.password) {
+            // If matching password
+            if (md5(password) === user.password) {
 
                 // Create token
                 const token = jwt.sign(
-                    { user_id: row.id, email },
+                    { user_id: user.id, email },
                     "process.env.TOKEN_KEY",
                     {
                         expiresIn: "2h",
                     }
                 );
                 // save user token
-                row.token = token;
+                user.token = token;
 
                 // user
-                res.status(200).json(row);
+                res.status(200).json(user);
             }else{
             res.status(400).send("Invalid Credentials");
             }
@@ -378,7 +369,7 @@ app.post("/register", async (req, res) => {
 
         // Our register logic ends here
 
-    });
+});
 
 
   
