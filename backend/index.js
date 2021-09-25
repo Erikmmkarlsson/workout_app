@@ -7,9 +7,7 @@ var db = require("./database/database.js")
 var md5 = require("md5")
 var cors = require('cors')
 var jwt = require("jsonwebtoken")
-
 app.use(cors())
-app.use(express.urlencoded());
 
 app.use(express.json());
 
@@ -86,7 +84,7 @@ app.get("/api/user/:id", (req, res, next) => {
         })
     });
 });
-
+const urlencodedParser = bodyParser.urlencoded({extended: false})
 app.post("/api/user/",urlencodedParser, [
     check('name', 'The username must be 3+ characters long')
        .exists()
