@@ -22,7 +22,7 @@ function App() {
       <div className="App">
         <AppNavbar />
           <div className="container mt-3">
-            <Switch>cd
+            <Switch>
       
               <Route path="/register"> <RegisterUser/> </Route>
               <Route exact path="/login"> <Login/> </Route>
