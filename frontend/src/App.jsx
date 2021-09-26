@@ -5,38 +5,33 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
 
 import AppNavbar from './components/AppNavbar';
+
 import RegisterUser from './components/RegisterUser'
 import AddExercise from "./components/Exercises/add-exercise.component";
 import Exercise from "./components/Exercises/exercise.component";
 import ExerciseList from "./components/Exercises/exercise-list.component";
+
 import Login from "./components/Login/login";
 
+import { useAuth, authFetch } from "./components/auth";
 
 
 function App() {
-  const [token, setToken] = useState();
-
-  /*
-  if(!token) {
-    return <Login setToken={setToken} />
-  }*/
-
 
     return (
       <div className="App">
         <AppNavbar />
           <div className="container mt-3">
-            <Switch>
-              <Route exact path={["/register"]} component={RegisterUser} />
+            <Switch>cd
+      
+              <Route path="/register"> <RegisterUser/> </Route>
+              <Route exact path="/login"> <Login/> </Route>
               
-              <Route exact path={["/login"]} component={() => <Login setToken={setToken} />} />
-              
-              <Route exact path={["/exercises"]} component={ExerciseList} />
-              <Route exact path="/add" component={AddExercise} />
-              <Route exact path="/exercises/add" component={AddExercise} />
-
-              <Route path="/exercises/:id" component={Exercise} />
-              <Route path = '/' component={() => <Login setToken={setToken} />}/>
+              <Route path="/exercises"> <ExerciseList/> </Route>
+              <Route path="/exercises/add"> <AddExercise/> </Route>
+              <Route path="/exercises/:id"> <Exercise/> </Route>
+              <PrivateRoute path="/test" component={ExerciseList} />
+              <Route path = '/'> <Login/> </Route>
 
             </Switch>
           </div>
@@ -45,23 +40,15 @@ function App() {
 }
 
 
-function ProtectedRoute() { 
-  // This is a function that only lets logged in users access a specific url route
-  // Use like <ProtectedRoute path="/exercises/:id" component={Exercise} />
+//checks whether someone is logged in or not, if not then redirects to login page
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  const [logged] = useAuth();
 
-    const { component: Component, ...props } = this.props
-
-    return (
-      <Route 
-        {...props} 
-        render={props => (
-          this.state.authenticated ?
-            <Component {...props} /> :
-            <Redirect to='/login' />
-        )} 
-      />
-    )
-
+  return <Route {...rest} render={(props) => (
+    logged
+      ? <Component {...props} />
+      : <Redirect to='/login' />
+  )} />
 }
 
 

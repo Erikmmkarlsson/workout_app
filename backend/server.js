@@ -8,6 +8,7 @@ var md5 = require("md5")
 var cors = require('cors')
 var jwt = require("jsonwebtoken")
 require('dotenv').config()
+var auth_guard =  require("./auth/auth")
 
 //Specify functionality to be used
 app.use(cors())
@@ -28,6 +29,7 @@ app.get("/api/users", (req, res, next) => {
     Example usage:
   $ curl http://localhost:8000/api/users -X GET 
    */
+    auth_guard.verifyToken()
     console.log("Returning all users...");
 
     var sql = "select * from user"
