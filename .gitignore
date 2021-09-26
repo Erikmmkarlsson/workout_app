@@ -12,7 +12,7 @@ yarn-debug.log*
 yarn-error.log*
 /.changelog
 .npm/
-
+sqlite.db
 /node_modules
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
@@ -28,6 +28,10 @@ yarn-error.log*
 # production
 /build
 
+/node_modules
+
+db.sqlite
+
 # misc
 .DS_Store
 .env.local
@@ -38,3 +42,7 @@ yarn-error.log*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+frontend/src/App.css
+frontend/src/App.js
+frontend/src/http-common.js
+frontend/src/index.js
