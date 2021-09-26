@@ -16,9 +16,10 @@ import Login from "./components/Login/login";
 function App() {
   const [token, setToken] = useState();
 
+  /*
   if(!token) {
     return <Login setToken={setToken} />
-  }
+  }*/
 
 
     return (
