@@ -296,9 +296,12 @@ app.post("/api/login", async (req, res) => {
             // If matching password
             if (md5(password) === user.password) {
                 console.log("matching")
+
+
                 // Create token
                 const token = jwt.sign(
-                    { user_id: user.id, email },
+                    { user_id: user.id, email,
+                        user_role: user.role },
                     process.env.TOKEN_KEY,
                     {
                         expiresIn: "2h",
