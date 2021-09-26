@@ -1,4 +1,4 @@
-// Create express app
+// Imports
 var express = require("express")
 var bodyParser = require('body-parser')
 var {check, validationResult} = require('express-validator')
@@ -8,17 +8,20 @@ var md5 = require("md5")
 var cors = require('cors')
 var jwt = require("jsonwebtoken")
 var config = require("./config")
-app.use(cors())
 
+//Specify functionality to be used
+app.use(cors())
 app.use(express.json());
 
-// Server port
-var HTTP_PORT = 8000
 // Start server
-app.listen(HTTP_PORT, () => {
+app.listen(config.HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT))
 });
 
+
+/*
+API Endpoints
+*/
 app.get("/api/users", (req, res, next) => {
     /*
     Returns all the users.
@@ -266,59 +269,6 @@ app.patch("/api/exercises/:id", (req, res, next) => {
             "data": row
         })
     });
-});
-
-
-
-
-app.post("/register", async (req, res) => {
-
-    // Our register logic starts here
-    try {
-      // Get user input
-      const { username, email, password, role } = req.body;
-  
-      // Validate user input
-      if (!(email && password && username && role)) {
-        res.status(400).send("All input is required");
-      }
-  
-      // check if user already exist
-      // Validate if user exist in our database
-      const oldUser = await users.findOne({ email });
-  
-      if (oldUser) {
-        return res.status(409).send("User Already Exist. Please Login");
-      }
-  
-      //Encrypt user password
-      encryptedPassword = await bcrypt.hash(password, 10);
-  
-      // Create user in our database
-      const user = await users.create({
-        username,
-        email: email.toLowerCase(), // sanitize: convert email to lowercase
-        password: encryptedPassword,
-        role,
-      });
-  
-      // Create token
-      const token = jwt.sign(
-        { user_id: user.id, email },
-        process.env.TOKEN_KEY,
-        {
-          expiresIn: "2h",
-        }
-      );
-      // save user token
-      user.token = token;
-  
-      // return new user
-      res.status(201).json(user);
-    } catch (err) {
-      console.log(err);
-    }
-    // Our register logic ends here
 });
 
 app.post("/api/login", async (req, res) => {
