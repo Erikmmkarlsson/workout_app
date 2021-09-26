@@ -7,14 +7,14 @@ var db = require("./database/database.js")
 var md5 = require("md5")
 var cors = require('cors')
 var jwt = require("jsonwebtoken")
-var config = require("./config")
+require('dotenv').config()
 
 //Specify functionality to be used
 app.use(cors())
 app.use(express.json());
-
+var HTTP_PORT = process.env.HTTP_PORT;
 // Start server
-app.listen(config.HTTP_PORT, () => {
+app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT))
 });
 
@@ -272,7 +272,7 @@ app.patch("/api/exercises/:id", (req, res, next) => {
 });
 
 app.post("/api/login", async (req, res) => {
-
+    console.log("Login...")
     // Our login logic starts here
     try {
         // Get user input
@@ -293,11 +293,11 @@ app.post("/api/login", async (req, res) => {
 
             // If matching password
             if (md5(password) === user.password) {
-
+                console.log("matching")
                 // Create token
                 const token = jwt.sign(
                     { user_id: user.id, email },
-                    config.TOKEN_KEY,
+                    process.env.TOKEN_KEY,
                     {
                         expiresIn: "2h",
                     }
