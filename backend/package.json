@@ -1,0 +1,27 @@
+{
+  "name": "workout_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.1",
+    "jsonwebtoken": "^8.5.1",
+    "md5": "^2.3.0",
+    "react-token-auth": "^1.1.9",
+    "sequelize": "^6.6.5",
+    "sqlite": "^4.0.23",
+    "sqlite3": "^5.0.2"
+  },
+  "proxy": "http://localhost:3000"
+}
