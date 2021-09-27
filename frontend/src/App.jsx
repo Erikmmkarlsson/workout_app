@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
@@ -17,7 +17,7 @@ import EditWorkout from "./components/WorkoutCreation/editworkout";
 
 import Login from "./components/Login/login";
 
-import { useAuth, authFetch } from "./components/auth";
+import { useAuth } from "./components/auth";
 
 
 
