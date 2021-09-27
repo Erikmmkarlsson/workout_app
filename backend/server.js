@@ -9,12 +9,14 @@ var cors = require('cors')
 var jwt = require("jsonwebtoken")
 require('dotenv').config()
 var verifyToken =  require("./auth")
+var onlyManager = require("./auth/onlyManager.js")
 
 //Specify functionality to be used
 app.use(cors())
 app.use(express.json());
-var HTTP_PORT = process.env.HTTP_PORT;
+
 // Start server
+var HTTP_PORT = process.env.HTTP_PORT;
 app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT))
 });
@@ -23,7 +25,7 @@ app.listen(HTTP_PORT, () => {
 /*
 API Endpoints
 */
-app.get("/api/users", verifyToken, (req, res, next) => {
+app.get("/api/users", onlyManager, (req, res, next) => {
     /*
     Returns all the users.
     Example usage:
@@ -48,7 +50,7 @@ app.get("/api/users", verifyToken, (req, res, next) => {
 
 app.get("/api/managers", (req, res, next) => {
     /*
-    Returns all the users.
+    Returns all the managers.
     Example usage:
   $ curl http://localhost:8000/api/users -X GET 
    */

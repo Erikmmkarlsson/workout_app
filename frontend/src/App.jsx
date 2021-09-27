@@ -27,8 +27,10 @@ function App() {
               <Route exact path="/login"> <Login/> </Route>
               
               <Route path="/exercises"> <ExerciseList/> </Route>
+              
               <Route path="/exercises/add"> <AddExercise/> </Route>
               <Route path="/exercises/:id"> <Exercise/> </Route>
+
               <PrivateRoute path="/test" component={ExerciseList} />
               <Route path = '/'> <Login/> </Route>
 
