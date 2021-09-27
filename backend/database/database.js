@@ -53,6 +53,45 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     db.run(insert_exercise, ["push ups", "push up your body", "https://www.youtube.com/watch?v=Pkj8LLRsoDw&ab_channel=Bowflex"])
                 }
             });
+        db.run(`CREATE TABLE workouts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            client_id INTEGER,
+            is_done NUMBER(1),
+            comment text,
+            FOREIGN KEY (client_id) REFERENCES user(id)
+            )`,
+            (err) => {
+                if (err) {
+                    // Table already created
+                } else {
+                    // Table just created, creating some rows
+                    var insert_exercise = 'INSERT INTO workouts (client_id, is_done, comment) VALUES (?,?,?)'
+                    db.run(insert_exercise, [1, 0, ""])
+                    db.run(insert_exercise, [2, 0, ""])
+                }
+            });
+        db.run(`CREATE TABLE workout_exercises (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            workout_id INTEGER,
+            exercise_id INTEGER,
+            weight INTEGER,
+            num_sets INTEGER,
+            num_reps INTEGER,
+            num_seconds INTEGER,
+            comment text,
+            FOREIGN KEY (workout_id) REFERENCES workouts(id),
+            FOREIGN KEY (exercise_id) REFERENCES exercise(id)
+            )`,
+            (err) => {
+                if (err) {
+                    // Table already created
+                } else {
+                    // Table just created, creating some rows
+                    var insert_exercise = 'INSERT INTO workout_exercises (workout_id, exercise_id, weight, num_sets, num_reps, num_seconds, comment) VALUES (?,?,?,?,?,?,?)'
+                    db.run(insert_exercise, [1, 1, 5, 3, 10, 0, ""])
+                    db.run(insert_exercise, [1, 3, 5, 3, 10, 0, ""])
+                }
+            });
     }
 });
 
