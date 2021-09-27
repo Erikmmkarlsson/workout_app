@@ -10,7 +10,7 @@ import RegisterUser from './components/RegisterUser'
 import AddExercise from "./components/Exercises/add-exercise.component";
 import Exercise from "./components/Exercises/exercise.component";
 import ExerciseList from "./components/Exercises/exercise-list.component";
-
+import AcceptUsers from "./components/ManagerPage/AcceptUsers"
 import Login from "./components/Login/login";
 
 import { useAuth, authFetch } from "./components/auth";
@@ -23,6 +23,7 @@ function App() {
         <AppNavbar />
           <div className="container mt-3">
             <Switch>
+              <Route path="/MyUsers"> <AcceptUsers/> </Route>
               <Route path="/register"> <RegisterUser/> </Route>
               <Route exact path="/login"> <Login/> </Route>
               

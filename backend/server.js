@@ -136,6 +136,14 @@ app.post("/api/user/",urlencodedParser, [
 Methods for fetching and creating exercises
 
 */
+function GetID(req){
+    const token =
+    req.body.token || req.query.token || req.headers["x-access-token"];
+    decoded = jwt.verify(token, process.env.TOKEN_KEY);
+    req.user = decoded;
+    console.log(decoded.user_role);
+    return decoded.user_id
+}
 
 app.get("/api/exercises/", (req, res, next) => {
     /*
@@ -327,6 +335,28 @@ app.post("/api/login", async (req, res) => {
         // Our register logic ends here
 
 });
+
+app.get("/api/manager/myUsers", (req, res, next) => {
+
+    const id = GetID(req)
+    console.log(id);
+
+    var sql = "select * from user where role='user' and manager = ? "
+    var params = [id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        console.log(rows);
+        res.json({
+            "message": "success",
+            "data": rows
+            
+        })
+    });
+});
+
 
 
   

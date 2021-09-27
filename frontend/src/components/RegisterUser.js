@@ -271,7 +271,7 @@ export default class RegisterUser extends Component {
                                {this.state.manager}
                             </DropdownToggle>
                             <DropdownMenu>
-                               {this.state.managers.map(manager => <DropdownItem onClick={() => this.toggle3(manager.name)}>{manager.name}</DropdownItem>)} 
+                               {this.state.managers.map(manager => <DropdownItem onClick={() => this.toggle3(manager.id)}>{manager.name}</DropdownItem>)} 
                             </DropdownMenu>
                             </Dropdown>
                             </Row>
