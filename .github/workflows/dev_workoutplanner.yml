@@ -27,12 +27,15 @@ jobs:
           cd frontend
           npm install
           npm run build
+          ls
+          cd ..
+          ls
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: react-app
-          path: /build
+          path: frontend/build
 
   deploy:
     runs-on: ubuntu-latest
