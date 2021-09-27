@@ -112,10 +112,11 @@ app.post("/api/user/",urlencodedParser, [
         name: req.body.name,
         email: req.body.email,
         password : md5(req.body.password), //md5 hashes the password
+        manager: req.body.manager,
         role: req.body.role,
     }
-    var sql ='INSERT INTO user (name, email, password,role) VALUES (?,?,?,?)'
-    var params =[data.name, data.email, data.password, data.role]
+    var sql ='INSERT INTO user (name, email, password,manager,role) VALUES (?,?,?,?,?)'
+    var params =[data.name, data.email, data.password, data.manager ,data.role]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})
