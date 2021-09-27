@@ -7,13 +7,18 @@ import "./App.scss";
 import AppNavbar from './components/AppNavbar';
 
 import RegisterUser from './components/RegisterUser'
-import AddExercise from "./components/Exercises/add-exercise.component";
-import Exercise from "./components/Exercises/exercise.component";
-import ExerciseList from "./components/Exercises/exercise-list.component";
+import AddExercise from "./components/Exercises/createexercise";
+import Exercise from "./components/Exercises/editexercise";
+import ExerciseList from "./components/Exercises/exerciselist";
+
+import CreateWorkout from "./components/WorkoutCreation/createworkout";
+import WorkoutList from "./components/WorkoutCreation/workoutlist";
+import EditWorkout from "./components/WorkoutCreation/editworkout";
 
 import Login from "./components/Login/login";
 
 import { useAuth, authFetch } from "./components/auth";
+
 
 
 function App() {
@@ -28,7 +33,11 @@ function App() {
               
               <Route exact path="/exercises/"> <ExerciseList/> </Route>
               <Route exact path="/exercises/add"> <AddExercise/> </Route>
-              <Route path="/exercises/:id"> <Exercise/> </Route>
+              <Route exact path="/exercises/:id" render={(props) => <Exercise {...props} />}/>
+
+              <Route exact path="/workoutcreation/create"> <CreateWorkout/> </Route>
+              <Route exact path="/workoutcreation/"> <WorkoutList/> </Route>
+              <Route exact path="/workoutcreation/edit/:id" render={(props) => <EditWorkout {...props} />}/>
 
               <PrivateRoute path="/test" component={ExerciseList} />
               <Route path = '/'> <Login/> </Route>

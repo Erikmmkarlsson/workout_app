@@ -392,12 +392,11 @@ app.post("/api/workouts/", (req, res, next) => {
   
     */
     console.log("Creating a new workout...");
+    console.log("Client_id: " + req.body.client_id);
     var errors = []
     if (!req.body.client_id) {
+        console.log("Error 1");
         errors.push("No client specified");
-    }
-    if (!req.body.is_done) {
-        errors.push("Workout has to be either done or not done");
     }
     if (errors.length) {
         res.status(400).json({ "error": errors.join(",") });
@@ -538,9 +537,11 @@ app.post("/api/workout_exercises/", (req, res, next) => {
     console.log("Adding exercise to workout...");
     var errors = []
     if (!req.body.workout_id) {
+        console.log("Error 1");
         errors.push("No workout specified");
     }
     if (!req.body.exercise_id) {
+        console.log("Error 2");
         errors.push("No exercise specified");
     }
     if (errors.length) {

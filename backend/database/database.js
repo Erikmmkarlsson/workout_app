@@ -56,7 +56,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         db.run(`CREATE TABLE workouts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             client_id INTEGER,
-            is_done NUMBER(1),
+            is_done INTEGER,
             comment text,
             FOREIGN KEY (client_id) REFERENCES user(id)
             )`,
@@ -66,8 +66,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 } else {
                     // Table just created, creating some rows
                     var insert_exercise = 'INSERT INTO workouts (client_id, is_done, comment) VALUES (?,?,?)'
-                    db.run(insert_exercise, [1, 0, ""])
-                    db.run(insert_exercise, [2, 0, ""])
+                    db.run(insert_exercise, [1, null, ""])
+                    db.run(insert_exercise, [2, null, ""])
                 }
             });
         db.run(`CREATE TABLE workout_exercises (
