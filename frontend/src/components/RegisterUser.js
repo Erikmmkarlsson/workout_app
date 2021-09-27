@@ -36,7 +36,7 @@ export default class RegisterUser extends Component {
         password:'',
         confirm_password:'',
         manager:'',
-        users:[],
+        managers:[],
     };
     toggle = () => {
         this.setState({
@@ -154,6 +154,7 @@ export default class RegisterUser extends Component {
                 name: this.state.name,
                 email: this.state.email,
                 password: this.state.password,
+                manager: this.state.manager,
                 role: 'user'
             }}
             ).then(res =>{
@@ -178,7 +179,7 @@ export default class RegisterUser extends Component {
     componentDidMount() {
         axios.get(`http://localhost:8000/api/managers`)
           .then(response => {
-            this.setState({users: response.data.data})
+            this.setState({managers: response.data.data})
           });
       }
     
@@ -270,7 +271,7 @@ export default class RegisterUser extends Component {
                                {this.state.manager}
                             </DropdownToggle>
                             <DropdownMenu>
-                                {this.state.users.map(user => <DropdownItem onClick={() => this.toggle3(user.name)}>{user.name}</DropdownItem>)} 
+                               {this.state.managers.map(manager => <DropdownItem onClick={() => this.toggle3(manager.name)}>{manager.name}</DropdownItem>)} 
                             </DropdownMenu>
                             </Dropdown>
                             </Row>
