@@ -170,9 +170,10 @@ app.post("/api/login", async (req, res) => {
                 res.status(400).json({ "error": err.message });
                 return;
             }
+            
 
             // If matching password
-            if (md5(password) === user.password) {
+            if (md5(password) === user.password && user.activated == true) {
                 console.log("matching")
 
 
