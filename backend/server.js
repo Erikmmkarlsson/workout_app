@@ -136,8 +136,8 @@ app.post("/api/user/",urlencodedParser, [
         manager: req.body.manager,
         role: req.body.role,
     }
-    var sql ='INSERT INTO user (name, email, password,manager,role) VALUES (?,?,?,?,?)'
-    var params =[data.name, data.email, data.password, data.manager ,data.role]
+    var sql ='INSERT INTO user (name, email, password,role) VALUES (?,?,?,?)'
+    var params =[data.name, data.email, data.password, data.role]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})

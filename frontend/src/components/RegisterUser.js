@@ -145,6 +145,7 @@ export default class RegisterUser extends Component {
 
     handleSubmit = event =>{
         event.preventDefault();
+        console.log("handlesubmit");
 
         axios({
             method: 'post',
