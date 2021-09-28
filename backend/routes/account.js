@@ -1,5 +1,6 @@
 var {check, validationResult} = require('express-validator')
 var md5 = require("md5")
+var jwt = require("jsonwebtoken")
 
 module.exports = function(app, db) {  //receiving "app" and "db" instance
 
