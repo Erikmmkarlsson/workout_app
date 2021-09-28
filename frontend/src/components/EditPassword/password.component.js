@@ -42,7 +42,7 @@ export default class Profile extends Component {
 
  
   getProfile(id) {
-    axios.get("http://localhost:8000/api/users/" + id)
+    axios.get("/api/users/" + id)
       .then(response => {
         this.setState({
           currentProfile: response.data.data
@@ -51,7 +51,7 @@ export default class Profile extends Component {
   }
 
   updateProfile() {
-    axios.patch("http://localhost:8000/api/users/" + this.state.currentProfile.id, this.state.currentProfile)
+    axios.patch("/api/users/" + this.state.currentProfile.id, this.state.currentProfile)
       .then(response => {
         console.log(response.data.data);
         this.setState({

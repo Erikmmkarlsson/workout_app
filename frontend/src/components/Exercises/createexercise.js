@@ -42,7 +42,7 @@ export default class AddExercise extends Component {
   saveExercise() {
     axios({
       method: 'post',
-      url: 'http://localhost:8000/api/exercises',
+      url: '/api/exercises',
       data: {
         name: this.state.name,
         description: this.state.description,

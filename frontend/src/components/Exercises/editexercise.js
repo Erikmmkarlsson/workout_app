@@ -49,7 +49,7 @@ export default class Exercise extends Component {
   }
 
   getExercise(id) {
-    axios.get("http://localhost:8000/api/exercises/" + id)
+    axios.get("/api/exercises/" + id)
       .then(response => {
         this.setState({
           currentExercise: response.data.data
@@ -58,7 +58,7 @@ export default class Exercise extends Component {
   }
 
   updateExercise() {
-    axios.patch("http://localhost:8000/api/exercises/" + this.state.currentExercise.id, this.state.currentExercise)
+    axios.patch("/api/exercises/" + this.state.currentExercise.id, this.state.currentExercise)
       .then(response => {
         console.log(response.data.data);
         this.setState({
@@ -71,7 +71,7 @@ export default class Exercise extends Component {
   }
 
   deleteExercise() {    
-    axios.delete("http://localhost:8000/api/exercises/" + this.state.currentExercise.id);
+    axios.delete("/api/exercises/" + this.state.currentExercise.id);
   }
 
   render() {

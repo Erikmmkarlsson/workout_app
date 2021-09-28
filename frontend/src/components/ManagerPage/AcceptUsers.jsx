@@ -16,7 +16,7 @@ export default class RegisterUser extends Component {
     };
     
     componentDidMount() {
-      axios.get('http://localhost:8000/api/manager/myUsers', {
+      axios.get('/api/manager/myUsers', {
       headers: {
         'x-access-token': GetToken()
       }
@@ -24,7 +24,7 @@ export default class RegisterUser extends Component {
       this.setState({ActivatedUsers: response.data.data})
      });
 
-     axios.get('http://localhost:8000/api/manager/waitinglist', {
+     axios.get('/api/manager/waitinglist', {
       headers: {
         'x-access-token':  GetToken()
       }
@@ -39,7 +39,7 @@ export default class RegisterUser extends Component {
       event.preventDefault();
       axios({
           method: 'patch',
-          url: 'http://localhost:8000/api/user/'+event.target.id,
+          url: '/api/user/'+event.target.id,
           data: {
               activated: true
           }}
@@ -50,7 +50,7 @@ export default class RegisterUser extends Component {
       event.preventDefault();
       axios({
           method: 'patch',
-          url: 'http://localhost:8000/api/user/'+event.target.id,
+          url: '/api/user/'+event.target.id,
           data: {
               activated: false
           }}

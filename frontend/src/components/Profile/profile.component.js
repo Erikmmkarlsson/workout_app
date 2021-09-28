@@ -94,7 +94,7 @@ export default class Profile extends Component {
 
   getProfile(id) {
 
-    axios.get("http://localhost:8000/api/users/" + id,{
+    axios.get("/api/users/" + id,{
       headers: {
         'x-access-token': GetToken()
       }
@@ -107,7 +107,7 @@ export default class Profile extends Component {
   }
 
   updateProfile() {
-    axios.patch("http://localhost:8000/api/users/" + this.state.currentProfile.id, this.state.currentProfile)
+    axios.patch("/api/users/" + this.state.currentProfile.id, this.state.currentProfile)
       .then(response => {
         console.log(response.data.data);
         this.setState({
@@ -120,7 +120,7 @@ export default class Profile extends Component {
   }
 
   deleteProfile() {    
-    axios.delete("http://localhost:8000/api/users/" + this.state.currentProfile.id);
+    axios.delete("/api/users/" + this.state.currentProfile.id);
   }
 
   render() {
