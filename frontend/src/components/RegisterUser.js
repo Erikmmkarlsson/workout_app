@@ -161,7 +161,7 @@ export default class RegisterUser extends Component {
             console.log(res);
             console.log(res.data);
            
-        });
+        }).then(()=>window.location.reload(false));
         
         this.setState({
         IsValidName: false,
@@ -172,7 +172,7 @@ export default class RegisterUser extends Component {
             
         })
          this.toggle();
-         window.location.reload(false);
+         
          
 
     }

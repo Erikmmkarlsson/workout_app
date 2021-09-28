@@ -43,8 +43,7 @@ export default class RegisterUser extends Component {
           data: {
               activated: true
           }}
-          );
-          window.location.reload(false);
+          ).then(()=>window.location.reload(false));
           
     }
     handleSubmitDeactivate = event =>{
@@ -55,8 +54,7 @@ export default class RegisterUser extends Component {
           data: {
               activated: false
           }}
-          );
-          window.location.reload(false);
+          ).then(()=>window.location.reload(false));
     }
 
     render(){
