@@ -72,7 +72,7 @@ export default class Profile extends Component {
       <div>
         <div>
           <Link
-            to={"/editpassword/"}
+            to={"/profile/"}
             className="btn btn-warning"
             style={{ marginTop: 25 }}
             >
@@ -117,7 +117,7 @@ export default class Profile extends Component {
         ) : (
           <div>
             <br />
-            <p>Please choose right person...</p>
+            <p>Please write again...</p>
           </div>
         )}
       </div>
