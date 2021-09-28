@@ -18,6 +18,9 @@ import EditWorkout from "./components/WorkoutCreation/editworkout";
 import AcceptUsers from "./components/ManagerPage/AcceptUsers"
 import Login from "./components/Login/login";
 
+import Profile from "./components/Profile/profile.component";
+import Password from "./components/EditPassword/password.component";
+
 import { useAuth, GetToken } from "./components/auth";
 
 
