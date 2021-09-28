@@ -92,6 +92,27 @@ app.get("/api/user/:id", (req, res, next) => {
         })
     });
 });
+
+app.patch("/api/user/:id", (req, res, next) => {
+ 
+    console.log("Updating user...");
+    var data = {
+        activated: req.body.activated,
+    }
+    var sql = "UPDATE user set activated = COALESCE(?,activated)  WHERE id = ?"
+    var params = [data.activated, req.params.id]
+    db.run(sql, params, function (err, row) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
 const urlencodedParser = bodyParser.urlencoded({extended: false})
 app.post("/api/user/",urlencodedParser, [
     check('name', 'The username must be 3+ characters long')
@@ -319,6 +340,7 @@ app.post("/api/login", async (req, res) => {
                     }
                 );
                 // save user token
+                
                 user.token = token;
 
                 // user
@@ -336,12 +358,34 @@ app.post("/api/login", async (req, res) => {
 
 });
 
-app.get("/api/manager/myUsers", (req, res, next) => {
+app.get("/api/manager/WaitingList",onlyManager,(req,res, next) => {
+    
 
     const id = GetID(req)
     console.log(id);
 
-    var sql = "select * from user where role='user' and manager = ? "
+    var sql = "select * from user where role='user' and activated=false and manager = ? "
+    var params = [id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        console.log(rows);
+        res.json({
+            "message": "success",
+            "data": rows
+            
+        })
+    });
+});
+app.get("/api/manager/myUsers",onlyManager,(req,res, next) => {
+    
+
+    const id = GetID(req)
+    console.log(id);
+
+    var sql = "select * from user where role='user' and activated=true and manager = ? "
     var params = [id]
     db.all(sql, params, (err, rows) => {
         if (err) {

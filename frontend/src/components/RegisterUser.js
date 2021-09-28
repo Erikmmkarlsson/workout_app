@@ -42,7 +42,6 @@ export default class RegisterUser extends Component {
         this.setState({
             modal: !this.state.modal
         })
-
     }
     toggle2 = () => {
         this.setState({
@@ -160,6 +159,7 @@ export default class RegisterUser extends Component {
             ).then(res =>{
             console.log(res);
             console.log(res.data);
+           
         });
         
         this.setState({
