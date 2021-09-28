@@ -28,7 +28,7 @@ export default class CreateWorkout extends Component {
   saveWorkout() {
     axios({
       method: 'post',
-      url: 'http://localhost:8000/api/workouts',
+      url: '/api/workouts',
       data: {
         client_id: this.state.client_id,
         is_done: this.state.is_done,

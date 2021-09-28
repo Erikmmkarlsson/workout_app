@@ -17,7 +17,7 @@ export default class WorkoutList extends Component {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:8000/api/workouts")
+    axios.get("/api/workouts")
       .then(response => {
         this.setState({
           workoutList: response.data.data
