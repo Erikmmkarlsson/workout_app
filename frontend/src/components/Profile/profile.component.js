@@ -130,11 +130,18 @@ export default class Profile extends Component {
       <div>
         <div>
           <Link
-            to={"/profile/"}
+            to={"/profile/" }
             className="btn btn-warning"
             style={{ marginTop: 25 }}
             >
               Back
+          </Link>
+          <Link
+            to={"/editpassword/" + currentProfile.id}
+            className="btn btn-warning"
+            style={{ marginTop: 25, marginLeft: 10 }}
+            >
+              Change Password
           </Link>
         </div>
 
