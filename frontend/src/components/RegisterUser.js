@@ -42,7 +42,6 @@ export default class RegisterUser extends Component {
         this.setState({
             modal: !this.state.modal
         })
-
     }
     toggle2 = () => {
         this.setState({
@@ -146,6 +145,7 @@ export default class RegisterUser extends Component {
 
     handleSubmit = event =>{
         event.preventDefault();
+        console.log("handlesubmit");
 
         axios({
             method: 'post',
@@ -160,7 +160,8 @@ export default class RegisterUser extends Component {
             ).then(res =>{
             console.log(res);
             console.log(res.data);
-        });
+           
+        }).then(()=>window.location.reload(false));
         
         this.setState({
         IsValidName: false,
@@ -171,7 +172,7 @@ export default class RegisterUser extends Component {
             
         })
          this.toggle();
-         window.location.reload(false);
+         
          
 
     }
@@ -271,7 +272,7 @@ export default class RegisterUser extends Component {
                                {this.state.manager}
                             </DropdownToggle>
                             <DropdownMenu>
-                               {this.state.managers.map(manager => <DropdownItem onClick={() => this.toggle3(manager.name)}>{manager.name}</DropdownItem>)} 
+                               {this.state.managers.map(manager => <DropdownItem onClick={() => this.toggle3(manager.id)}>{manager.name}</DropdownItem>)} 
                             </DropdownMenu>
                             </Dropdown>
                             </Row>

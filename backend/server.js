@@ -94,6 +94,27 @@ app.get("/api/user/:id", (req, res, next) => {
         })
     });
 });
+
+app.patch("/api/user/:id", (req, res, next) => {
+ 
+    console.log("Updating user...");
+    var data = {
+        activated: req.body.activated,
+    }
+    var sql = "UPDATE user set activated = COALESCE(?,activated)  WHERE id = ?"
+    var params = [data.activated, req.params.id]
+    db.run(sql, params, function (err, row) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
 const urlencodedParser = bodyParser.urlencoded({extended: false})
 app.post("/api/user/",urlencodedParser, [
     check('name', 'The username must be 3+ characters long')
@@ -118,7 +139,7 @@ app.post("/api/user/",urlencodedParser, [
         role: req.body.role,
     }
     var sql ='INSERT INTO user (name, email, password,manager,role) VALUES (?,?,?,?,?)'
-    var params =[data.name, data.email, data.password, data.manager ,data.role]
+    var params =[data.name, data.email, data.password, data.manager, data.role]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})
@@ -189,6 +210,14 @@ app.post("/api/login", async (req, res) => {
 Methods for fetching and creating exercises
 
 */
+function GetID(req){
+    const token =
+    req.body.token || req.query.token || req.headers["x-access-token"];
+    decoded = jwt.verify(token, process.env.TOKEN_KEY);
+    req.user = decoded;
+    console.log(decoded.user_role);
+    return decoded.user_id
+}
 
 app.get("/api/exercises/", (req, res, next) => {
     /*
@@ -394,12 +423,11 @@ app.post("/api/workouts/", (req, res, next) => {
   
     */
     console.log("Creating a new workout...");
+    console.log("Client_id: " + req.body.client_id);
     var errors = []
     if (!req.body.client_id) {
+        console.log("Error 1");
         errors.push("No client specified");
-    }
-    if (!req.body.is_done) {
-        errors.push("Workout has to be either done or not done");
     }
     if (errors.length) {
         res.status(400).json({ "error": errors.join(",") });
@@ -471,7 +499,18 @@ app.patch("/api/workouts/:id", (req, res, next) => {
 
 /* 
 
-Methods for workout_exercises
+                // Create token
+                const token = jwt.sign(
+                    { user_id: user.id, email,
+                        user_role: user.role },
+                    process.env.TOKEN_KEY,
+                    {
+                        expiresIn: "2h",
+                    }
+                );
+                // save user token
+                
+                user.token = token;
 
 */
 
@@ -540,9 +579,11 @@ app.post("/api/workout_exercises/", (req, res, next) => {
     console.log("Adding exercise to workout...");
     var errors = []
     if (!req.body.workout_id) {
+        console.log("Error 1");
         errors.push("No workout specified");
     }
     if (!req.body.exercise_id) {
+        console.log("Error 2");
         errors.push("No exercise specified");
     }
     if (errors.length) {
@@ -621,81 +662,50 @@ app.patch("/api/workout_exercises/:id", (req, res, next) => {
     });
 });
 
-/* 
+app.get("/api/manager/WaitingList",onlyManager,(req,res, next) => {
+    
 
-Methods for fetching and deleting profile
+    const id = GetID(req)
+    console.log(id);
 
-*/
-app.get("/api/users/:id", (req, res, next) => {
-
-    /*
-    Returns a specific user
-    Example usage:
- $ curl http://localhost:8000/api/user/5 -X GET 
-  */
-    console.log("Returning one user...");
-
-    var sql = "select * from user where id = ?"
-    var params = [req.params.id]
-    db.get(sql, params, (err, row) => {
+    var sql = "select * from user where role='user' and activated=false and manager = ? "
+    var params = [id]
+    db.all(sql, params, (err, rows) => {
         if (err) {
             res.status(400).json({ "error": err.message });
             return;
         }
+        console.log(rows);
         res.json({
             "message": "success",
-            "data": row
+            "data": rows
+            
         })
     });
 });
-
-app.delete("/api/users/:id", (req, res, next) => {
-    /*
-
-    Deletes an user from the db 
-  
-    */    
-    console.log("Deleting user...");
-
-    var sql = "delete from user where id = ?"
-    var params = [req.params.id]
-    db.get(sql, params, function (err, result) {
-            if (err){
-                res.status(400).json({"error": err.message})
-                return;
-            }
-            res.json({"message":"deleted", changes: this.changes})
-    });
-});
-
-app.patch("/api/users/:id", (req, res, next) => {
-    /*
+app.get("/api/manager/myUsers",onlyManager,(req,res, next) => {
     
-    Modifies an existing user in the db. 
-  
-    */     
-    console.log("Updating user...");
 
-    var data = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role
-    }
-    
-    var sql = "UPDATE user set name = COALESCE(?,name), email = COALESCE(?,email), password = COALESCE(?,password), role = COALESCE(?,role) WHERE id = ?"
-    var params = [data.name, data.email, data.password, data.role, req.params.id]
-    db.run(sql, params, function (err, row) {
-        if (err){
-            res.status(400).json({"error": err.message})
+    const id = GetID(req)
+    console.log(id);
+
+    var sql = "select * from user where role='user' and activated=true and manager = ? "
+    var params = [id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
             return;
         }
+        console.log(rows);
         res.json({
             "message": "success",
-            "data": row
+            "data": rows
+            
         })
     });
 });
+
+
 
   
 // Default response for any other request

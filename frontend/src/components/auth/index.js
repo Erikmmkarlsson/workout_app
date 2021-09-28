@@ -4,7 +4,6 @@ This creates an auth provider which stores in local storage.
 Not the best. Vulnerable to XSS attacks.
 */
 
-
 /*This part doesn't work yet */
 export const [useAuth, authFetch, login, logout] =
     createAuthProvider({
@@ -15,3 +14,6 @@ export const [useAuth, authFetch, login, logout] =
         })
         .then(r => r.json())
     });
+
+
+export {default as GetToken} from "./GetToken";

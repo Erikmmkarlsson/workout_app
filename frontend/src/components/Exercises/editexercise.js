@@ -12,6 +12,7 @@ export default class Exercise extends Component {
     this.deleteExercise = this.deleteExercise.bind(this);
 
     this.state = {
+      workout_id: this.props.match.params.id,
       currentExercise: {
         id: this.props.match.params.id,
         description: "",
