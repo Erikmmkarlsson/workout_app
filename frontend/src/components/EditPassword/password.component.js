@@ -72,7 +72,7 @@ export default class Profile extends Component {
       <div>
         <div>
           <Link
-            to={"/profile/"}
+            to={"/profile/" + currentProfile.id}
             className="btn btn-warning"
             style={{ marginTop: 25 }}
             >
