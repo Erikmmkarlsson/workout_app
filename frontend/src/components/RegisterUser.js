@@ -149,7 +149,7 @@ export default class RegisterUser extends Component {
 
         axios({
             method: 'post',
-            url: '/api/user',
+            url: '/api/register',
             data: {
                 name: this.state.name,
                 email: this.state.email,
