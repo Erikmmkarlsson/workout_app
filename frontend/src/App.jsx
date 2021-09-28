@@ -7,14 +7,15 @@ import "./App.scss";
 import AppNavbar from './components/AppNavbar';
 
 import RegisterUser from './components/RegisterUser'
-import AddExercise from "./components/Exercises/createexercise";
-import Exercise from "./components/Exercises/editexercise";
-import ExerciseList from "./components/Exercises/exerciselist";
+import AddExercise from "./components/Exercises/add-exercise.component";
+import Exercise from "./components/Exercises/exercise.component";
+import ExerciseList from "./components/Exercises/exercise-list.component";
 
 import CreateWorkout from "./components/WorkoutCreation/createworkout";
 import WorkoutList from "./components/WorkoutCreation/workoutlist";
 import EditWorkout from "./components/WorkoutCreation/editworkout";
 
+import AcceptUsers from "./components/ManagerPage/AcceptUsers"
 import Login from "./components/Login/login";
 
 import { useAuth } from "./components/auth";
@@ -28,6 +29,7 @@ function App() {
         <AppNavbar />
           <div className="container mt-3">
             <Switch>
+              <PrivateRoute path="/MyUsers"> <AcceptUsers/> </PrivateRoute>
               <Route path="/register"> <RegisterUser/> </Route>
               <Route exact path="/login"> <Login/> </Route>
               

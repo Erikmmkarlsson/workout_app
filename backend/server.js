@@ -92,6 +92,27 @@ app.get("/api/user/:id", (req, res, next) => {
         })
     });
 });
+
+app.patch("/api/user/:id", (req, res, next) => {
+ 
+    console.log("Updating user...");
+    var data = {
+        activated: req.body.activated,
+    }
+    var sql = "UPDATE user set activated = COALESCE(?,activated)  WHERE id = ?"
+    var params = [data.activated, req.params.id]
+    db.run(sql, params, function (err, row) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
 const urlencodedParser = bodyParser.urlencoded({extended: false})
 app.post("/api/user/",urlencodedParser, [
     check('name', 'The username must be 3+ characters long')
@@ -187,6 +208,14 @@ app.post("/api/login", async (req, res) => {
 Methods for fetching and creating exercises
 
 */
+function GetID(req){
+    const token =
+    req.body.token || req.query.token || req.headers["x-access-token"];
+    decoded = jwt.verify(token, process.env.TOKEN_KEY);
+    req.user = decoded;
+    console.log(decoded.user_role);
+    return decoded.user_id
+}
 
 app.get("/api/exercises/", (req, res, next) => {
     /*
@@ -468,7 +497,22 @@ app.patch("/api/workouts/:id", (req, res, next) => {
 
 /* 
 
+<<<<<<< HEAD
 Methods for workout_exercises
+=======
+                // Create token
+                const token = jwt.sign(
+                    { user_id: user.id, email,
+                        user_role: user.role },
+                    process.env.TOKEN_KEY,
+                    {
+                        expiresIn: "2h",
+                    }
+                );
+                // save user token
+                
+                user.token = token;
+>>>>>>> f469f402697b686030bd77f6b16ec9cfd7e1acea
 
 */
 
@@ -619,6 +663,51 @@ app.patch("/api/workout_exercises/:id", (req, res, next) => {
         })
     });
 });
+
+app.get("/api/manager/WaitingList",onlyManager,(req,res, next) => {
+    
+
+    const id = GetID(req)
+    console.log(id);
+
+    var sql = "select * from user where role='user' and activated=false and manager = ? "
+    var params = [id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        console.log(rows);
+        res.json({
+            "message": "success",
+            "data": rows
+            
+        })
+    });
+});
+app.get("/api/manager/myUsers",onlyManager,(req,res, next) => {
+    
+
+    const id = GetID(req)
+    console.log(id);
+
+    var sql = "select * from user where role='user' and activated=true and manager = ? "
+    var params = [id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        console.log(rows);
+        res.json({
+            "message": "success",
+            "data": rows
+            
+        })
+    });
+});
+
+
 
   
 // Default response for any other request
