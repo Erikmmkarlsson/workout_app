@@ -25,7 +25,8 @@ app.listen(HTTP_PORT, () => {
 /*
 API Endpoints
 */
-app.get("/api/users", onlyManager, (req, res, next) => {
+
+app.get("/api/user", onlyManager, (req, res, next) => {
     /*
     Returns all the users.
     Example usage:
@@ -47,6 +48,7 @@ app.get("/api/users", onlyManager, (req, res, next) => {
         })
     });
 });
+
 
 app.get("/api/managers", (req, res, next) => {
     /*
@@ -498,22 +500,7 @@ app.patch("/api/workouts/:id", (req, res, next) => {
 
 /* 
 
-<<<<<<< HEAD
 Methods for workout_exercises
-=======
-                // Create token
-                const token = jwt.sign(
-                    { user_id: user.id, email,
-                        user_role: user.role },
-                    process.env.TOKEN_KEY,
-                    {
-                        expiresIn: "2h",
-                    }
-                );
-                // save user token
-                
-                user.token = token;
->>>>>>> f469f402697b686030bd77f6b16ec9cfd7e1acea
 
 */
 
@@ -665,50 +652,81 @@ app.patch("/api/workout_exercises/:id", (req, res, next) => {
     });
 });
 
-app.get("/api/manager/WaitingList",onlyManager,(req,res, next) => {
-    
+/* 
 
-    const id = GetID(req)
-    console.log(id);
+Methods for fetching and deleting profile
 
-    var sql = "select * from user where role='user' and activated=false and manager = ? "
-    var params = [id]
-    db.all(sql, params, (err, rows) => {
+*/
+app.get("/api/users/:id", (req, res, next) => {
+
+    /*
+    Returns a specific user
+    Example usage:
+ $ curl http://localhost:8000/api/user/5 -X GET 
+  */
+    console.log("Returning one user...");
+
+    var sql = "select * from user where id = ?"
+    var params = [req.params.id]
+    db.get(sql, params, (err, row) => {
         if (err) {
             res.status(400).json({ "error": err.message });
             return;
         }
-        console.log(rows);
         res.json({
             "message": "success",
-            "data": rows
-            
+            "data": row
         })
     });
 });
-app.get("/api/manager/myUsers",onlyManager,(req,res, next) => {
+
+app.delete("/api/users/:id", (req, res, next) => {
+    /*
+
+    Deletes an user from the db 
+  
+    */    
+    console.log("Deleting user...");
+
+    var sql = "delete from user where id = ?"
+    var params = [req.params.id]
+    db.get(sql, params, function (err, result) {
+            if (err){
+                res.status(400).json({"error": err.message})
+                return;
+            }
+            res.json({"message":"deleted", changes: this.changes})
+    });
+});
+
+app.patch("/api/users/:id", (req, res, next) => {
+    /*
     
+    Modifies an existing user in the db. 
+  
+    */     
+    console.log("Updating user...");
 
-    const id = GetID(req)
-    console.log(id);
-
-    var sql = "select * from user where role='user' and activated=true and manager = ? "
-    var params = [id]
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({ "error": err.message });
+    var data = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role
+    }
+    
+    var sql = "UPDATE user set name = COALESCE(?,name), email = COALESCE(?,email), password = COALESCE(?,password), role = COALESCE(?,role) WHERE id = ?"
+    var params = [data.name, data.email, data.password, data.role, req.params.id]
+    db.run(sql, params, function (err, row) {
+        if (err){
+            res.status(400).json({"error": err.message})
             return;
         }
-        console.log(rows);
         res.json({
             "message": "success",
-            "data": rows
-            
+            "data": row
         })
     });
 });
-
-
 
   
 // Default response for any other request

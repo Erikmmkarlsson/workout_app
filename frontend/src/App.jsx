@@ -18,6 +18,9 @@ import EditWorkout from "./components/WorkoutCreation/editworkout";
 import AcceptUsers from "./components/ManagerPage/AcceptUsers"
 import Login from "./components/Login/login";
 
+import Profile from "./components/Profile/profile.component";
+import Password from "./components/EditPassword/password.component";
+
 import { useAuth, GetToken } from "./components/auth";
 
 
@@ -41,6 +44,9 @@ function App() {
               <Route exact path="/workoutcreation/"> <WorkoutList/> </Route>
               <Route exact path="/workoutcreation/edit/:id" render={(props) => <EditWorkout {...props} />}/>
 
+              <Route exact path="/profile/:id" render={(props) => <Profile {...props} />}/>
+              <Route exact path="/EditPassword/:id" render={(props) => <Password {...props} />}/>
+              
               <PrivateRoute path="/test" component={ExerciseList} />
               <Route path = '/'> <Login/> </Route>
 
