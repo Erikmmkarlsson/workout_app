@@ -11,6 +11,9 @@ import AddExercise from "./components/Exercises/add-exercise.component";
 import Exercise from "./components/Exercises/exercise.component";
 import ExerciseList from "./components/Exercises/exercise-list.component";
 
+import Profile from "./components/Profile/profile.component";
+import Password from "./components/EditPassword/password.component";
+
 import Login from "./components/Login/login";
 
 import { useAuth, authFetch } from "./components/auth";
@@ -28,8 +31,11 @@ function App() {
               
               <Route exact path="/exercises/"> <ExerciseList/> </Route>
               <Route exact path="/exercises/add"> <AddExercise/> </Route>
-              <Route path="/exercises/:id"> <Exercise/> </Route>
+              <Route exact path="/exercises/:id" render={(props) => <Exercise {...props} />}/>
 
+              <Route exact path="/profile/:id" render={(props) => <Profile {...props} />}/>
+              <Route exact path="/EditPassword/:id" render={(props) => <Password {...props} />}/>
+              
               <PrivateRoute path="/test" component={ExerciseList} />
               <Route path = '/'> <Login/> </Route>
 

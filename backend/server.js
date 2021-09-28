@@ -25,7 +25,8 @@ app.listen(HTTP_PORT, () => {
 /*
 API Endpoints
 */
-app.get("/api/users", onlyManager, (req, res, next) => {
+
+app.get("/api/user", onlyManager, (req, res, next) => {
     /*
     Returns all the users.
     Example usage:
@@ -47,6 +48,7 @@ app.get("/api/users", onlyManager, (req, res, next) => {
         })
     });
 });
+
 
 app.get("/api/managers", (req, res, next) => {
     /*
@@ -607,6 +609,82 @@ app.patch("/api/workout_exercises/:id", (req, res, next) => {
     }
     var sql = "UPDATE workout_exercises set workout_id = COALESCE(?,workout_id), exercise_id = COALESCE(?,exercise_id), weight = COALESCE(?,weight), num_sets = COALESCE(?,num_sets), num_reps = COALESCE(?,num_reps), num_seconds = COALESCE(?,num_seconds), comment = COALESCE(?,comment) WHERE id = ?"
     var params = [data.workout_id, data.exercise_id, data.weight, data.num_sets, data.num_reps, data.num_seconds, data.comment, req.params.id]
+    db.run(sql, params, function (err, row) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
+/* 
+
+Methods for fetching and deleting profile
+
+*/
+app.get("/api/users/:id", (req, res, next) => {
+
+    /*
+    Returns a specific user
+    Example usage:
+ $ curl http://localhost:8000/api/user/5 -X GET 
+  */
+    console.log("Returning one user...");
+
+    var sql = "select * from user where id = ?"
+    var params = [req.params.id]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
+app.delete("/api/users/:id", (req, res, next) => {
+    /*
+
+    Deletes an user from the db 
+  
+    */    
+    console.log("Deleting user...");
+
+    var sql = "delete from user where id = ?"
+    var params = [req.params.id]
+    db.get(sql, params, function (err, result) {
+            if (err){
+                res.status(400).json({"error": err.message})
+                return;
+            }
+            res.json({"message":"deleted", changes: this.changes})
+    });
+});
+
+app.patch("/api/users/:id", (req, res, next) => {
+    /*
+    
+    Modifies an existing user in the db. 
+  
+    */     
+    console.log("Updating user...");
+
+    var data = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role
+    }
+    
+    var sql = "UPDATE user set name = COALESCE(?,name), email = COALESCE(?,email), password = COALESCE(?,password), role = COALESCE(?,role) WHERE id = ?"
+    var params = [data.name, data.email, data.password, data.role, req.params.id]
     db.run(sql, params, function (err, row) {
         if (err){
             res.status(400).json({"error": err.message})
