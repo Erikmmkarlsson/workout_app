@@ -657,7 +657,7 @@ app.patch("/api/workout_exercises/:id", (req, res, next) => {
 Methods for fetching and deleting profile
 
 */
-app.get("/api/users/:id", (req, res, next) => {
+app.get("/api/users/:id", verifyToken, (req, res, next) => {
 
     /*
     Returns a specific user
@@ -667,7 +667,7 @@ app.get("/api/users/:id", (req, res, next) => {
     console.log("Returning one user...");
 
     var sql = "select * from user where id = ?"
-    var params = [req.params.id]
+    var params = [GetID(req)]
     db.get(sql, params, (err, row) => {
         if (err) {
             res.status(400).json({ "error": err.message });
@@ -728,6 +728,48 @@ app.patch("/api/users/:id", (req, res, next) => {
     });
 });
 
+app.get("/api/manager/WaitingList",onlyManager,(req,res, next) => {
+    
+
+    const id = GetID(req)
+    console.log(id);
+
+    var sql = "select * from user where role='user' and activated=false and manager = ? "
+    var params = [id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        console.log(rows);
+        res.json({
+            "message": "success",
+            "data": rows
+            
+        })
+    });
+});
+app.get("/api/manager/myUsers", onlyManager,(req,res, next) => {
+    
+
+    const id = GetID(req)
+    console.log(id);
+
+    var sql = "select * from user where role='user' and activated=true and manager = ? "
+    var params = [id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        console.log(rows);
+        res.json({
+            "message": "success",
+            "data": rows
+            
+        })
+    });
+});
   
 // Default response for any other request
 app.use(function (req, res) {

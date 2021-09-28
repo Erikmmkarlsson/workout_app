@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import  {GetToken} from "../auth"
 
 
 export default class Profile extends Component {
@@ -92,7 +93,12 @@ export default class Profile extends Component {
   }
 
   getProfile(id) {
-    axios.get("http://localhost:8000/api/users/" + id)
+
+    axios.get("http://localhost:8000/api/users/" + id,{
+      headers: {
+        'x-access-token': GetToken()
+      }
+    })
       .then(response => {
         this.setState({
           currentProfile: response.data.data
