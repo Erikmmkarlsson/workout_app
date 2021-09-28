@@ -149,7 +149,7 @@ export default class RegisterUser extends Component {
 
         axios({
             method: 'post',
-            url: 'http://localhost:8000/api/user',
+            url: '/api/user',
             data: {
                 name: this.state.name,
                 email: this.state.email,
@@ -178,7 +178,7 @@ export default class RegisterUser extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8000/api/managers`)
+        axios.get(`/api/managers`)
           .then(response => {
             this.setState({managers: response.data.data})
           });
