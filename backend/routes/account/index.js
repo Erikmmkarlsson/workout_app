@@ -4,15 +4,14 @@ var jwt = require("jsonwebtoken")
 
 module.exports = function (app, db) {  //receiving "app" and "db" instance
     app.post("/api/login", async (req, res) => {
-        console.log("Login...")
-        // Our login logic starts here
         try {
             // Get user input
             const { email, password } = req.body;
 
             // Validate user input
             if (!(email && password)) {
-                res.status(400).send("All input is required");
+                res.status(400).json({"message": "All input is required"})
+                return
             }
             // Validate if user exist in our database
             var sql = "select * from user where email = ?"
@@ -46,16 +45,13 @@ module.exports = function (app, db) {  //receiving "app" and "db" instance
                     // user
                     res.status(200).json(user);
                 } else {
-                    res.status(400).send("Invalid Credentials");
+                    res.status(400).json({"message": "Invalid credentials"})
                 }
             });
         }
         catch (err) {
             console.log(err);
         }
-
-        // Our register logic ends here
-
     });
 
     app.post("/api/register/", [

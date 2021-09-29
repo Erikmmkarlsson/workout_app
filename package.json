@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "back": "node backend/server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "back": "node backend/start.js",
     "front": "cd frontend && npm start",
     "dev": "concurrently \"npm run back\" \"npm run front\""
   },
@@ -23,6 +24,7 @@
     "express": "^4.17.1",
     "express-rate-limit": "^5.3.0",
     "express-validator": "^6.12.1",
+    "jest": "^27.2.4",
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
     "react-token-auth": "^1.1.9",
@@ -30,5 +32,8 @@
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2"
   },
-  "proxy": "http://localhost:3000"
+  "proxy": "http://localhost:3000",
+  "devDependencies": {
+    "supertest": "^6.1.6"
+  }
 }

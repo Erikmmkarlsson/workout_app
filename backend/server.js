@@ -13,17 +13,11 @@ var onlyManager = require("./auth/onlyManager.js")
 app.use(cors())
 app.use(express.json());
 
-// Start server
-var HTTP_PORT = process.env.HTTP_PORT;
-app.listen(HTTP_PORT, () => {
-    console.log("Server running on port %PORT%".replace("%PORT%", HTTP_PORT))
-});
-
 // set up rate limiter: maximum of five requests per minute
 var RateLimit = require('express-rate-limit');
 var limiter = new RateLimit({
   windowMs: 1*60*1000, // 1 minute
-  max: 5
+  max: 100
 });
 
 // apply rate limiter to all requests
@@ -300,3 +294,7 @@ app.get("/api/manager/myUsers", onlyManager,(req,res, next) => {
 app.use(function (req, res) {
     res.status(404);
 });
+
+
+
+module.exports = app
