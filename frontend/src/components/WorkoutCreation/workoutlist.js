@@ -95,7 +95,7 @@ export default class WorkoutList extends Component {
             Add new
           </Link>
         </div>
-      </div>
+      </div>//Test
     );
   }
 }
