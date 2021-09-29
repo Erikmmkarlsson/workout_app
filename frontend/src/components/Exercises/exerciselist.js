@@ -21,7 +21,7 @@ export default class ExercisesList extends Component {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:8000/api/exercises")
+    axios.get("/api/exercises")
       .then(response => {
         this.setState({
           exercisesList: response.data.data
@@ -52,7 +52,7 @@ export default class ExercisesList extends Component {
   }
 
   searchName() {
-    axios.get("http://localhost:8000/api/exercises?search=" + this.state.searchName)
+    axios.get("/api/exercises?search=" + this.state.searchName)
       .then(response => {
         this.setState({
           exercisesList: response.data.data

@@ -15,7 +15,7 @@ export default function Login() {
       'password': password
     }
 
-    fetch('http://localhost:8000/api/login', {
+    fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -43,27 +43,35 @@ export default function Login() {
 
   return (
     <div className="login" id="login">
-      <h2>Login</h2>
+      <h2 style={{textAlign: "center"}}>Login</h2>
       {!loggedIn ? <form action="#">
-        <div>
-          <input type="text"
+        <div style={{textAlign: "center", marginTop: 30}}>
+          <input 
+            style={{textAlign: "center"}} 
+            type="text"
             placeholder="Email"
             onChange={handleUsernameChange}
             value={email}
           />
         </div>
-        <div>
+        <div style={{textAlign: "center", marginTop: 30, marginBottom: 50}}>
           <input
+            style={{textAlign: "center"}}
             type="password"
             placeholder="Password"
             onChange={handlePasswordChange}
             value={password}
           />
         </div>
-        <button onClick={onSubmitClick} type="submit">
-          Login Now
+        <button 
+          style={{marginRight: "2%", marginTop: 20, marginLeft: "40%", width: "9%"}} 
+          onClick={onSubmitClick}  
+          type="submit">
+          Login
         </button>
-        <button><Link to="/register">Register</Link></button>
+        <button style={{width: "9%", textAlign: "center"}}> 
+          <Link to="/register">Register</Link>
+        </button>
       </form>
         : <button onClick={() => logout()}>Logout</button>}
     </div>

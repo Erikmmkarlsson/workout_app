@@ -15,9 +15,13 @@ import CreateWorkout from "./components/WorkoutCreation/createworkout";
 import WorkoutList from "./components/WorkoutCreation/workoutlist";
 import EditWorkout from "./components/WorkoutCreation/editworkout";
 
+import AcceptUsers from "./components/ManagerPage/AcceptUsers"
 import Login from "./components/Login/login";
 
-import { useAuth } from "./components/auth";
+import Profile from "./components/Profile/profile.component";
+import Password from "./components/EditPassword/password.component";
+
+import { useAuth, GetToken } from "./components/auth";
 
 
 
@@ -28,6 +32,7 @@ function App() {
         <AppNavbar />
           <div className="container mt-3">
             <Switch>
+              <PrivateRoute path="/MyUsers"> <AcceptUsers/> </PrivateRoute>
               <Route path="/register"> <RegisterUser/> </Route>
               <Route exact path="/login"> <Login/> </Route>
               
@@ -39,6 +44,9 @@ function App() {
               <Route exact path="/workoutcreation/"> <WorkoutList/> </Route>
               <Route exact path="/workoutcreation/edit/:id" render={(props) => <EditWorkout {...props} />}/>
 
+              <Route exact path="/profile/:id" render={(props) => <Profile {...props} />}/>
+              <Route exact path="/EditPassword/:id" render={(props) => <Password {...props} />}/>
+              
               <PrivateRoute path="/test" component={ExerciseList} />
               <Route path = '/'> <Login/> </Route>
 

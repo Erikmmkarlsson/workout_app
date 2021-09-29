@@ -29,10 +29,10 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 
                 } else {
                     // Table just created, creating some rows
-                    var insert_user = 'INSERT INTO user (name, email, password,manager,role) VALUES (?,?,?,?,?)'
-                    db.run(insert_user, ["manager1", "manager1@example.com", md5("admin123456"),null ,"manager"])
-                    db.run(insert_user, ["manager2", "manager2@example.com", md5("user123456"),null ,"manager"])
-                    db.run(insert_user, ["Erik", "Erik@example.com", md5("user123456"),null,"user"])
+                    var insert_user = 'INSERT INTO user (name, email, password,manager,role, activated) VALUES (?,?,?,?,?,?)'
+                    db.run(insert_user, ["manager1", "manager1@example.com", md5("admin123456"),null ,"manager", true] )
+                    db.run(insert_user, ["manager2", "manager2@example.com", md5("user123456"),null ,"manager", true])
+                    db.run(insert_user, ["Erik", "Erik@example.com", md5("user123456"),null,"user", true])
 
                 }
             });

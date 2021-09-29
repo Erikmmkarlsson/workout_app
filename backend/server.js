@@ -1,10 +1,7 @@
 // Imports
 var express = require("express")
-var bodyParser = require('body-parser')
-var {check, validationResult} = require('express-validator')
 var app = express()
 var db = require("./database/database.js")
-var md5 = require("md5")
 var cors = require('cors')
 var jwt = require("jsonwebtoken")
 require('dotenv').config()
@@ -23,9 +20,13 @@ app.listen(HTTP_PORT, () => {
 
 
 /*
-API Endpoints
+API routes
 */
-app.get("/api/users", onlyManager, (req, res, next) => {
+require('./routes/account')(app, db); //Sending "app" and "db" instance to account
+
+
+
+app.get("/api/user", onlyManager, (req, res, next) => {
     /*
     Returns all the users.
     Example usage:
@@ -35,28 +36,6 @@ app.get("/api/users", onlyManager, (req, res, next) => {
     console.log("Returning all users...");
 
     var sql = "select * from user"
-    var params = []
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({ "error": err.message });
-            return;
-        }
-        res.json({
-            "message": "success",
-            "data": rows
-        })
-    });
-});
-
-app.get("/api/managers", (req, res, next) => {
-    /*
-    Returns all the managers.
-    Example usage:
-  $ curl http://localhost:8000/api/users -X GET 
-   */
-    console.log("Returning all managers...");
-
-    var sql = "select * from user where role='manager'"
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -92,101 +71,63 @@ app.get("/api/user/:id", (req, res, next) => {
         })
     });
 });
-const urlencodedParser = bodyParser.urlencoded({extended: false})
-app.post("/api/user/",urlencodedParser, [
-    check('name', 'The username must be 3+ characters long')
-       .exists()
-       .isLength({min:3}),
-    
-    check('email','Email is not valid')
-       .isEmail()
-       .normalizeEmail()
 
-], (req, res, next) => {
-  
-  const errors = validationResult(req)
-  if(errors.isEmpty())
-  {
-    console.log("Creating a new user...");    
+app.patch("/api/user/:id", (req, res, next) => {
+ 
+    console.log("Updating user...");
     var data = {
-        name: req.body.name,
-        email: req.body.email,
-        password : md5(req.body.password), //md5 hashes the password
-        manager: req.body.manager,
-        role: req.body.role,
+        activated: req.body.activated,
     }
-    var sql ='INSERT INTO user (name, email, password,manager,role) VALUES (?,?,?,?,?)'
-    var params =[data.name, data.email, data.password, data.manager ,data.role]
-    db.run(sql, params, function (err, result) {
+    var sql = "UPDATE user set activated = COALESCE(?,activated)  WHERE id = ?"
+    var params = [data.activated, req.params.id]
+    db.run(sql, params, function (err, row) {
         if (err){
             res.status(400).json({"error": err.message})
             return;
         }
         res.json({
             "message": "success",
-            "data": data,
-            "id": this.lastID
+            "data": row
         })
-   })};
+    });
 });
 
-app.post("/api/login", async (req, res) => {
-    console.log("Login...")
-    // Our login logic starts here
-    try {
-        // Get user input
-        const { email, password } = req.body;
+app.get("/api/managers", (req, res, next) => {
+    /*
+    Returns all the managers.
+    Example usage:
+  $ curl http://localhost:8000/api/users -X GET 
+   */
+    console.log("Returning all managers...");
 
-        // Validate user input
-        if (!(email && password)) {
-            res.status(400).send("All input is required");
+    var sql = "select * from user where role='manager'"
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
         }
-        // Validate if user exist in our database
-        var sql = "select * from user where email = ?"
-        var params = [email]
-        db.get(sql, params, (err, user) => {
-            if (err) {
-                res.status(400).json({ "error": err.message });
-                return;
-            }
-
-            // If matching password
-            if (md5(password) === user.password) {
-                console.log("matching")
-
-
-                // Create token
-                const token = jwt.sign(
-                    { user_id: user.id, email,
-                        user_role: user.role },
-                    process.env.TOKEN_KEY,
-                    {
-                        expiresIn: "2h",
-                    }
-                );
-                // save user token
-                user.token = token;
-
-                // user
-                res.status(200).json(user);
-            }else{
-            res.status(400).send("Invalid Credentials");
-            }
-        }); 
-    }
- catch (err) {
-            console.log(err);
-        }
-
-        // Our register logic ends here
-
+        res.json({
+            "message": "success",
+            "data": rows
+        })
+    });
 });
+
 
 /* 
 
 Methods for fetching and creating exercises
 
 */
+function GetID(req){
+    const token =
+    req.body.token || req.query.token || req.headers["x-access-token"];
+    decoded = jwt.verify(token, process.env.TOKEN_KEY);
+    req.user = decoded;
+    console.log(decoded.user_role);
+    return decoded.user_id
+}
 
 app.get("/api/exercises/", (req, res, next) => {
     /*
@@ -621,6 +562,124 @@ app.patch("/api/workout_exercises/:id", (req, res, next) => {
     });
 });
 
+/* 
+
+Methods for fetching and deleting profile
+
+*/
+app.get("/api/users/:id", verifyToken, (req, res, next) => {
+
+    /*
+    Returns a specific user
+    Example usage:
+ $ curl http://localhost:8000/api/user/5 -X GET 
+  */
+    console.log("Returning one user...");
+
+    var sql = "select * from user where id = ?"
+    var params = [GetID(req)]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
+app.delete("/api/users/:id", (req, res, next) => {
+    /*
+
+    Deletes an user from the db 
+  
+    */    
+    console.log("Deleting user...");
+
+    var sql = "delete from user where id = ?"
+    var params = [req.params.id]
+    db.get(sql, params, function (err, result) {
+            if (err){
+                res.status(400).json({"error": err.message})
+                return;
+            }
+            res.json({"message":"deleted", changes: this.changes})
+    });
+});
+
+app.patch("/api/users/:id", (req, res, next) => {
+    /*
+    
+    Modifies an existing user in the db. 
+  
+    */     
+    console.log("Updating user...");
+
+    var data = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role
+    }
+    
+    var sql = "UPDATE user set name = COALESCE(?,name), email = COALESCE(?,email), password = COALESCE(?,password), role = COALESCE(?,role) WHERE id = ?"
+    var params = [data.name, data.email, data.password, data.role, req.params.id]
+    db.run(sql, params, function (err, row) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
+app.get("/api/manager/WaitingList",onlyManager,(req,res, next) => {
+    
+
+    const id = GetID(req)
+    console.log(id);
+
+    var sql = "select * from user where role='user' and activated=false and manager = ? "
+    var params = [id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        console.log(rows);
+        res.json({
+            "message": "success",
+            "data": rows
+            
+        })
+    });
+});
+app.get("/api/manager/myUsers", onlyManager,(req,res, next) => {
+    
+
+    const id = GetID(req)
+    console.log(id);
+
+    var sql = "select * from user where role='user' and activated=true and manager = ? "
+    var params = [id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        console.log(rows);
+        res.json({
+            "message": "success",
+            "data": rows
+            
+        })
+    });
+});
   
 // Default response for any other request
 app.use(function (req, res) {

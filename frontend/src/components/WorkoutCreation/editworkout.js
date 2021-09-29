@@ -44,7 +44,7 @@ export default class EditWorkout extends Component {
               workout_id: parseInt(this.props.match.params.id)
             }
           }));
-        axios.get("http://localhost:8000/api/exercises")
+        axios.get("/api/exercises")
           .then(response => {
             this.setState({
               exercisesList: response.data.data
@@ -135,7 +135,7 @@ export default class EditWorkout extends Component {
       }
 
       searchName() {
-        axios.get("http://localhost:8000/api/exercises?search=" + this.state.searchName)
+        axios.get("/api/exercises?search=" + this.state.searchName)
           .then(response => {
             this.setState({
               exercisesList: response.data.data
@@ -157,7 +157,7 @@ export default class EditWorkout extends Component {
             console.log(this.state.currentWorkoutExercise)
             axios({
                 method: 'post',
-                url: 'http://localhost:8000/api/workout_exercises',
+                url: '/api/workout_exercises',
                 data: this.state.currentWorkoutExercise
               });
             axios.get("http://localhost:8000/api/workout_exercises?workout_id=" + parseInt(this.props.match.params.id))
