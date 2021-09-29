@@ -9,7 +9,7 @@ export default class Profile extends Component {
     this.onChangePassword = this.onChangePassword.bind(this);
        
     this.getProfile = this.getProfile.bind(this);
-    this.updateProfile = this.updateProfile.bind(this);
+    this.updatePassword = this.updatePassword.bind(this);
     
     this.state = {
       currentProfile: {
@@ -50,8 +50,8 @@ export default class Profile extends Component {
       })
   }
 
-  updateProfile() {
-    axios.patch("/api/users/" + this.state.currentProfile.id, this.state.currentProfile)
+  updatePassword() {
+    axios.patch("/api/password/" + this.state.currentProfile.id, this.state.currentProfile)
       .then(response => {
         console.log(response.data.data);
         this.setState({
@@ -72,7 +72,7 @@ export default class Profile extends Component {
       <div>
         <div>
           <Link
-            to={"/profile/" + currentProfile.id}
+            to={"/viewprofile/" + currentProfile.id}
             className="btn btn-warning"
             style={{ marginTop: 25 }}
             >
@@ -89,7 +89,6 @@ export default class Profile extends Component {
                   type="text"
                   className="form-control"
                   id="password"
-                  /*value=""*/
                   onChange={this.onChangePassword}
                 />
               </div>
@@ -101,11 +100,11 @@ export default class Profile extends Component {
              
             </form>
             
-            <Link to="/editpassword">
+            <Link to={"/viewprofile/" + currentProfile.id}>
               <button
                 type="submit"
                 className="m-3 btn btn-sm btn-success"
-                onClick={this.updateProfile}
+                onClick={this.updatePassword}
               >
                 Update
               </button>

@@ -9,32 +9,7 @@ export default class Profile extends Component {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
-    /*
-    var md5 = require("md5")
-    this.onChangePassword = this.onChangePassword.bind(this);
-    onChangePassword(e) {
-    const password = e.target.value;
-    
-    this.setState(prevState => ({
-      currentProfile: {
-        ...prevState.currentProfile,
-        password: password
-      }
-    }));
-  }
-    <div className="form-group">
-                <label htmlFor="password">password</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="password"
-                  value={currentProfile.password}
-                  onChange={this.onChangePassword}
-                />
-              </div>
-
-
-    */
+   
     this.onChangeRole = this.onChangeRole.bind(this);
     
     this.getProfile = this.getProfile.bind(this);
@@ -130,7 +105,7 @@ export default class Profile extends Component {
       <div>
         <div>
           <Link
-            to={"/profile/" }
+            to={"/viewprofile/" + currentProfile.id}
             className="btn btn-warning"
             style={{ marginTop: 25 }}
             >
@@ -192,7 +167,7 @@ export default class Profile extends Component {
                 Delete
               </button>
             </Link>
-            <Link to="/profile">
+            <Link to={"/viewprofile/" + currentProfile.id}>
               <button
                 type="submit"
                 className="m-3 btn btn-sm btn-success"

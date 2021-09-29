@@ -30,7 +30,7 @@ app.get("/api/workouts/:id", (req, res, next) => {
   */
     console.log("Returning one workout...");
 
-    var sql = "select * from workouts where id = ?"
+    var sql = "select * from workouts where id = ?" //search by ID
     var params = [req.params.id]
     db.get(sql, params, (err, row) => {
         if (err) {
@@ -60,6 +60,7 @@ app.post("/api/workouts/", (req, res, next) => {
     console.log("Creating a new workout...");
     var errors = []
     if (!req.body.name) {
+        //if name is not given
         console.log("Error 1");
         errors.push("No name specified");
     }
@@ -116,6 +117,7 @@ app.patch("/api/workouts/:id", (req, res, next) => {
         creator: req.body.creator
     }
     var sql = "UPDATE workouts set name = COALESCE(?,name), creator = COALESCE(?,creator) WHERE id = ?"
+    //updating a workout according to the ID
     var params = [data.name]
     db.run(sql, params, function (err, row) {
         if (err){
@@ -145,14 +147,17 @@ app.get("/api/workout_exercises/", (req, res, next) => {
     console.log(req.query.workout_id);
     var search = parseInt(req.query.workout_id);
     if(search==undefined){
+        ////if no search terms defined
         var sql = "select * from workout_exercises";
     }
     else{
         var sql = `select workout_exercises.id, exercise.name, workout_exercises.num_sets, workout_exercises.num_reps, workout_exercises.num_seconds from workout_exercises inner join exercise on workout_exercises.exercise_id=exercise.id where workout_id=${search}`
+        //if search term is defined
+        
     }
     console.log("Returning workout_exercises...");
     var params = []
-    db.all(sql, params, (err, rows) => {
+    db.all(sql, params, (err, rows) => {//excute the query with specified parameters
         if (err) {
             res.status(400).json({ "error": err.message });
             return;
@@ -175,7 +180,7 @@ app.get("/api/workout_exercises/:id", (req, res, next) => {
 
     var sql = "select * from workout_exercises where id = ?"
     var params = [req.params.id]
-    db.get(sql, params, (err, row) => {
+    db.get(sql, params, (err, row) => {//demonstrates how to query a workoutexercise by its id
         if (err) {
             res.status(400).json({ "error": err.message });
             return;
