@@ -336,30 +336,25 @@ app.post("/api/workouts/", (req, res, next) => {
     $ curl http://localhost:8000/api/workouts -X POST \
                -d '
                {
-                  "name": "sit ups", 
-                  "description": "sit and raise your upper body",
-                  "video_link": "youtube.com",
+                  "name": "cardio"
                }'
   
     */
     console.log("Creating a new workout...");
-    console.log("Client_id: " + req.body.client_id);
     var errors = []
-    if (!req.body.client_id) {
+    if (!req.body.name) {
         console.log("Error 1");
-        errors.push("No client specified");
+        errors.push("No name specified");
     }
     if (errors.length) {
         res.status(400).json({ "error": errors.join(",") });
         return;
     }
     var data = {
-        client_id: req.body.client_id,
-        is_done: req.body.is_done,
-        comment: req.body.comment
+        name: req.body.name
     }
-    var sql = 'INSERT INTO workouts (client_id, is_done, comment) VALUES (?,?,?)'
-    var params = [data.client_id, data.is_done, data.comment]
+    var sql = 'INSERT INTO workouts (name) VALUES (?)'
+    var params = [data.name]
     db.run(sql, params, function (err, result) {
         if (err) {
             res.status(400).json({ "error": err.message })
@@ -399,12 +394,10 @@ app.patch("/api/workouts/:id", (req, res, next) => {
     */     
     console.log("Updating workout...");
     var data = {
-        client_id: req.body.client_id,
-        is_done: req.body.is_done,
-        comment: req.body.comment
+        name: req.body.name
     }
-    var sql = "UPDATE workouts set client_id = COALESCE(?,client_id), is_done = COALESCE(?,is_done), comment = COALESCE(?,comment) WHERE id = ?"
-    var params = [data.client_id, data.is_done, data.comment, req.params.id]
+    var sql = "UPDATE workouts set name = COALESCE(?,name) WHERE id = ?"
+    var params = [data.name]
     db.run(sql, params, function (err, row) {
         if (err){
             res.status(400).json({"error": err.message})
@@ -429,8 +422,16 @@ app.get("/api/workout_exercises/", (req, res, next) => {
     Example usage:
   $ curl http://localhost:8000/api/workout_exercises -X GET 
    */
-    console.log("Returning all workout_exercises...");
-    var sql = "select * from workout_exercises";
+    console.log("Workout_id is set to: ");
+    console.log(req.query.workout_id);
+    var search = parseInt(req.query.workout_id);
+    if(search==undefined){
+        var sql = "select * from workout_exercises";
+    }
+    else{
+        var sql = `select workout_exercises.id, exercise.name, workout_exercises.num_sets, workout_exercises.num_reps, workout_exercises.num_seconds, workout_exercises.weight from workout_exercises inner join exercise on workout_exercises.exercise_id=exercise.id where workout_id=${search}`
+    }
+    console.log("Returning workout_exercises...");
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
