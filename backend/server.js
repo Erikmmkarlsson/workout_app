@@ -637,6 +637,41 @@ app.patch("/api/users/:id", (req, res, next) => {
     });
 });
 
+/* 
+
+Methods for fetching password
+
+*/
+
+app.patch("/api/password/:id", (req, res, next) => {
+    /*
+    
+    Modifies password for an existing user in the db. 
+  
+    */     
+    console.log("Updating password...");
+
+    var data = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role
+    }
+    
+    var sql = "UPDATE user set password = COALESCE(?,password) WHERE id = ?"
+    var params = [data.password, req.params.id]
+    db.run(sql, params, function (err, row) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
 app.get("/api/manager/WaitingList",onlyManager,(req,res, next) => {
     
 

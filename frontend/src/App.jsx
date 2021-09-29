@@ -20,6 +20,7 @@ import Login from "./components/Login/login";
 
 import Profile from "./components/Profile/profile.component";
 import Password from "./components/EditPassword/password.component";
+import ViewProfile from "./components/ViewProfile/viewprofile.component";
 
 import { useAuth, GetToken } from "./components/auth";
 
@@ -46,7 +47,8 @@ function App() {
 
               <Route exact path="/profile/:id" render={(props) => <Profile {...props} />}/>
               <Route exact path="/EditPassword/:id" render={(props) => <Password {...props} />}/>
-              
+              <Route exact path="/ViewProfile/:id" render={(props) => <ViewProfile {...props} />}/>
+
               <PrivateRoute path="/test" component={ExerciseList} />
               <Route path = '/'> <Login/> </Route>
 
