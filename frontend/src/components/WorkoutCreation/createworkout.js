@@ -5,23 +5,21 @@ import { Link } from "react-router-dom";
 export default class CreateWorkout extends Component {
   constructor(props) {
     super(props);
-    this.onChangeId = this.onChangeId.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
     this.saveWorkout = this.saveWorkout.bind(this);
     this.newWorkout = this.newWorkout.bind(this);
 
     this.state = {
       id: null,
-      client_id: null,
-      is_done: null, 
-      comment: ""
+      name: ""
     };
   }
 
 
 
-  onChangeId(e) {
+  onChangeName(e) {
     this.setState({
-      client_id: e.target.value
+      name: e.target.value
     });
   }
 
@@ -30,9 +28,7 @@ export default class CreateWorkout extends Component {
       method: 'post',
       url: 'http://localhost:8000/api/workouts',
       data: {
-        client_id: this.state.client_id,
-        is_done: this.state.is_done,
-        comment: this.state.comment
+        name: this.state.name
       }
     });
   }
@@ -40,9 +36,7 @@ export default class CreateWorkout extends Component {
   newWorkout() {
     this.setState({
       id: null,
-      client_id: null,
-      is_done: null,
-      comment: ""
+      name: ""
     });
   }
 
@@ -63,16 +57,16 @@ export default class CreateWorkout extends Component {
         <div className="submit-form">
           <div>
             <div className="form-group">
-              <label htmlFor="client_id">Client ID</label>
+              <label htmlFor="name">Name:</label>
               <input
-                type="number"
+                type="text"
                 className="form-control"
-                id="client_id"
+                id="name"
                 required
-                value={this.state.client_id}
-                onChange={this.onChangeId}
-                name="client_id"
-                placeholder="Enter a client_id"
+                value={this.state.name}
+                onChange={this.onChangeName}
+                name="name"
+                placeholder="Enter a name for this workout"
               />
             </div>
             <Link to="/workoutcreation">

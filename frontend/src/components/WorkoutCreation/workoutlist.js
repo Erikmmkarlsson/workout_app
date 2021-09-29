@@ -53,7 +53,7 @@ export default class WorkoutList extends Component {
                   onClick={() => this.setActiveWorkout(workout, index)}
                   key={index}
                 >
-                  {workout.client_id}
+                  {workout.name}
                 </li>
               ))
             }
@@ -62,41 +62,21 @@ export default class WorkoutList extends Component {
         <div className="col-md-6">
           {currentWorkout ? (
             <div>
-              <h4>Workout</h4>
+              <h4>Selected workout:</h4>
               <div>
                 <label>
                   <strong>
-                   Client ID:
+                   Name
                   </strong>
                 </label>{" "}
-                {currentWorkout.client_id}
-              </div>
-              <div>
-                <label>
-                  <strong>
-                    Done:
-                  </strong>
-                </label>{" "}
-                {currentWorkout.is_done ? (
-                    <p>Yes</p>
-                ) : (
-                    <p>No</p>
-                )}
-              </div>
-              <div>
-                <label>
-                  <strong>
-                    Comment:
-                  </strong>
-                </label>{" "}
-                {currentWorkout.comment}
+                {currentWorkout.name}
               </div>
               <Link
                 to={"/workoutcreation/edit/" + currentWorkout.id}
                 className="btn btn-warning"
                 style={{ marginTop: 25 }}
               >
-                Edit
+                Add exercises
               </Link>
             </div>
           ) : (

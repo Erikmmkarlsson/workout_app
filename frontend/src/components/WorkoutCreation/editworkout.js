@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 
+
 export default class EditWorkout extends Component {
     constructor(props) {
         super(props);
@@ -15,9 +16,11 @@ export default class EditWorkout extends Component {
         this.setActiveExercise = this.setActiveExercise.bind(this);
         this.searchName = this.searchName.bind(this);
         this.saveWorkoutExercise = this.saveWorkoutExercise.bind(this);
+        this.removeExercise = this.removeExercise.bind(this);
 
         this.state = {
           exercisesList: [],
+          selectedExercisesList: [],
           currentExercise: null,
           currentIndex: -1,
           searchName: "",
@@ -45,6 +48,12 @@ export default class EditWorkout extends Component {
           .then(response => {
             this.setState({
               exercisesList: response.data.data
+            })
+          })
+        axios.get("http://localhost:8000/api/workout_exercises?workout_id=" + parseInt(this.props.match.params.id))
+          .then(response => {
+            this.setState({
+              selectedExercisesList: response.data.data
             })
           })
       }
@@ -124,7 +133,7 @@ export default class EditWorkout extends Component {
             }
         }));
       }
-    
+
       searchName() {
         axios.get("http://localhost:8000/api/exercises?search=" + this.state.searchName)
           .then(response => {
@@ -133,7 +142,16 @@ export default class EditWorkout extends Component {
             });
           })
       }
-    
+
+      removeExercise(id){
+        axios.delete("http://localhost:8000/api/workout_exercises/" + id);
+        axios.get("http://localhost:8000/api/workout_exercises?workout_id=" + parseInt(this.props.match.params.id))
+          .then(response => {
+            this.setState({
+              selectedExercisesList: response.data.data
+            })
+          })
+      }
       
         saveWorkoutExercise() {
             console.log(this.state.currentWorkoutExercise)
@@ -142,10 +160,16 @@ export default class EditWorkout extends Component {
                 url: 'http://localhost:8000/api/workout_exercises',
                 data: this.state.currentWorkoutExercise
               });
+            axios.get("http://localhost:8000/api/workout_exercises?workout_id=" + parseInt(this.props.match.params.id))
+              .then(response => {
+                this.setState({
+                selectedExercisesList: response.data.data
+              })
+          })
         }
     
       render() {
-        const { searchName, exercisesList, currentExercise, currentWorkoutExercise, currentIndex } = this.state;
+        const { searchName, exercisesList, currentExercise, selectedExercisesList, currentIndex } = this.state;
     
         return (
           <div className="list row">
@@ -299,6 +323,36 @@ export default class EditWorkout extends Component {
               )}
             </div>
             <div>
+            </div>
+            
+            <h4>Exercises in workout:</h4>
+            <div className="container">
+            {selectedExercisesList.length > 0 ? (
+              <table style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}>
+                <thead>
+                  <tr>
+                    <th style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}>Exercise name</th>
+                    <th style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}>Number of sets</th>
+                    <th style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}>Number of reps</th>
+                    <th style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}>Number of seconds</th>
+                    <th style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}>Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    selectedExercisesList.map((exercise) => (
+                            <tr key={exercise.id}>
+                                <td style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}>{exercise.name}</td>
+                                <td style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}>{exercise.num_sets}</td>
+                                <td style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}>{exercise.num_reps}</td>
+                                <td style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}>{exercise.num_seconds}</td>
+                                <td style={{"border-width": "1px", "border-color": "black", "border-style": "solid"}}><button type="submit" className="btn btn-sm btn-danger" onClick={this.removeExercise.bind(this, exercise.id)}>Remove</button></td>
+                            </tr>
+                    ))
+                    }
+                </tbody>
+              </table>
+              ) : (<div></div>)}
             </div>
           </div>
         );
