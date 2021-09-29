@@ -7,7 +7,7 @@ export default class AddExercise extends Component {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeVideoLink = this.onChangeVideoLink.bind.bind(this);
+    this.onChangeVideoLink = this.onChangeVideoLink.bind(this);
     this.saveExercise = this.saveExercise.bind(this);
     this.newExercise = this.newExercise.bind(this);
 
@@ -87,7 +87,6 @@ export default class AddExercise extends Component {
                 onChange={this.onChangeName}
                 name="name"
                 placeholder="Enter a name for the exercise"
-                style={{ width: "500px" }}
               />
             </div>
             <div className="form-group">
@@ -101,21 +100,18 @@ export default class AddExercise extends Component {
                 onChange={this.onChangeDescription}
                 name="description"
                 placeholder="Enter a description for the exercise"
-                style={{ width: "500px" }}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="description">Video Link</label>
+              <label htmlFor="description">Video Link (Optional)</label>
               <input
                 type="text"
                 className="form-control"
                 id="video_link"
-                required
                 value={this.state.video_link}
                 onChange={this.onChangeVideoLink}
                 name="video_link"
                 placeholder="Add a video link, format 'youtube.com/...'"
-                style={{ width: "500px" }}
               />
             </div>
             <Link to="/exercises">

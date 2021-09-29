@@ -52,7 +52,8 @@ app.post("/api/workouts/", (req, res, next) => {
     $ curl http://localhost:8000/api/workouts -X POST \
                -d '
                {
-                  "name": "cardio"
+                  "name": "cardio",
+                  "creator": 1
                }'
   
     */
@@ -67,9 +68,10 @@ app.post("/api/workouts/", (req, res, next) => {
         return;
     }
     var data = {
-        name: req.body.name
+        name: req.body.name,
+        creator: req.body.creator
     }
-    var sql = 'INSERT INTO workouts (name) VALUES (?)'
+    var sql = 'INSERT INTO workouts (name, creator) VALUES (?,?)'
     var params = [data.name]
     db.run(sql, params, function (err, result) {
         if (err) {
@@ -110,9 +112,10 @@ app.patch("/api/workouts/:id", (req, res, next) => {
     */     
     console.log("Updating workout...");
     var data = {
-        name: req.body.name
+        name: req.body.name,
+        creator: req.body.creator
     }
-    var sql = "UPDATE workouts set name = COALESCE(?,name) WHERE id = ?"
+    var sql = "UPDATE workouts set name = COALESCE(?,name), creator = COALESCE(?,creator) WHERE id = ?"
     var params = [data.name]
     db.run(sql, params, function (err, row) {
         if (err){
@@ -145,7 +148,7 @@ app.get("/api/workout_exercises/", (req, res, next) => {
         var sql = "select * from workout_exercises";
     }
     else{
-        var sql = `select workout_exercises.id, exercise.name, workout_exercises.num_sets, workout_exercises.num_reps, workout_exercises.num_seconds, workout_exercises.weight from workout_exercises inner join exercise on workout_exercises.exercise_id=exercise.id where workout_id=${search}`
+        var sql = `select workout_exercises.id, exercise.name, workout_exercises.num_sets, workout_exercises.num_reps, workout_exercises.num_seconds from workout_exercises inner join exercise on workout_exercises.exercise_id=exercise.id where workout_id=${search}`
     }
     console.log("Returning workout_exercises...");
     var params = []
@@ -194,7 +197,6 @@ app.post("/api/workout_exercises/", (req, res, next) => {
                {
                   "workout_id": 1, 
                   "exercise_id": 1,
-                  "weight": 30,
                   "num_sets": 5,
                   "num_reps": 8,
                   "num_seconds": null,
@@ -219,14 +221,13 @@ app.post("/api/workout_exercises/", (req, res, next) => {
     var data = {
         workout_id: req.body.workout_id,
         exercise_id: req.body.exercise_id,
-        weight: req.body.weight,
         num_sets: req.body.num_sets,
         num_reps: req.body.num_reps,
         num_seconds: req.body.num_seconds,
         comment: req.body.comment
     }
-    var sql = 'INSERT INTO workout_exercises (workout_id, exercise_id, weight, num_sets, num_reps, num_seconds, comment) VALUES (?,?,?,?,?,?,?)'
-    var params = [data.workout_id, data.exercise_id, data.weight, data.num_sets, data.num_reps, data.num_seconds, data.comment]
+    var sql = 'INSERT INTO workout_exercises (workout_id, exercise_id, num_sets, num_reps, num_seconds, comment) VALUES (?,?,?,?,?,?)'
+    var params = [data.workout_id, data.exercise_id, data.num_sets, data.num_reps, data.num_seconds, data.comment]
     db.run(sql, params, function (err, result) {
         if (err) {
             res.status(400).json({ "error": err.message })
@@ -268,14 +269,13 @@ app.patch("/api/workout_exercises/:id", (req, res, next) => {
     var data = {
         workout_id: req.body.workout_id,
         exercise_id: req.body.exercise_id,
-        weight: req.body.weight,
         num_sets: req.body.num_sets,
         num_reps: req.body.num_reps,
         num_seconds: req.body.num_seconds,
         comment: req.body.comment
     }
-    var sql = "UPDATE workout_exercises set workout_id = COALESCE(?,workout_id), exercise_id = COALESCE(?,exercise_id), weight = COALESCE(?,weight), num_sets = COALESCE(?,num_sets), num_reps = COALESCE(?,num_reps), num_seconds = COALESCE(?,num_seconds), comment = COALESCE(?,comment) WHERE id = ?"
-    var params = [data.workout_id, data.exercise_id, data.weight, data.num_sets, data.num_reps, data.num_seconds, data.comment, req.params.id]
+    var sql = "UPDATE workout_exercises set workout_id = COALESCE(?,workout_id), exercise_id = COALESCE(?,exercise_id), num_sets = COALESCE(?,num_sets), num_reps = COALESCE(?,num_reps), num_seconds = COALESCE(?,num_seconds), comment = COALESCE(?,comment) WHERE id = ?"
+    var params = [data.workout_id, data.exercise_id, data.num_sets, data.num_reps, data.num_seconds, data.comment, req.params.id]
     db.run(sql, params, function (err, row) {
         if (err){
             res.status(400).json({"error": err.message})

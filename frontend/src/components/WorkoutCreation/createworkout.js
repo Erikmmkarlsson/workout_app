@@ -11,7 +11,8 @@ export default class CreateWorkout extends Component {
 
     this.state = {
       id: null,
-      name: ""
+      name: "",
+      creator: null
     };
   }
 
@@ -28,7 +29,8 @@ export default class CreateWorkout extends Component {
       method: 'post',
       url: '/api/workouts',
       data: {
-        name: this.state.name
+        name: this.state.name,
+        creator: this.state.creator
       }
     });
   }
@@ -36,7 +38,8 @@ export default class CreateWorkout extends Component {
   newWorkout() {
     this.setState({
       id: null,
-      name: ""
+      name: "",
+      creator: null
     });
   }
 

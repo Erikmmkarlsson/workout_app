@@ -10,7 +10,6 @@ export default class EditWorkout extends Component {
         this.onChangeNumSets = this.onChangeNumSets.bind(this);
         this.onChangeNumReps = this.onChangeNumReps.bind(this);
         this.onChangeNumSeconds = this.onChangeNumSeconds.bind(this);
-        this.onChangeWeight = this.onChangeWeight.bind(this);
         this.onChangeComment = this.onChangeComment.bind(this);
         this.refreshList = this.refreshList.bind(this);
         this.setActiveExercise = this.setActiveExercise.bind(this);
@@ -28,7 +27,6 @@ export default class EditWorkout extends Component {
           currentWorkoutExercise: {
             workout_id: null,
             exercise_id: null,
-            weight: null,
             num_sets: null,
             num_reps: null,
             num_seconds: null,
@@ -91,16 +89,6 @@ export default class EditWorkout extends Component {
           currentWorkoutExercise: {
             ...prevState.currentWorkoutExercise,
             num_seconds: num_seconds
-          }
-        }));
-      }
-
-      onChangeWeight(e) {
-        const weight = e.target.value;
-        this.setState(prevState => ({
-          currentWorkoutExercise: {
-            ...prevState.currentWorkoutExercise,
-            weight: weight
           }
         }));
       }
@@ -281,18 +269,6 @@ export default class EditWorkout extends Component {
                             onChange={this.onChangeNumSeconds}
                             name="num_seconds"
                             placeholder="Enter number of seconds for this exercise"
-                        />
-                    </div>
-                    <div className="form-group">
-                    <label htmlFor="weight">Weight</label>
-                        <input
-                            type="number"
-                            className="form-control"
-                            id="weight"
-                            value={this.state.currentWorkoutExercise.weight}
-                            onChange={this.onChangeWeight}
-                            name="weight"
-                            placeholder="Enter weight for this exercise"
                         />
                     </div>
                     <div className="form-group">

@@ -33,7 +33,7 @@ module.exports = function (app, db) {  //receiving "app" and "db" instance
     
         /*
         Returns a specific exercise
-        Example usage:
+        Example usage (returns the exercise with ID = 5):
      $ curl http://localhost:8000/api/exercise/5 -X GET 
       */
         console.log("Returning one exercise...");
