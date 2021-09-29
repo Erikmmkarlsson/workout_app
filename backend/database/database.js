@@ -83,7 +83,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     // Table already created
                 } else {
                     // Table just created, creating some rows
-                    var insert_training_plan_workout = 'INSERT INTO training_plan_workouts (training_plan_id, workout_id, date, is_done, comment) VALUES (?,?,?,?)'
+                    var insert_training_plan_workout = 'INSERT INTO training_plan_workouts (training_plan_id, workout_id, date, is_done, comment) VALUES (?,?,?,?,?)'
                     db.run(insert_training_plan_workout, [1, 1, null, null, ""])
                     db.run(insert_training_plan_workout, [1, 2, null, null, ""])
                 }
