@@ -53,11 +53,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     db.run(insert_exercise, ["push ups", "push up your body", "https://www.youtube.com/watch?v=Pkj8LLRsoDw&ab_channel=Bowflex"])
                 }
             });
-        db.run(`CREATE TABLE workouts (
+        db.run(`CREATE TABLE training_plans (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             client_id INTEGER,
-            is_done INTEGER,
-            comment text,
             FOREIGN KEY (client_id) REFERENCES user(id)
             )`,
             (err) => {
@@ -65,9 +63,43 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     // Table already created
                 } else {
                     // Table just created, creating some rows
-                    var insert_exercise = 'INSERT INTO workouts (client_id, is_done, comment) VALUES (?,?,?)'
-                    db.run(insert_exercise, [1, null, ""])
-                    db.run(insert_exercise, [2, null, ""])
+                    var insert_training_plan = 'INSERT INTO training_plans (client_id) VALUES (?)'
+                    db.run(insert_training_plan, [1])
+                    db.run(insert_training_plan, [2])
+                }
+        });
+        db.run(`CREATE TABLE training_plan_workouts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            training_plan_id INTEGER,
+            workout_id INTEGER,
+            date DATE,
+            is_done INTEGER,
+            comment text,
+            FOREIGN KEY (training_plan_id) REFERENCES training_plans(id),
+            FOREIGN KEY (workout_id) REFERENCES workouts(id)
+            )`,
+            (err) => {
+                if (err) {
+                    // Table already created
+                } else {
+                    // Table just created, creating some rows
+                    var insert_training_plan_workout = 'INSERT INTO training_plan_workouts (training_plan_id, workout_id, date, is_done, comment) VALUES (?,?,?,?,?)'
+                    db.run(insert_training_plan_workout, [1, 1, null, null, ""])
+                    db.run(insert_training_plan_workout, [1, 2, null, null, ""])
+                }
+        });
+        db.run(`CREATE TABLE workouts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name text
+            )`,
+            (err) => {
+                if (err) {
+                    // Table already created
+                } else {
+                    // Table just created, creating some rows
+                    var insert_workout = 'INSERT INTO workouts (name) VALUES (?)'
+                    db.run(insert_workout, ["Power"])
+                    db.run(insert_workout, ["Cardio"])
                 }
             });
         db.run(`CREATE TABLE workout_exercises (

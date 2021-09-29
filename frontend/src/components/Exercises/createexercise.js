@@ -7,7 +7,7 @@ export default class AddExercise extends Component {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeVideoLink = this.onChangeVideoLink.bind.bind(this);
+    this.onChangeVideoLink = this.onChangeVideoLink.bind(this);
     this.saveExercise = this.saveExercise.bind(this);
     this.newExercise = this.newExercise.bind(this);
 
