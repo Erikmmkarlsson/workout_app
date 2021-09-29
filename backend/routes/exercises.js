@@ -11,10 +11,11 @@ module.exports = function (app, db) {  //receiving "app" and "db" instance
         console.log(req.query.search);
         var search = req.query.search;
         if(search==undefined){
+            //if no search terms defined
             var sql = "select * from exercise";
         }
         else{
-            var sql = `select * from exercise where name like '%${search}%'`
+            var sql = `select * from exercise where name like '%${search}%'` //if search term works
         }
         var params = []
         db.all(sql, params, (err, rows) => {
@@ -71,6 +72,9 @@ module.exports = function (app, db) {  //receiving "app" and "db" instance
         if (!req.body.description) {
             errors.push("No description specified");
         }
+        if (!req.body.name) {
+            errors.push("No name specified");
+        }
         if (errors.length) {
             res.status(400).json({ "error": errors.join(",") });
             return;
@@ -102,7 +106,7 @@ module.exports = function (app, db) {  //receiving "app" and "db" instance
         */    
         console.log("Deleting exercise...");
     
-        var sql = "delete from exercise where id = ?"
+        var sql = "delete from exercise where id = ?" //delete by ID
         var params = [req.params.id]
         db.get(sql, params, function (err, result) {
                 if (err){
