@@ -213,7 +213,7 @@ export default class EditWorkout extends Component {
                 <label>
                   <strong>
                     Name:
-                      </strong>
+                  </strong>
                 </label>{' '}
                 {currentExercise.name}
               </div>
@@ -221,7 +221,7 @@ export default class EditWorkout extends Component {
                 <label>
                   <strong>
                     Description:
-                      </strong>
+                  </strong>
                 </label>{' '}
                 {currentExercise.description}
               </div>
@@ -229,7 +229,7 @@ export default class EditWorkout extends Component {
                 <label>
                   <strong>
                     Updated:
-                      </strong>
+                  </strong>
                 </label>{' '}
                 {currentExercise.last_updated} GMT
               </div>

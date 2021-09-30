@@ -86,32 +86,32 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
             FOREIGN KEY (workout_id) REFERENCES workouts(id),
             FOREIGN KEY (exercise_id) REFERENCES exercise(id)
             )`,
-            (err) => {
-                if (err) {
-                    // Table already created
-                } else {
-                    // Table just created, creating some rows
-                    var insert_exercise = 'INSERT INTO workout_exercises (workout_id, exercise_id, num_sets, num_reps, num_seconds, comment) VALUES (?,?,?,?,?,?)'
-                    db.run(insert_exercise, [1, 1, 3, 12, null, ""])
-                    db.run(insert_exercise, [1, 3, 3, 8, null, ""])
-                    db.run(insert_exercise, [2, 5, 3, null, 120, ""])
-                    db.run(insert_exercise, [2, 6, 3, null, 60, ""])
-                    db.run(insert_exercise, [3, 2, null, null, 120, ""])
-                    db.run(insert_exercise, [3, 5, null, null, 120, ""])
-                    db.run(insert_exercise, [3, 6, null, null, 60, ""])
-                    db.run(insert_exercise, [4, 1, 3, 10, null, ""])
-                    db.run(insert_exercise, [4, 3, 3, 10, null, ""])
-                    db.run(insert_exercise, [5, 1, 3, 10, 0, ""])
-                    db.run(insert_exercise, [5, 2, 3, 10, 0, ""])
-                    db.run(insert_exercise, [5, 3, 3, 10, 0, ""])
-                    db.run(insert_exercise, [5, 5, 3, 10, 0, ""])
-                    db.run(insert_exercise, [6, 2, 3, 8, 0, ""])
-                    db.run(insert_exercise, [6, 4, 3, 8, 0, "As heavy as you can."])
-                }
-            }
-        );
-        
-        db.run(`CREATE TABLE training_plans (
+    (err) => {
+      if (err) {
+        // Table already created
+      } else {
+        // Table just created, creating some rows
+        const insert_exercise = 'INSERT INTO workout_exercises (workout_id, exercise_id, num_sets, num_reps, num_seconds, comment) VALUES (?,?,?,?,?,?)'
+        db.run(insert_exercise, [1, 1, 3, 12, null, ''])
+        db.run(insert_exercise, [1, 3, 3, 8, null, ''])
+        db.run(insert_exercise, [2, 5, 3, null, 120, ''])
+        db.run(insert_exercise, [2, 6, 3, null, 60, ''])
+        db.run(insert_exercise, [3, 2, null, null, 120, ''])
+        db.run(insert_exercise, [3, 5, null, null, 120, ''])
+        db.run(insert_exercise, [3, 6, null, null, 60, ''])
+        db.run(insert_exercise, [4, 1, 3, 10, null, ''])
+        db.run(insert_exercise, [4, 3, 3, 10, null, ''])
+        db.run(insert_exercise, [5, 1, 3, 10, 0, ''])
+        db.run(insert_exercise, [5, 2, 3, 10, 0, ''])
+        db.run(insert_exercise, [5, 3, 3, 10, 0, ''])
+        db.run(insert_exercise, [5, 5, 3, 10, 0, ''])
+        db.run(insert_exercise, [6, 2, 3, 8, 0, ''])
+        db.run(insert_exercise, [6, 4, 3, 8, 0, 'As heavy as you can.'])
+      }
+    }
+    )
+
+    db.run(`CREATE TABLE training_plans (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             client_id INTEGER,
             FOREIGN KEY (client_id) REFERENCES user(id)
