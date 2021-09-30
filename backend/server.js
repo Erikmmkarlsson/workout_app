@@ -13,7 +13,7 @@ var onlyManager = require("./auth/onlyManager.js")
 app.use(cors())
 app.use(express.json());
 
-// set up rate limiter: maximum of five requests per minute
+// set up rate limiter: maximum of 100 requests per minute
 var RateLimit = require('express-rate-limit');
 var limiter = new RateLimit({
   windowMs: 1*60*1000, // 1 minute
