@@ -113,26 +113,6 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 }
             }
         );
-        db.run(`CREATE TABLE workouts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name text,
-            creator INTEGER,
-            FOREIGN KEY (creator) REFERENCES user(id)
-            )`,
-            (err) => {
-                if (err) {
-                    // Table already created
-                } else {
-                    // Table just created, creating some rows
-                    var insert_workout = 'INSERT INTO workouts (name, creator) VALUES (?, ?)'
-                    db.run(insert_workout, ["Power", 1])
-                    db.run(insert_workout, ["Cardio", 1])
-                    db.run(insert_workout, ["5-minute workout", 2])
-                    db.run(insert_workout, ["Back", 1])
-                    db.run(insert_workout, ["Full body workout", 2])
-                    db.run(insert_workout, ["Breast/Triceps", 1])
-                }
-            });
         
         db.run(`CREATE TABLE training_plans (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
