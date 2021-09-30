@@ -3,10 +3,11 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
+import "./App.css";
 
 import AppNavbar from './components/AppNavbar';
 
-import RegisterUser from './components/RegisterUser'
+import RegisterUser from './components/Login/RegisterUser'
 import AddExercise from "./components/Exercises/createexercise";
 import Exercise from "./components/Exercises/editexercise";
 import ExerciseList from "./components/Exercises/exerciselist";

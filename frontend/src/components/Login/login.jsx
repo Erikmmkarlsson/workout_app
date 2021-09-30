@@ -1,6 +1,21 @@
 import { login, useAuth, logout } from "../auth"
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import './login.css'
+import RegisterUser from "./RegisterUser"
+import{
+  Button,
+  FormGroup,
+  Label,
+  Input,
+  Row,
+  Col,
+  Form,
+  Toast,
+  ToastHeader,
+
+} from 'reactstrap';
+
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -42,38 +57,65 @@ export default function Login() {
   }
 
   return (
-    <div className="login" id="login">
-      <h2 style={{textAlign: "center"}}>Login</h2>
-      {!loggedIn ? <form action="#">
-        <div style={{textAlign: "center", marginTop: 30}}>
-          <input 
-            style={{textAlign: "center"}} 
-            type="text"
-            placeholder="Email"
-            onChange={handleUsernameChange}
-            value={email}
-          />
-        </div>
-        <div style={{textAlign: "center", marginTop: 30, marginBottom: 50}}>
-          <input
-            style={{textAlign: "center"}}
-            type="password"
-            placeholder="Password"
-            onChange={handlePasswordChange}
-            value={password}
-          />
-        </div>
-        <button 
-          style={{marginRight: "2%", marginTop: 20, marginLeft: "40%", width: "9%"}} 
-          onClick={onSubmitClick}  
-          type="submit">
+    <div class="login" id="login">
+      <Toast>
+      <h2 style={{textAlign: "center",}}>
           Login
-        </button>
-        <button style={{width: "9%", textAlign: "center"}}> 
-          <Link to="/register">Register</Link>
-        </button>
+      </h2>
+      </Toast>
+      <Toast>
+      {!loggedIn ? <form action="#">
+      <Form className="login-form">
+        <div style={{textAlign: "center", marginTop: 30}}>
+            <FormGroup>
+                <Label>Email</Label>
+                <Input 
+                style={{textAlign: "center"}} 
+                type="text"
+                placeholder="Email"
+                onChange={handleUsernameChange}
+                value={email}
+                />
+                </FormGroup>
+                <FormGroup>
+                <Label>Password</Label>
+                <Input
+                 style={{textAlign: "center"}}
+                type="password"
+                placeholder="Password"
+                onChange={handlePasswordChange}
+                value={password}
+                />
+            </FormGroup>
+         
+        </div>
+        <div class="buttons">
+            <FormGroup>
+            <Row>
+            <Button
+                color="dark"
+                onClick={onSubmitClick}  
+                type="submit"
+                style={{textAlign: "center",fontSize:"1.7rem"}}             
+                >Log in
+                </Button>
+            </Row>
+            
+            </FormGroup>
+          </div>
+          </Form>
+          <div>
+            <Label
+            style={{marginLeft: 110, marginBottom:20,fontSize:"1.5rem"}}>Or sign up using
+            </Label>
+            <RegisterUser>
+            </RegisterUser>
+           </div>
       </form>
         : <button onClick={() => logout()}>Logout</button>}
+       
+     </Toast>
     </div>
+    
   )
 }
