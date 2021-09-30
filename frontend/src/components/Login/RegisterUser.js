@@ -186,12 +186,13 @@ export default class RegisterUser extends Component {
     
     render(){
         return(
-            <div>
+            <div style={{marginLeft: 135}}>
                 <Button
-                    color="dark"
+                    size="lg"
+                    color="link"
                     style={{marginBottom:'2rem'}}
                     onClick={this.toggle}
-                >Register
+                >Sign up
                 </Button>
 
                 <Modal

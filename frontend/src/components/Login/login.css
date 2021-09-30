@@ -1,0 +1,24 @@
+
+.login-form{
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    height: 100%;
+    font-size: 2rem;
+
+}
+
+.buttons{
+    padding: 15px;
+    margin: auto;
+    height: 100%;
+}
+.login{
+    position:"relative";
+    width: 100%;
+    max-width: 450px;
+    margin: auto;
+    height: 100%;
+    padding-top:"relative";
+}
