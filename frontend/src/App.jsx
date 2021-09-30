@@ -7,8 +7,11 @@ import './App.scss'
 import AppNavbar from './components/AppNavbar'
 
 import RegisterUser from './components/Login/RegisterUser'
+
+import ManagerDashboard from './components/Dashboard/managerdashboard'
+
 import AddExercise from './components/Exercises/createexercise'
-import Exercise from './components/Exercises/editexercise'
+import EditExercise from './components/Exercises/editexercise'
 import ExerciseList from './components/Exercises/exerciselist'
 
 import CreateWorkout from './components/WorkoutCreation/createworkout'
@@ -34,13 +37,15 @@ function App () {
           <Route path='/register'> <RegisterUser /> </Route>
           <Route exact path='/login'> <Login /> </Route>
 
+          <Route exact path='/managerdashboard/'> <ManagerDashboard /> </Route>
+
           <Route exact path='/exercises/'> <ExerciseList /> </Route>
           <Route exact path='/exercises/add'> <AddExercise /> </Route>
-          <Route exact path='/exercises/:id' render={(props) => <Exercise {...props} />} />
+          <Route exact path='/exercises/edit'> <EditExercise /> </Route>
 
           <Route exact path='/workoutcreation/create'> <CreateWorkout /> </Route>
           <Route exact path='/workoutcreation/'> <WorkoutList /> </Route>
-          <Route exact path='/workoutcreation/edit/:id' render={(props) => <EditWorkout {...props} />} />
+          <Route exact path='/workoutcreation/edit'> <EditWorkout /> </Route>
 
           <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
           <Route exact path='/EditPassword/:id' render={(props) => <Password {...props} />} />
