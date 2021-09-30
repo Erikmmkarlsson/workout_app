@@ -1,37 +1,33 @@
-import React, { Component } from "react";
-import axios from 'axios';
-import { Link } from "react-router-dom";
-import { GetToken } from "../auth"
-
+import React, { Component } from 'react'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { GetToken } from '../auth'
 
 export default class ViewProfile extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    this.getProfile = this.getProfile.bind(this);
+    this.getProfile = this.getProfile.bind(this)
 
     this.state = {
       currentProfile: {
         id: this.props.match.params.id,
-        name: "",
-        email: "",
-        password: "",
-        role: "",
-        manager: ""
+        name: '',
+        email: '',
+        password: '',
+        role: '',
+        manager: ''
       },
-      message: ""
-    };
+      message: ''
+    }
   }
 
-
-  componentDidMount() {
-    this.getProfile(this.props.match.params.id);
+  componentDidMount () {
+    this.getProfile(this.props.match.params.id)
   }
 
-
-  getProfile(id) {
-
-    axios.get("/api/users/" + id, {
+  getProfile (id) {
+    axios.get('/api/users/' + id, {
       headers: {
         'x-access-token': GetToken()
       }
@@ -39,26 +35,26 @@ export default class ViewProfile extends Component {
       .then(response => {
         this.setState({
           currentProfile: response.data.data
-        });
+        })
       })
   }
 
-  render() {
-    const { currentProfile } = this.state;
+  render () {
+    const { currentProfile } = this.state
 
     return (
       <div>
         <div>
           <Link
-            to={"/profile/"}
-            className="btn btn-warning"
+            to='/profile/'
+            className='btn btn-warning'
             style={{ marginTop: 25 }}
           >
             Back
           </Link>
           <Link
-            to={"/profile/" + currentProfile.id}
-            className="btn btn-warning"
+            to={'/profile/' + currentProfile.id}
+            className='btn btn-warning'
             style={{ marginTop: 25, marginLeft: 10 }}
           >
             Edit Profile
@@ -66,59 +62,58 @@ export default class ViewProfile extends Component {
         </div>
 
         {currentProfile ? (
-          <div className="edit-form">
+          <div className='edit-form'>
             <h1>Profile</h1>
             <form>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
+              <div className='form-group'>
+                <label htmlFor='name'>Name</label>
                 <input
-                  disabled="disabled"
-                  type="text"
-                  className="form-control"
-                  id="name"
+                  disabled='disabled'
+                  type='text'
+                  className='form-control'
+                  id='name'
                   value={currentProfile.name}
-                
+
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
+              <div className='form-group'>
+                <label htmlFor='email'>Email</label>
                 <input
-                  disabled="disabled"
-                  type="text"
-                  className="form-control"
-                  id="email"
+                  disabled='disabled'
+                  type='text'
+                  className='form-control'
+                  id='email'
                   value={currentProfile.email}
-                
+
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="role">Role</label>
+              <div className='form-group'>
+                <label htmlFor='role'>Role</label>
                 <input
-                  disabled="disabled"
-                  type="text"
-                  className="form-control"
-                  id="role"
+                  disabled='disabled'
+                  type='text'
+                  className='form-control'
+                  id='role'
                   value={currentProfile.role}
-                
+
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="role">Manager</label>
+              <div className='form-group'>
+                <label htmlFor='role'>Manager</label>
                 <input
-                  disabled="disabled"
-                  type="text"
-                  className="form-control"
-                  id="manager"
+                  disabled='disabled'
+                  type='text'
+                  className='form-control'
+                  id='manager'
                   value={currentProfile.manager}
-                
+
                 />
               </div>
 
             </form>
-
 
             <p>
               {this.state.message}
@@ -131,6 +126,6 @@ export default class ViewProfile extends Component {
           </div>
         )}
       </div>
-    );
+    )
   }
 }

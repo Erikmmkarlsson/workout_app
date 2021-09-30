@@ -1,9 +1,9 @@
-import { login, useAuth, logout } from "../auth"
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { login, useAuth, logout } from '../auth'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './login.css'
-import RegisterUser from "./RegisterUser"
-import{
+import RegisterUser from './RegisterUser'
+import {
   Button,
   FormGroup,
   Label,
@@ -12,22 +12,21 @@ import{
   Col,
   Form,
   Toast,
-  ToastHeader,
+  ToastHeader
 
-} from 'reactstrap';
+} from 'reactstrap'
 
-
-export default function Login() {
+export default function Login () {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loggedIn] = useAuth();
+  const [loggedIn] = useAuth()
 
   const onSubmitClick = (e) => {
     e.preventDefault()
-    console.log("You pressed login")
-    let credentials = {
-      'email': email,
-      'password': password
+    console.log('You pressed login')
+    const credentials = {
+      email: email,
+      password: password
     }
 
     fetch('/api/login', {
@@ -41,9 +40,8 @@ export default function Login() {
         console.log(data)
         if (data.token) {
           login(data)
-        }
-        else {
-          console.log("Please type in correct email/password")
+        } else {
+          console.log('Please type in correct email/password')
         }
       })
   }
@@ -57,65 +55,65 @@ export default function Login() {
   }
 
   return (
-    <div class="login" id="login">
+    <div class='login' id='login'>
       <Toast>
-      <h2 style={{textAlign: "center",}}>
+        <h2 style={{ textAlign: 'center' }}>
           Login
-      </h2>
+        </h2>
       </Toast>
       <Toast>
-      {!loggedIn ? <form action="#">
-      <Form className="login-form">
-        <div style={{textAlign: "center", marginTop: 30}}>
-            <FormGroup>
+        {!loggedIn ? <form action='#'>
+          <Form className='login-form'>
+            <div style={{ textAlign: 'center', marginTop: 30 }}>
+              <FormGroup>
                 <Label>Email</Label>
-                <Input 
-                style={{textAlign: "center"}} 
-                type="text"
-                placeholder="Email"
-                onChange={handleUsernameChange}
-                value={email}
+                <Input
+                  style={{ textAlign: 'center' }}
+                  type='text'
+                  placeholder='Email'
+                  onChange={handleUsernameChange}
+                  value={email}
                 />
-                </FormGroup>
-                <FormGroup>
+              </FormGroup>
+              <FormGroup>
                 <Label>Password</Label>
                 <Input
-                 style={{textAlign: "center"}}
-                type="password"
-                placeholder="Password"
-                onChange={handlePasswordChange}
-                value={password}
+                  style={{ textAlign: 'center' }}
+                  type='password'
+                  placeholder='Password'
+                  onChange={handlePasswordChange}
+                  value={password}
                 />
-            </FormGroup>
-         
-        </div>
-        <div class="buttons">
-            <FormGroup>
-            <Row>
-            <Button
-                color="dark"
-                onClick={onSubmitClick}  
-                type="submit"
-                style={{textAlign: "center",fontSize:"1.7rem"}}             
-                >Log in
-                </Button>
-            </Row>
-            
-            </FormGroup>
-          </div>
+              </FormGroup>
+
+            </div>
+            <div class='buttons'>
+              <FormGroup>
+                <Row>
+                  <Button
+                    color='dark'
+                    onClick={onSubmitClick}
+                    type='submit'
+                    style={{ textAlign: 'center', fontSize: '1.7rem' }}
+                  >Log in
+                  </Button>
+                </Row>
+
+              </FormGroup>
+            </div>
           </Form>
           <div>
             <Label
-            style={{marginLeft: 110, marginBottom:20,fontSize:"1.5rem"}}>Or sign up using
+              style={{ marginLeft: 110, marginBottom: 20, fontSize: '1.5rem' }}
+            >Or sign up using
             </Label>
-            <RegisterUser>
-            </RegisterUser>
-           </div>
-      </form>
-        : <button onClick={() => logout()}>Logout</button>}
-       
-     </Toast>
+            <RegisterUser />
+          </div>
+                     </form>
+          : <button onClick={() => logout()}>Logout</button>}
+
+      </Toast>
     </div>
-    
+
   )
 }
