@@ -6,7 +6,7 @@ import "./App.scss";
 
 import AppNavbar from './components/AppNavbar';
 
-import RegisterUser from './components/RegisterUser'
+import RegisterUser from './components/Login/RegisterUser'
 import AddExercise from "./components/Exercises/createexercise";
 import Exercise from "./components/Exercises/editexercise";
 import ExerciseList from "./components/Exercises/exerciselist";
