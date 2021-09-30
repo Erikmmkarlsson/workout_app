@@ -39,7 +39,7 @@ export default class Profile extends Component {
   }
 
   getProfile (id) {
-    axios.get('/api/users/' + id)
+    axios.get('/api/profile/' + id)
       .then(response => {
         this.setState({
           currentProfile: response.data.data

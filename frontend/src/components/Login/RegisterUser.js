@@ -244,7 +244,7 @@ export default class RegisterUser extends Component {
                             <FormGroup>
                                 <Label for="password">Enter Password:</Label>
                                 <Input
-                                    type="text"
+                                    type="password"
                                     name="password"
                                     id="password"
                                     placeholder="password"
@@ -257,7 +257,7 @@ export default class RegisterUser extends Component {
                             <FormGroup>
                                 <Label for="cPassword">Confirm Password:</Label>
                                 <Input
-                                    type="text"
+                                    type="password"
                                     name="confirm_password"
                                     id="cPassword"
                                     placeholder="confirm password"

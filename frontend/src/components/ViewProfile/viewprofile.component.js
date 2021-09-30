@@ -27,7 +27,7 @@ export default class ViewProfile extends Component {
   }
 
   getProfile (id) {
-    axios.get('/api/users/' + id, {
+    axios.get('/api/profile/' + id, {
       headers: {
         'x-access-token': GetToken()
       }
