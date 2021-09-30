@@ -131,11 +131,9 @@ function GetID (req) {
 }
 
 /*
-
 Methods for fetching and deleting profile
-
 */
-app.get('/api/users/:id', verifyToken, (req, res, next) => {
+app.get('/api/profile/:id', verifyToken, (req, res, next) => {
   /*
     Returns a specific user
     Example usage:
@@ -157,7 +155,7 @@ app.get('/api/users/:id', verifyToken, (req, res, next) => {
   })
 })
 
-app.delete('/api/users/:id', (req, res, next) => {
+app.delete('/api/profile/:id', (req, res, next) => {
   /*
 
     Deletes an user from the db
@@ -176,7 +174,7 @@ app.delete('/api/users/:id', (req, res, next) => {
   })
 })
 
-app.patch('/api/users/:id', (req, res, next) => {
+app.patch('/api/profile/:id', (req, res, next) => {
   /*
 
     Modifies an existing user in the db.
@@ -206,9 +204,7 @@ app.patch('/api/users/:id', (req, res, next) => {
 })
 
 /*
-
 Methods for fetching password
-
 */
 
 app.patch('/api/password/:id', (req, res, next) => {

@@ -65,7 +65,7 @@ export default class Profile extends Component {
   }
 
   getProfile (id) {
-    axios.get('/api/users/' + id, {
+    axios.get('/api/profile/' + id, {
       headers: {
         'x-access-token': GetToken()
       }
@@ -78,7 +78,7 @@ export default class Profile extends Component {
   }
 
   updateProfile () {
-    axios.patch('/api/users/' + this.state.currentProfile.id, this.state.currentProfile)
+    axios.patch('/api/profile/' + this.state.currentProfile.id, this.state.currentProfile)
       .then(response => {
         console.log(response.data.data)
         this.setState({
@@ -91,7 +91,7 @@ export default class Profile extends Component {
   }
 
   deleteProfile () {
-    axios.delete('/api/users/' + this.state.currentProfile.id)
+    axios.delete('/api/profile/' + this.state.currentProfile.id)
   }
 
   render () {
