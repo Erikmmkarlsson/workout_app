@@ -4,7 +4,7 @@ import './landingpage.css'
 const Hero = (props) => {
   return (
     <div className='jumbotron'>
-      <Jumbotron>
+      <Jumbotron >
         <div className='box'>
           <div className='text-container'>
             <h1 className='display-1'>Welcome to Gymific</h1>
