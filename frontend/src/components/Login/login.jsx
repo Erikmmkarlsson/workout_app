@@ -12,7 +12,7 @@ import {
 
 } from 'reactstrap'
 
-export default function Login () {
+export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loggedIn] = useAuth()
@@ -88,14 +88,16 @@ export default function Login () {
                     color='dark'
                     onClick={onSubmitClick}
                     type='submit'
-                    style={{ fontSize: '1rem' }}
+                    style={{width:"100%"}}
                   >Log in
                   </Button>
                 </Row>
 
               </FormGroup>
 
-              <FormGroup><RegisterUser /></FormGroup>
+              <FormGroup>                
+                <RegisterUser />               
+              </FormGroup>
             </div>
           </Form>
           <div />

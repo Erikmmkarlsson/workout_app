@@ -188,7 +188,7 @@ export default class RegisterUser extends Component {
         return(
             <div>
                 <Button
-                    style={{margin: '1rem 1rem 1rem 4rem'}}
+                    style={{margin: '1rem 0', width:"100%"}}
                     onClick={this.toggle}
                 >
                 Create an account
