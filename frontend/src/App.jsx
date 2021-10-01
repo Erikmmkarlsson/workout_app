@@ -15,9 +15,13 @@ import AddExercise from './components/Exercises/createexercise'
 import EditExercise from './components/Exercises/editexercise'
 import ExerciseList from './components/Exercises/exerciselist'
 
-import CreateWorkout from './components/WorkoutCreation/createworkout'
-import WorkoutList from './components/WorkoutCreation/workoutlist'
-import EditWorkout from './components/WorkoutCreation/editworkout'
+import CreateWorkout from './components/Workouts/createworkout'
+import WorkoutList from './components/Workouts/workoutlist'
+import EditWorkout from './components/Workouts/editworkout'
+
+import CreateTrainingPlan from './components/TrainingPlans/createtrainingplan'
+import TrainingPlanList from './components/TrainingPlans/trainingplanlist'
+import EditTrainingPlan from './components/TrainingPlans/edittrainingplan'
 
 import AcceptUsers from './components/ManagerPage/AcceptUsers'
 
@@ -46,9 +50,13 @@ function App () {
             <Route exact path='/exercises/add'> <AddExercise /> </Route>
             <Route exact path='/exercises/edit'> <EditExercise /> </Route>
 
-            <Route exact path='/workoutcreation/create'> <CreateWorkout /> </Route>
-            <Route exact path='/workoutcreation/'> <WorkoutList /> </Route>
-            <Route exact path='/workoutcreation/edit'> <EditWorkout /> </Route>
+            <Route exact path='/workouts/'> <WorkoutList /> </Route>
+            <Route exact path='/workouts/create'> <CreateWorkout /> </Route>
+            <Route exact path='/workouts/edit'> <EditWorkout /> </Route>
+
+            <Route exact path='/trainingplans/'> <TrainingPlanList /> </Route>
+            <Route exact path='/trainingplans/create'> <CreateTrainingPlan /> </Route>
+            <Route exact path='/trainingplans/edit'> <EditTrainingPlan /> </Route>
 
             <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
             <Route exact path='/EditPassword/:id' render={(props) => <Password {...props} />} />
