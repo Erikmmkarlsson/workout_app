@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import './navbar.css'
 import {
   Collapse,
@@ -7,42 +7,37 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText
-} from 'reactstrap';
+  NavLink
+} from 'reactstrap'
 
 const Example = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
-  const toggle = () => setIsOpen(!isOpen);
+  const toggle = () => setIsOpen(!isOpen)
 
   return (
     <div>
-      <Navbar color="light" light expand="md">
-        <NavbarBrand href="/" className="title">GYMIFIC</NavbarBrand>
+      <Navbar color='light' light expand='md'>
+        <NavbarBrand href='/' className='title'>GYMIFIC</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
+          <Nav className='mr-auto' navbar>
             <NavItem>
-              <NavLink href="/components/">Home</NavLink>
+              <NavLink href='/'>Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="https://github.com/Erikmmkarlsson/workout_app">GitHub</NavLink>
+              <NavLink href='https://github.com/Erikmmkarlsson/workout_app'>GitHub</NavLink>
             </NavItem>
             <NavItem>
-            <NavLink href="/login">Log in</NavLink>
+              <NavLink href='/login'>Log in</NavLink>
             </NavItem>
 
           </Nav>
-         
+
         </Collapse>
       </Navbar>
     </div>
-  );
+  )
 }
 
-export default Example;
+export default Example

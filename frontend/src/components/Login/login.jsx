@@ -5,17 +5,14 @@ import RegisterUser from './RegisterUser'
 import {
   Button,
   FormGroup,
-  Label,
   Input,
   Row,
-  Col,
   Form,
-  Toast,
-  ToastHeader
+  Toast
 
 } from 'reactstrap'
 
-export default function Login() {
+export default function Login () {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loggedIn] = useAuth()
@@ -56,7 +53,7 @@ export default function Login() {
   return (
     <div class='login' id='login'>
       <Toast>
-        <h2 style={{ textAlign: 'center', margin:"10px 10px"}}>
+        <h2 style={{ textAlign: 'center', margin: '10px 10px' }}>
           Login
         </h2>
       </Toast>
@@ -66,7 +63,7 @@ export default function Login() {
             <div style={{ textAlign: 'center', marginTop: 30 }}>
               <FormGroup>
                 <Input
-                  style={{ textAlign: 'center', marginBottom:"10px" }}
+                  style={{ textAlign: 'center', marginBottom: '10px' }}
                   type='text'
                   placeholder='Email'
                   onChange={handleUsernameChange}
@@ -101,9 +98,7 @@ export default function Login() {
               <FormGroup><RegisterUser /></FormGroup>
             </div>
           </Form>
-          <div>
-          
-          </div>
+          <div />
         </form>
           : <button onClick={() => logout()}>Logout</button>}
 

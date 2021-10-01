@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import AppNavbar from './components/navbar/AppNavbar'
 import Navbar from './components/navbar/Navbar'
-import {Hero} from './components/Landing Page/'
+import { Hero } from './components/Landing Page/'
 import Login from './components/Login/login'
 import RegisterUser from './components/Login/RegisterUser'
 
@@ -22,12 +22,12 @@ import EditWorkout from './components/WorkoutCreation/editworkout'
 import AcceptUsers from './components/ManagerPage/AcceptUsers'
 
 import Profile from './components/Profile/profile.component'
-import Password from './components/EditPassword/password.component'
+import Password from './components/Profile/password.component'
 import ViewProfile from './components/Profile/viewprofile.component'
 
 import { useAuth } from './components/auth'
 
-function App() {
+function App () {
   const [loggedIn] = useAuth()
 
   if (loggedIn) {
@@ -61,15 +61,14 @@ function App() {
         </div>
       </div>
     )
-  }
-  else { //not logged in
+  } else { // not logged in
     return (
       <div>
         <Navbar />
         <div>
 
-        <Route exact path='/login'> <Login /> </Route>
-        <Route exact path='/'>  <Hero/> </Route>
+          <Route exact path='/login'> <Login /> </Route>
+          <Route exact path='/'>  <Hero /> </Route>
 
         </div>
       </div>
