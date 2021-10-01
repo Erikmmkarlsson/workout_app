@@ -186,13 +186,12 @@ export default class RegisterUser extends Component {
     
     render(){
         return(
-            <div style={{marginLeft: 135}}>
+            <div>
                 <Button
-                    size="lg"
-                    color="link"
-                    style={{marginBottom:'2rem'}}
+                    style={{margin: '1rem 1rem 1rem 4rem'}}
                     onClick={this.toggle}
-                >Sign up
+                >
+                Create an account
                 </Button>
 
                 <Modal
@@ -267,8 +266,10 @@ export default class RegisterUser extends Component {
                             </FormGroup>
                             </Col>
                             </Row>
+                            <br/>
+                            Choose a trainer...
                             <Row>
-                            <Dropdown group isOpen={this.state.DropDown} size="lg" toggle={this.toggle2}>
+                            <Dropdown group isOpen={this.state.DropDown}  style={{marginTop:"1rem", width:"10rem"}} toggle={this.toggle2}>
                             <DropdownToggle caret>
                                {this.state.manager}
                             </DropdownToggle>

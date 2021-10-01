@@ -19,6 +19,8 @@
     width: 100%;
     max-width: 450px;
     margin: auto;
+    padding-top: 3rem;
     height: 100%;
     padding-top:"relative";
+    font-family:fantasy;
 }

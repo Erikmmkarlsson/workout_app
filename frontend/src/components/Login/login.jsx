@@ -1,6 +1,5 @@
 import { login, useAuth, logout } from '../auth'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import './login.css'
 import RegisterUser from './RegisterUser'
 import {
@@ -16,7 +15,7 @@ import {
 
 } from 'reactstrap'
 
-export default function Login () {
+export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loggedIn] = useAuth()
@@ -57,7 +56,7 @@ export default function Login () {
   return (
     <div class='login' id='login'>
       <Toast>
-        <h2 style={{ textAlign: 'center' }}>
+        <h2 style={{ textAlign: 'center', margin:"10px 10px"}}>
           Login
         </h2>
       </Toast>
@@ -66,9 +65,8 @@ export default function Login () {
           <Form className='login-form'>
             <div style={{ textAlign: 'center', marginTop: 30 }}>
               <FormGroup>
-                <Label>Email</Label>
                 <Input
-                  style={{ textAlign: 'center' }}
+                  style={{ textAlign: 'center', marginBottom:"10px" }}
                   type='text'
                   placeholder='Email'
                   onChange={handleUsernameChange}
@@ -76,7 +74,6 @@ export default function Login () {
                 />
               </FormGroup>
               <FormGroup>
-                <Label>Password</Label>
                 <Input
                   style={{ textAlign: 'center' }}
                   type='password'
@@ -94,22 +91,20 @@ export default function Login () {
                     color='dark'
                     onClick={onSubmitClick}
                     type='submit'
-                    style={{ textAlign: 'center', fontSize: '1.7rem' }}
+                    style={{ fontSize: '1rem' }}
                   >Log in
                   </Button>
                 </Row>
 
               </FormGroup>
+
+              <FormGroup><RegisterUser /></FormGroup>
             </div>
           </Form>
           <div>
-            <Label
-              style={{ marginLeft: 110, marginBottom: 20, fontSize: '1.5rem' }}
-            >Or sign up using
-            </Label>
-            <RegisterUser />
+          
           </div>
-                     </form>
+        </form>
           : <button onClick={() => logout()}>Logout</button>}
 
       </Toast>

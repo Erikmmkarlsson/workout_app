@@ -1,0 +1,29 @@
+
+.jumbotron {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-image: url("https://www.thetimes.co.uk/imageserver/image/%2Fmethode%2Ftimes%2Fprod%2Fweb%2Fbin%2F68427ece-b3f3-11eb-a3e9-2089e10cf05c.jpg?crop=3174%2C2116%2C79%2C53");
+
+  color: white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: darken;
+}
+
+.text-container{
+  font-family:fantasy;
+  background-color: rgba(0, 0, 0, 0.2);
+  margin-top: calc(100vh - 20rem);
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+
+}
+
+
+
+h1 {
+  position: relative;
+  font-size: 5rem;
+}
