@@ -21,8 +21,8 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
           res.status(400).json({ error: err.message })
           return
         }
-        if (!user) { //no user found
-          res.status(404).json({ error:"No user found with that email" })
+        if (!user) { // no user found
+          res.status(404).json({ error: 'No user found with that email' })
           return
         }
 

@@ -18,4 +18,3 @@ export const [useAuth, authFetch, login, logout] =
 export { default as GetToken } from './GetToken'
 
 export { default as GetRole } from './GetRole'
-

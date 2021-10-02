@@ -12,7 +12,7 @@ import {
   Alert
 } from 'reactstrap'
 
-export default function Login() {
+export default function Login () {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loggedIn] = useAuth()
@@ -35,8 +35,7 @@ export default function Login() {
     }).then(response => {
       if (!response.ok) {
         setValidCredentials(false)
-      }
-      else {
+      } else {
         return response.json()
       }
     })
@@ -62,7 +61,7 @@ export default function Login() {
   return (
     <div class='login' id='login'>
       <Toast>
-        <h2 style={{ textAlign: 'center', margin: '10px 10px', color: "darkgray" }}>
+        <h2 style={{ textAlign: 'center', margin: '10px 10px', color: 'darkgray' }}>
           Login
         </h2>
       </Toast>
@@ -97,7 +96,7 @@ export default function Login() {
                     color='dark'
                     onClick={onSubmitClick}
                     type='submit'
-                    style={{ width: "100%" }}
+                    style={{ width: '100%' }}
                   >Log in
                   </Button>
                 </Row>

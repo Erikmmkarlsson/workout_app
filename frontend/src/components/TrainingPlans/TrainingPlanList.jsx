@@ -1,5 +1,5 @@
-import React from 'react';
+import React from 'react'
 
-export default function TrainingPlanList(props){
-    return (<div><p>Test list</p></div>)
+export default function TrainingPlanList (props) {
+  return (<div><p>Test list</p></div>)
 }
