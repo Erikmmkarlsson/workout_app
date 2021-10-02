@@ -8,7 +8,8 @@ import {
   Input,
   Row,
   Form,
-  Toast
+  Toast,
+  ToastHeader
 
 } from 'reactstrap'
 
@@ -53,7 +54,7 @@ export default function Login() {
   return (
     <div class='login' id='login'>
       <Toast>
-        <h2 style={{ textAlign: 'center', margin: '10px 10px' }}>
+        <h2 style={{ textAlign: 'center', margin: '10px 10px', color: "darkgray" }}>
           Login
         </h2>
       </Toast>

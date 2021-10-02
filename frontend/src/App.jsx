@@ -29,12 +29,12 @@ import Profile from './components/Profile/profile.component'
 import Password from './components/Profile/password.component'
 import ViewProfile from './components/Profile/viewprofile.component'
 
-import { useAuth } from './components/auth'
+import { useAuth, GetRole } from './components/auth'
 
-function App () {
+function App() {
   const [loggedIn] = useAuth()
-
-  if (loggedIn) {
+  const role = GetRole
+  if (loggedIn && role === "manager") {
     return (
       <div className='App'>
         <AppNavbar />
@@ -62,14 +62,30 @@ function App () {
             <Route exact path='/EditPassword/:id' render={(props) => <Password {...props} />} />
             <Route exact path='/ViewProfile/:id' render={(props) => <ViewProfile {...props} />} />
 
-            <PrivateRoute path='/test' component={ExerciseList} />
             <Route exactpath='/'>  <ManagerDashboard /> </Route>
 
           </Switch>
         </div>
       </div>
     )
-  } else { // not logged in
+  }
+  else if (loggedIn) { //regular user
+    return (
+      <div className='App'>
+        <AppNavbar />
+        <Switch>
+        <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
+            <Route exact path='/EditPassword/:id' render={(props) => <Password {...props} />} />
+            <Route exact path='/ViewProfile/:id' render={(props) => <ViewProfile {...props} />} />
+            <Route exact path='/login'> <Login /> </Route>
+
+            <Route exactpath='/'>  welcome regular user </Route>
+
+        </Switch>
+      </div>
+    )
+  }
+  else { // not logged in
     return (
       <div>
         <Navbar />
