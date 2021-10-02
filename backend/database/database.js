@@ -27,10 +27,10 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
 
       } else {
         // Table just created, creating some rows
-        const insert_user = 'INSERT INTO user (name, email, password,manager,role, activated) VALUES (?,?,?,?,?,?)'
+        const insert_user = 'INSERT INTO user (name, email, password, manager, role, activated) VALUES (?,?,?,?,?,?)'
         db.run(insert_user, ['Jennifer Renoux', 'manager1@example.com', md5('admin123456'), null, 'manager', true])
         db.run(insert_user, ['Stewart Little', 'manager2@example.com', md5('user123456'), null, 'manager', true])
-        db.run(insert_user, ['Erik', 'Erik@example.com', md5('user123456'), null, 'user', true])
+        db.run(insert_user, ['Erik', 'Erik@example.com', md5('user123456'), 1, 'user', true])
       }
     })
     db.run(`CREATE TABLE exercise (

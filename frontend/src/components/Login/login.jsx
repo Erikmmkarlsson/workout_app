@@ -8,9 +8,7 @@ import {
   Input,
   Row,
   Form,
-  Toast,
-  ToastHeader
-
+  Toast
 } from 'reactstrap'
 
 export default function Login() {
