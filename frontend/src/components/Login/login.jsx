@@ -15,6 +15,7 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loggedIn] = useAuth()
+  const [validCredentials, setValidCredentials] = useState(true)
 
   const onSubmitClick = (e) => {
     e.preventDefault()
@@ -37,6 +38,7 @@ export default function Login() {
           login(data)
         } else {
           console.log('Please type in correct email/password')
+          setValidCredentials(false)
         }
       })
   }
@@ -98,6 +100,9 @@ export default function Login() {
                 <RegisterUser />               
               </FormGroup>
             </div>
+          {!validCredentials ?(  <Alert color='danger'>
+                            Please enter valid credentials
+                        </Alert>):(null)}
           </Form>
           <div />
         </form>
