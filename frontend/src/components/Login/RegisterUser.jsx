@@ -35,8 +35,10 @@ export default class RegisterUser extends Component {
         confirm_email:'',
         password:'',
         confirm_password:'',
+        managerId:'',
         manager:'',
         managers:[],
+        registered: false
     };
     toggle = () => {
         this.setState({
@@ -49,9 +51,10 @@ export default class RegisterUser extends Component {
         })
 
     }
-    toggle3 = (selectedManager) => {
+    toggle3 = (managerId, manager) => {
         this.setState({
-            manager: selectedManager
+            managerId: managerId,
+            manager: manager
 
         })
 
@@ -154,7 +157,7 @@ export default class RegisterUser extends Component {
                 name: this.state.name,
                 email: this.state.email,
                 password: this.state.password,
-                manager: this.state.manager,
+                manager: this.state.managerId,
                 role: 'user'
             }}
             ).then(res =>{
@@ -170,6 +173,7 @@ export default class RegisterUser extends Component {
         EmailMatches: true,
         IsValidPassword: true,
         PasswordMatches: true,
+        registered: true
             
         })
         this.setState(this.toggle)
@@ -195,6 +199,12 @@ export default class RegisterUser extends Component {
                 >
                 Create an account
                 </Button>
+
+                {this.state.registered ? (
+              <Alert color='success'>
+                Registered successfully, please wait for your trainer to accept your application 
+                before you can login
+              </Alert>) : (null)}
 
                 <Modal
                     isOpen={this.state.modal}
@@ -276,7 +286,7 @@ export default class RegisterUser extends Component {
                                {this.state.manager}
                             </DropdownToggle>
                             <DropdownMenu>
-                               {this.state.managers.map(manager => <DropdownItem onClick={() => this.toggle3(manager.id)}>{manager.name}</DropdownItem>)} 
+                               {this.state.managers.map(manager => <DropdownItem onClick={() => this.toggle3(manager.id, manager.name)}>{manager.name}</DropdownItem>)} 
                             </DropdownMenu>
                             </Dropdown>
                             </Row>
