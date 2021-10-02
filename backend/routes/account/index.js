@@ -3,7 +3,7 @@ const md5 = require('md5')
 const jwt = require('jsonwebtoken')
 
 module.exports = function (app, db) { // receiving "app" and "db" instance
-  app.post('/api/login', async (req, res) => {
+  app.post('/api/login', (req, res) => {
     try {
       // Get user input
       const { email, password } = req.body
@@ -19,6 +19,10 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       db.get(sql, params, (err, user) => {
         if (err) {
           res.status(400).json({ error: err.message })
+          return
+        }
+        if (!user) { //no user found
+          res.status(404).json({ error:"No user found with that email" })
           return
         }
 

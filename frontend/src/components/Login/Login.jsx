@@ -8,7 +8,8 @@ import {
   Input,
   Row,
   Form,
-  Toast
+  Toast,
+  Alert
 } from 'reactstrap'
 
 export default function Login() {
@@ -31,10 +32,17 @@ export default function Login() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(credentials)
-    }).then(response => response.json())
+    }).then(response => {
+      if (!response.ok) {
+        setValidCredentials(false)
+      }
+      else {
+        return response.json()
+      }
+    })
       .then(data => {
         console.log(data)
-        if (data.token) {
+        if (data !== undefined && data.token) {
           login(data)
         } else {
           console.log('Please type in correct email/password')
@@ -89,20 +97,21 @@ export default function Login() {
                     color='dark'
                     onClick={onSubmitClick}
                     type='submit'
-                    style={{width:"100%"}}
+                    style={{ width: "100%" }}
                   >Log in
                   </Button>
                 </Row>
 
               </FormGroup>
 
-              <FormGroup>                
-                <RegisterUser />               
+              <FormGroup>
+                <RegisterUser />
               </FormGroup>
             </div>
-          {!validCredentials ?(  <Alert color='danger'>
-                            Please enter valid credentials
-                        </Alert>):(null)}
+            {!validCredentials ? (
+              <Alert color='danger'>
+                Please enter valid credentials
+              </Alert>) : (null)}
           </Form>
           <div />
         </form>
