@@ -33,7 +33,8 @@ import { useAuth, GetRole } from './components/auth'
 
 function App() {
   const [loggedIn] = useAuth()
-  const role = GetRole
+  const role = GetRole()
+  
   if (loggedIn && role === "manager") {
     return (
       <div className='App'>
