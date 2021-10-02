@@ -161,17 +161,19 @@ export default class RegisterUser extends Component {
             console.log(res);
             console.log(res.data);
            
-        }).then(()=>window.location.reload(false));
+        }).then(()=>{
+
         
         this.setState({
-        IsValidName: false,
-        IsValidEmail: false,
-        EmailMatches: false,
-        IsValidPassword: false,
-        PasswordMatches: false,
+        IsValidName: true,
+        IsValidEmail: true,
+        EmailMatches: true,
+        IsValidPassword: true,
+        PasswordMatches: true,
             
         })
-         this.toggle();
+        this.setState(this.toggle)
+        } );
          
          
 
