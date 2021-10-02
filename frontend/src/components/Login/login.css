@@ -1,5 +1,4 @@
-
-.login-form{
+.login-form {
     width: 100%;
     max-width: 330px;
     padding: 15px;
@@ -7,19 +6,20 @@
     height: 100%;
 }
 
-.buttons{
+.buttons {
     padding: 15px;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
-.login{
-    position:"relative";
+
+.login {
+    position: "relative";
     width: 100%;
     max-width: 450px;
     margin: auto;
     padding-top: 3rem;
     height: 100%;
-    padding-top:"relative";
-    font-family:fantasy;
+    padding-top: "relative";
 }
+

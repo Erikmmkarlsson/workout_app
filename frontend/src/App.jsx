@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css';
 
 import { Navbar, AppNavbar } from './components/navbar/'
 import { Hero } from './components/Landing Page/'
@@ -24,7 +24,7 @@ function App() {
     return (
       <div className='App'>
         <AppNavbar />
-        <div className='container mt-3'>
+        <div>
           <Switch>
             <PrivateRoute path='/MyUsers'> <AcceptUsers /> </PrivateRoute>
             <Route path='/register'> <RegisterUser /> </Route>
