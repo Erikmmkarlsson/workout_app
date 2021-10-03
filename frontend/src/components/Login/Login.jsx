@@ -9,6 +9,8 @@ import {
   Input,
   Form,
   Toast,
+  ToastHeader,
+  ToastBody,
   Alert
 } from 'reactstrap'
 
@@ -122,7 +124,17 @@ export default function Login() {
 
       </form>
         :
-        <Button onClick={() => logout()}>Logout</Button>
+        <div className="p-3 my-2 rounded">
+          <Toast>
+            <ToastHeader>
+              You sure you want to log out?
+            </ToastHeader>
+            <ToastBody>
+              <Button onClick={() => logout()}>Logout</Button>
+            </ToastBody>
+          </Toast>
+
+        </div>
       }
 
     </div>
