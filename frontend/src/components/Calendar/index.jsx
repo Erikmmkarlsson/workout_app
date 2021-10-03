@@ -12,13 +12,13 @@ function Calendar(props) {
     // Later add hook for active days from database
     const [dateObject, setdateObject] = useState(moment())
     const [showMonthTable, setShowMonthTable] = useState(false)
+    const [selected, hasSelected] = useState(true)
 
     const defaultSelectedDay = {
         day: moment().date(),
         month: moment().month()
     }
     const [selectedDay, setSelected] = useState(defaultSelectedDay)
-    const [selected, hasSelected] = useState(false)
 
     /* CALENDAR HEAD */
     const allMonths = moment.months()

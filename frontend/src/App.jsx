@@ -5,7 +5,7 @@ import './App.css'
 
 import { Navbar, AppNavbar } from './components/navbar/'
 import { Hero } from './components/Landing Page/'
-import { Login, RegisterUser } from './components/Login'
+import { Login } from './components/Login'
 
 import ManagerDashboard from './components/Dashboard/managerdashboard'
 import Calendar from './components/Calendar'
@@ -16,7 +16,7 @@ import AcceptUsers from './components/ManagerPage/AcceptUsers'
 import { EditProfile, PasswordReset, Profile } from './components/Profile'
 import { useAuth, GetRole } from './components/auth'
 
-function App () {
+function App() {
   const [loggedIn] = useAuth()
   const role = GetRole()
 
@@ -27,7 +27,6 @@ function App () {
         <div>
           <Switch>
             <PrivateRoute path='/MyUsers'> <AcceptUsers /> </PrivateRoute>
-            <Route path='/register'> <RegisterUser /> </Route>
             <Route exact path='/login'> <Login /> </Route>
 
             <Route exact path='/managerdashboard/'> <ManagerDashboard /> </Route>
@@ -65,7 +64,7 @@ function App () {
           <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
           <Route exact path='/login'> <Login /> </Route>
 
-          <Route exactpath='/'>  welcome regular user <Calendar /></Route>
+          <Route path='/'>  welcome regular user <Calendar /></Route>
 
         </Switch>
       </div>
@@ -75,9 +74,13 @@ function App () {
       <div>
         <Navbar />
         <div>
+        <Switch>
 
-          <Route exact path='/login'> <Login /> </Route>
-          <Route exact path='/'>  <Hero /> </Route>
+          <Route path='/register'> <Login /> </Route>
+          <Route path='/login'> <Login /> </Route>
+          <Route path='/'>  <Hero /> </Route>
+        
+        </Switch>
 
         </div>
       </div>

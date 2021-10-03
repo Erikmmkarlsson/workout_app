@@ -1,22 +1,23 @@
 import { login, useAuth, logout } from '../auth'
 import React, { useState } from 'react'
+import { useHistory } from "react-router-dom";
 import './login.css'
 import RegisterUser from './RegisterUser'
 import {
   Button,
   FormGroup,
   Input,
-  Row,
   Form,
   Toast,
   Alert
 } from 'reactstrap'
 
-export default function Login () {
+export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loggedIn] = useAuth()
   const [validCredentials, setValidCredentials] = useState(true)
+  const history = useHistory();
 
   const onSubmitClick = (e) => {
     e.preventDefault()
@@ -43,6 +44,7 @@ export default function Login () {
         console.log(data)
         if (data !== undefined && data.token) {
           login(data)
+          history.push("/")
         } else {
           console.log('Please type in correct email/password')
           setValidCredentials(false)
@@ -59,16 +61,16 @@ export default function Login () {
   }
 
   return (
-    <div class='login' id='login'>        
-    
-    {!loggedIn ? <form action='#'>
+    <div class='login' id='login'>
 
-      <Toast>
-        <h2 style={{ textAlign: 'center', margin: '10px 10px', color: 'darkgray' }}>
-          Login
-        </h2>
-      </Toast>
-      <Toast>
+      {!loggedIn ? <form action='#'>
+
+        <Toast>
+          <h2 style={{ textAlign: 'center', margin: '10px 10px', color: 'darkgray' }}>
+            Login
+          </h2>
+        </Toast>
+        <Toast>
           <Form className='login-form'>
             <div style={{ textAlign: 'center', marginTop: 30 }}>
               <FormGroup>
@@ -93,35 +95,35 @@ export default function Login () {
             </div>
             <div class='buttons'>
               <FormGroup>
-                  <Button
-                    color='dark'
-                    onClick={onSubmitClick}
-                    type='submit'
-                    style={{ marginTop: "1rem", width: "100%" }}
-                  >Log in
-                  </Button>
+                <Button
+                  color='dark'
+                  onClick={onSubmitClick}
+                  type='submit'
+                  style={{ marginTop: "1rem", width: "100%" }}
+                >Log in
+                </Button>
               </FormGroup>
 
               <FormGroup>
                 <RegisterUser />
               </FormGroup>
-              </div>
+            </div>
 
             <FormGroup>
 
-            {!validCredentials ? (
-              <Alert color='danger'>
-                Please enter valid credentials
-              </Alert>) : (null)}
-              </FormGroup>
+              {!validCredentials ? (
+                <Alert color='danger'>
+                  Please enter valid credentials
+                </Alert>) : (null)}
+            </FormGroup>
 
           </Form>
-          </Toast>
+        </Toast>
 
-        </form>
-          : 
-          <Button onClick={() => logout()}>Logout</Button>
-          }
+      </form>
+        :
+        <Button onClick={() => logout()}>Logout</Button>
+      }
 
     </div>
 
