@@ -35,7 +35,9 @@ const CalendarBody = props => {
             <TableCell
                 key={d}
                 className={`week-day ${currDay} ${selectDay}`}
-                onClick={() => setSelectedDay(d)}
+                onClick={() => {
+                    setSelectedDay(d)
+                }}
             >
                 <span className={activeDay}>{d}</span>
             </TableCell>

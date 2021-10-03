@@ -12,11 +12,12 @@ function Calendar(props) {
     // Later add hook for active days from database
     const [dateObject, setdateObject] = useState(moment())
     const [showMonthTable, setShowMonthTable] = useState(false)
-    const [selected, hasSelected] = useState(true)
+    const [selected, hasSelected] = useState(false)
 
     const defaultSelectedDay = {
         day: moment().date(),
-        month: moment().month()
+        month: moment().month(),
+        year: moment().year()
     }
     const [selectedDay, setSelected] = useState(defaultSelectedDay)
 
@@ -36,15 +37,16 @@ function Calendar(props) {
     const toggleMonthSelect = () => setShowMonthTable(!showMonthTable)
     /** * CALENDAR BODY ***/
     const setSelectedDay = day => {
+
         setSelected({
             day,
-            month: currentMonthNum()
+            month: currentMonthNum(),
+            year: currentYearNum()
         })
-        // Later refresh data
         hasSelected(true)
     }
-
-    const currentMonthNum = () => dateObject.month()
+    const currentMonthNum = () => dateObject.month() + 1    
+    const currentYearNum = () => dateObject.year()
     const daysInMonth = () => dateObject.daysInMonth()
     const currentDay = () => moment().date()
     const actualMonth = () => moment().format('MMMM')
@@ -82,8 +84,12 @@ function Calendar(props) {
 
             <Container>
                 {selected ? (
-                    <div>
-                        Selected day: {selectedDay.day}</div>
+                    <div style={{textAlign:"center"}}>
+                        <br />
+                        <p>    Selected day: {selectedDay.day}</p>
+                        <p>  Month: {selectedDay.month} </p>
+                        <p>  Year: {selectedDay.year} </p>
+                    </div>
                 ) : (null)}
             </Container>
 
