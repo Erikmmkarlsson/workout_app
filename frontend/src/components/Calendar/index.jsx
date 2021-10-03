@@ -45,7 +45,7 @@ function Calendar(props) {
         })
         hasSelected(true)
     }
-    const currentMonthNum = () => dateObject.month() + 1    
+    const currentMonthNum = () => dateObject.month() + 1
     const currentYearNum = () => dateObject.year()
     const daysInMonth = () => dateObject.daysInMonth()
     const currentDay = () => moment().date()
@@ -66,17 +66,19 @@ function Calendar(props) {
                             showMonthTable={showMonthTable}
                             toggleMonthSelect={toggleMonthSelect}
                         />
-                        <CalendarBody
-                            firstDayOfMonth={firstDayOfMonth}
-                            daysInMonth={daysInMonth}
-                            currentDay={currentDay}
-                            currentMonth={currentMonth}
-                            currentMonthNum={currentMonthNum}
-                            selectedDay={selectedDay}
-                            setSelectedDay={setSelectedDay}
-                            actualMonth={actualMonth}
-                            weekdays={weekdays}
-                        />
+                        {!showMonthTable ? (
+                            <CalendarBody
+                                firstDayOfMonth={firstDayOfMonth}
+                                daysInMonth={daysInMonth}
+                                currentDay={currentDay}
+                                currentMonth={currentMonth}
+                                currentMonthNum={currentMonthNum}
+                                selectedDay={selectedDay}
+                                setSelectedDay={setSelectedDay}
+                                actualMonth={actualMonth}
+                                weekdays={weekdays}
+                            />
+                        ) : null}
 
                     </Grid>
                 </Grid>
@@ -84,7 +86,7 @@ function Calendar(props) {
 
             <Container>
                 {selected ? (
-                    <div style={{textAlign:"center"}}>
+                    <div style={{ textAlign: "center" }}>
                         <br />
                         <p>    Selected day: {selectedDay.day}</p>
                         <p>  Month: {selectedDay.month} </p>
