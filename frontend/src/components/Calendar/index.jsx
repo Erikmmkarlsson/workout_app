@@ -83,7 +83,7 @@ function Calendar(props) {
             <Container>
                 {selected ? (
                     <div>
-                        {selectedDay.day}</div>
+                        Selected day: {selectedDay.day}</div>
                 ) : (null)}
             </Container>
 

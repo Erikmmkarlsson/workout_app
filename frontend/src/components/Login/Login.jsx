@@ -59,14 +59,16 @@ export default function Login () {
   }
 
   return (
-    <div class='login' id='login'>
+    <div class='login' id='login'>        
+    
+    {!loggedIn ? <form action='#'>
+
       <Toast>
         <h2 style={{ textAlign: 'center', margin: '10px 10px', color: 'darkgray' }}>
           Login
         </h2>
       </Toast>
       <Toast>
-        {!loggedIn ? <form action='#'>
           <Form className='login-form'>
             <div style={{ textAlign: 'center', marginTop: 30 }}>
               <FormGroup>
@@ -91,32 +93,36 @@ export default function Login () {
             </div>
             <div class='buttons'>
               <FormGroup>
-                <Row>
                   <Button
                     color='dark'
                     onClick={onSubmitClick}
                     type='submit'
-                    style={{ width: '100%' }}
+                    style={{ marginTop: "1rem", width: "100%" }}
                   >Log in
                   </Button>
-                </Row>
-
               </FormGroup>
 
               <FormGroup>
                 <RegisterUser />
               </FormGroup>
-            </div>
+              </div>
+
+            <FormGroup>
+
             {!validCredentials ? (
               <Alert color='danger'>
                 Please enter valid credentials
               </Alert>) : (null)}
-          </Form>
-          <div />
-        </form>
-          : <button onClick={() => logout()}>Logout</button>}
+              </FormGroup>
 
-      </Toast>
+          </Form>
+          </Toast>
+
+        </form>
+          : 
+          <Button onClick={() => logout()}>Logout</Button>
+          }
+
     </div>
 
   )
