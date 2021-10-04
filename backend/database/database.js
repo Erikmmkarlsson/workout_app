@@ -114,25 +114,28 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
     db.run(`CREATE TABLE training_plans (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             client_id INTEGER,
-            FOREIGN KEY (client_id) REFERENCES user(id)
+            manager_id INTEGER,
+            FOREIGN KEY (client_id) REFERENCES user(id),
+            FOREIGN KEY (manager_id) REFERENCES user(id)
             )`,
     (err) => {
       if (err) {
         // Table already created
       } else {
         // Table just created, creating some rows
-        const insert_training_plan = 'INSERT INTO training_plans (client_id) VALUES (?)'
-        db.run(insert_training_plan, [1])
-        db.run(insert_training_plan, [2])
+        const insert_training_plan = 'INSERT INTO training_plans (client_id, manager_id) VALUES (?,?)'
+        db.run(insert_training_plan, [1, 2])
+        db.run(insert_training_plan, [2, 1])
       }
     })
-    db.run(`CREATE TABLE training_plan_workouts (
+    db.run(`CREATE TABLE workout_events (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             training_plan_id INTEGER,
             workout_id INTEGER,
             date DATE,
-            is_done INTEGER,
-            comment text,
+            is_done BOOLEAN,
+            manager_comment text,
+            client_comment text,
             FOREIGN KEY (training_plan_id) REFERENCES training_plans(id),
             FOREIGN KEY (workout_id) REFERENCES workouts(id)
             )`,
@@ -141,9 +144,9 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         // Table already created
       } else {
         // Table just created, creating some rows
-        const insert_training_plan_workout = 'INSERT INTO training_plan_workouts (training_plan_id, workout_id, date, is_done, comment) VALUES (?,?,?,?,?)'
-        db.run(insert_training_plan_workout, [1, 1, null, null, ''])
-        db.run(insert_training_plan_workout, [1, 2, null, null, ''])
+        const insert_workout_event = 'INSERT INTO workout_events (training_plan_id, workout_id, date, is_done, manager_comment, client_comment) VALUES (?,?,?,?,?,?)'
+        db.run(insert_workout_event, [1, 1, null, 0, '', ''])
+        db.run(insert_workout_event, [1, 2, null, 0, '', ''])
       }
     })
   }

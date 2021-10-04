@@ -25,7 +25,7 @@ export default function WorkoutList (props) {
 
   return (
     <div className='list row'>
-      <Link to='/managerdashboard'>
+      <Link to='/'>
         <button className='m-3 btn-sm btn-warning'>Return to dashboard</button>
       </Link>
       <div className='col-md-6'>
