@@ -67,7 +67,7 @@ export default class Profile extends Component {
       <div>
         <div>
           <Link
-            to={'/viewprofile/' + currentProfile.id}
+            to={'/profile/' + currentProfile.id}
             className='btn btn-warning'
             style={{ marginTop: 25 }}
           >
@@ -90,7 +90,7 @@ export default class Profile extends Component {
 
             </form>
 
-            <Link to={'/viewprofile/' + currentProfile.id}>
+            <Link to={'/profile/' + currentProfile.id}>
               <button
                 type='submit'
                 className='m-3 btn btn-sm btn-success'

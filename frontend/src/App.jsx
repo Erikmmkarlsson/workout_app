@@ -1,47 +1,32 @@
 
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
 
-import AppNavbar from './components/navbar/AppNavbar'
-import Navbar from './components/navbar/Navbar'
+import { Navbar, AppNavbar } from './components/navbar/'
 import { Hero } from './components/Landing Page/'
-import Login from './components/Login/login'
-import RegisterUser from './components/Login/RegisterUser'
+import { Login } from './components/Login'
 
 import ManagerDashboard from './components/Dashboard/managerdashboard'
-
-import AddExercise from './components/Exercises/createexercise'
-import EditExercise from './components/Exercises/editexercise'
-import ExerciseList from './components/Exercises/exerciselist'
-
-import CreateWorkout from './components/Workouts/createworkout'
-import WorkoutList from './components/Workouts/workoutlist'
-import EditWorkout from './components/Workouts/editworkout'
-
-import CreateTrainingPlan from './components/TrainingPlans/createtrainingplan'
-import TrainingPlanList from './components/TrainingPlans/trainingplanlist'
-import EditTrainingPlan from './components/TrainingPlans/edittrainingplan'
-
+import Calendar from './components/Calendar'
+import { AddExercise, EditExercise, ExerciseList } from './components/Exercises'
+import { CreateWorkout, WorkoutList, EditWorkout } from './components/Workouts/'
+import { CreateTrainingPlan, TrainingPlanList, EditTrainingPlan } from './components/TrainingPlans'
 import AcceptUsers from './components/ManagerPage/AcceptUsers'
+import { EditProfile, PasswordReset, Profile } from './components/Profile'
+import { useAuth, GetRole } from './components/auth'
 
-import Profile from './components/Profile/profile.component'
-import Password from './components/Profile/password.component'
-import ViewProfile from './components/Profile/viewprofile.component'
-
-import { useAuth } from './components/auth'
-
-function App () {
+function App() {
   const [loggedIn] = useAuth()
+  const role = GetRole()
 
-  if (loggedIn) {
+  if (loggedIn && role === 'manager') {
     return (
       <div className='App'>
         <AppNavbar />
-        <div className='container mt-3'>
+        <div>
           <Switch>
             <PrivateRoute path='/MyUsers'> <AcceptUsers /> </PrivateRoute>
-            <Route path='/register'> <RegisterUser /> </Route>
             <Route exact path='/login'> <Login /> </Route>
 
             <Route exact path='/managerdashboard/'> <ManagerDashboard /> </Route>
@@ -58,15 +43,30 @@ function App () {
             <Route exact path='/trainingplans/create'> <CreateTrainingPlan /> </Route>
             <Route exact path='/trainingplans/edit'> <EditTrainingPlan /> </Route>
 
+            <Route exact path='/editprofile/:id' render={(props) => <EditProfile {...props} />} />
+            <Route exact path='/passwordreset/:id' render={(props) => <PasswordReset {...props} />} />
             <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
-            <Route exact path='/EditPassword/:id' render={(props) => <Password {...props} />} />
-            <Route exact path='/ViewProfile/:id' render={(props) => <ViewProfile {...props} />} />
 
-            <PrivateRoute path='/test' component={ExerciseList} />
-            <Route exactpath='/'>  <ManagerDashboard /> </Route>
+            <Route exactpath='/'>  <ManagerDashboard /> <Calendar /> </Route>
 
           </Switch>
         </div>
+      </div>
+    )
+  } else if (loggedIn) { // regular user
+    return (
+      <div className='App'>
+        <AppNavbar />
+        <Switch>
+
+          <Route exact path='/editprofile/:id' render={(props) => <EditProfile {...props} />} />
+          <Route exact path='/passwordreset/:id' render={(props) => <PasswordReset {...props} />} />
+          <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
+          <Route exact path='/login'> <Login /> </Route>
+
+          <Route path='/'>  welcome regular user <Calendar /></Route>
+
+        </Switch>
       </div>
     )
   } else { // not logged in
@@ -74,9 +74,13 @@ function App () {
       <div>
         <Navbar />
         <div>
+        <Switch>
 
-          <Route exact path='/login'> <Login /> </Route>
-          <Route exact path='/'>  <Hero /> </Route>
+          <Route path='/register'> <Login /> </Route>
+          <Route path='/login'> <Login /> </Route>
+          <Route path='/'>  <Hero /> </Route>
+        
+        </Switch>
 
         </div>
       </div>

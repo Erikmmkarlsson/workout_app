@@ -35,8 +35,10 @@ export default class RegisterUser extends Component {
         confirm_email:'',
         password:'',
         confirm_password:'',
+        managerId:'',
         manager:'',
         managers:[],
+        registered: false
     };
     toggle = () => {
         this.setState({
@@ -49,9 +51,10 @@ export default class RegisterUser extends Component {
         })
 
     }
-    toggle3 = (selectedManager) => {
+    toggle3 = (managerId, manager) => {
         this.setState({
-            manager: selectedManager
+            managerId: managerId,
+            manager: manager
 
         })
 
@@ -154,24 +157,27 @@ export default class RegisterUser extends Component {
                 name: this.state.name,
                 email: this.state.email,
                 password: this.state.password,
-                manager: this.state.manager,
+                manager: this.state.managerId,
                 role: 'user'
             }}
             ).then(res =>{
             console.log(res);
             console.log(res.data);
            
-        }).then(()=>window.location.reload(false));
+        }).then(()=>{
+
         
         this.setState({
-        IsValidName: false,
-        IsValidEmail: false,
-        EmailMatches: false,
-        IsValidPassword: false,
-        PasswordMatches: false,
+        IsValidName: true,
+        IsValidEmail: true,
+        EmailMatches: true,
+        IsValidPassword: true,
+        PasswordMatches: true,
+        registered: true
             
         })
-         this.toggle();
+        this.setState(this.toggle)
+        } );
          
          
 
@@ -188,11 +194,17 @@ export default class RegisterUser extends Component {
         return(
             <div>
                 <Button
-                    style={{margin: '1rem 1rem 1rem 4rem'}}
+                    style={{margin: '1rem 0', width:"100%"}}
                     onClick={this.toggle}
                 >
                 Create an account
                 </Button>
+
+                {this.state.registered ? (
+              <Alert color='success'>
+                Registered successfully, please wait for your trainer to accept your application 
+                before you can login
+              </Alert>) : (null)}
 
                 <Modal
                     isOpen={this.state.modal}
@@ -274,7 +286,7 @@ export default class RegisterUser extends Component {
                                {this.state.manager}
                             </DropdownToggle>
                             <DropdownMenu>
-                               {this.state.managers.map(manager => <DropdownItem onClick={() => this.toggle3(manager.id)}>{manager.name}</DropdownItem>)} 
+                               {this.state.managers.map(manager => <DropdownItem onClick={() => this.toggle3(manager.id, manager.name)}>{manager.name}</DropdownItem>)} 
                             </DropdownMenu>
                             </Dropdown>
                             </Row>
