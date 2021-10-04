@@ -47,7 +47,7 @@ function App() {
             <Route exact path='/passwordreset/:id' render={(props) => <PasswordReset {...props} />} />
             <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
 
-            <Route exactpath='/'>  <ManagerDashboard /> <Calendar /> </Route>
+            <Route exactpath='/'>  <ManagerDashboard /></Route>
 
           </Switch>
         </div>
