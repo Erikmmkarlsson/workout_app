@@ -117,7 +117,7 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
     }
     const sql = 'UPDATE workouts set name = COALESCE(?,name), creator = COALESCE(?,creator) WHERE id = ?'
     // updating a workout according to the ID
-    const params = [data.name]
+    const params = [data.name, data.creator, req.params.id]
     db.run(sql, params, function (err, row) {
       if (err) {
         res.status(400).json({ error: err.message })

@@ -12,11 +12,12 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
     const search = req.query.search
     if (search == undefined) {
       // if no search terms defined
+
       var sql = 'select * from exercise'
     } else {
-      var sql = `select * from exercise where name like '%${search}%'` // if search term works
+      var sql = `select * from exercise where name like '%?%'` // if search term works
     }
-    const params = []
+    const params = [search]
     db.all(sql, params, (err, rows) => {
       if (err) {
         res.status(400).json({ error: err.message })

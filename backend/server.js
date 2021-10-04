@@ -29,6 +29,7 @@ require('./routes/account')(app, db) // Sending "app" and "db" instance to accou
 
 require('./routes/exercises')(app, db) // Sending "app" and "db" instance to exercises
 require('./routes/workouts')(app, db) // Sending "app" and "db" instance to workouts
+require('./routes/training_plans')(app, db) 
 
 
 require('./routes/user')(app, db) 
