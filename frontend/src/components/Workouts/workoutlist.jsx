@@ -57,7 +57,7 @@ export default function WorkoutList (props) {
             </div>
             <div>
               <Link
-                to={'/workoutcreation/edit?id=' + currentWorkout.id}
+                to={'/workouts/edit?id=' + currentWorkout.id}
                 className='btn btn-warning'
                 style={{ marginTop: 25 }}
               >
@@ -83,7 +83,7 @@ export default function WorkoutList (props) {
       </div>
       <div>
         <Link
-          to='/workoutcreation/create'
+          to='/workouts/create'
           className='btn btn-success'
           style={{ marginTop: 25 }}
         >
