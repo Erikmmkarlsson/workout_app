@@ -113,10 +113,11 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
 
     db.run(`CREATE TABLE training_plans (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            client_id INTEGER,
+            client_id INTEGER UNIQUE,
             manager_id INTEGER,
             FOREIGN KEY (client_id) REFERENCES user(id),
-            FOREIGN KEY (manager_id) REFERENCES user(id)
+            FOREIGN KEY (manager_id) REFERENCES user(id),
+            CONSTRAINT client_unique UNIQUE (client_id)
             )`,
     (err) => {
       if (err) {

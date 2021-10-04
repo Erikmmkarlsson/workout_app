@@ -1,126 +1,164 @@
-import React, {Component} from 'react';
-import  {GetToken} from "../auth"
+import React, { Component } from 'react';
+import { GetToken, GetId } from "../auth"
 import axios from 'axios';
-import{
-    Button,
-    Table
+import {
+  Button,
+  Table
 
 } from 'reactstrap';
 
 export default class RegisterUser extends Component {
 
-    state={
-        ActivatedUsers: [],
-        WaitingList: []
- 
-    };
-    
-    componentDidMount() {
-      axios.get('/api/manager/myUsers', {
+  state = {
+    ActivatedUsers: [],
+    WaitingList: [],
+    manager_id: GetId()
+
+
+  };
+
+  componentDidMount() {
+    axios.get('/api/manager/myUsers', {
       headers: {
         'x-access-token': GetToken()
       }
     }).then(response => {
-      this.setState({ActivatedUsers: response.data.data})
-     });
+      this.setState({ ActivatedUsers: response.data.data })
+    });
 
-     axios.get('/api/manager/waitinglist', {
+    axios.get('/api/manager/waitinglist', {
       headers: {
-        'x-access-token':  GetToken()
+        'x-access-token': GetToken()
       }
     }).then(response => {
-      this.setState({WaitingList: response.data.data})
-     });
+      this.setState({ WaitingList: response.data.data })
+    });
 
-    
 
-    }
-    handleSubmitActivate = event =>{
-      event.preventDefault();
-      axios({
-          method: 'patch',
-          url: '/api/user/'+event.target.id,
-          data: {
-              activated: true
-          }}
-          ).then(()=>window.location.reload(false));
-          
-    }
-    handleSubmitDeactivate = event =>{
-      event.preventDefault();
-      axios({
-          method: 'patch',
-          url: '/api/user/'+event.target.id,
-          data: {
-              activated: false
-          }}
-          ).then(()=>window.location.reload(false));
-    }
 
-    render(){
-        return(
-          <div>
-            <Table>
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.WaitingList.map(user =>
-                <tr>
-                  <td >{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <Button
-                          id={user.id}
-                          color="success"
-                          onClick={this.handleSubmitActivate}
-                      >Activate
-                    </Button>
-                  </td>
-                </tr>)}
-                
-              </tbody>
+  }
+  handleSubmitActivate = event => {
+    event.preventDefault();
+    axios({
+      method: 'patch',
+      url: '/api/user/' + event.target.id,
+      headers: {
+        'x-access-token': GetToken()
+      },
+      data: {
+        activated: true
+      }
+    }
+    )
+    axios({
+      method: 'post',
+      url: '/api/training_plans/',
+      headers: {
+        'x-access-token': GetToken()
+      },
+      data: {
+        client_id: event.target.id,
+        manager_id: this.state.manager_id
+      }
+    }
+    ).catch(function (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
+
+    }).then(() =>
+      window.location.reload(false)
+    );
+  }
+  handleSubmitDeactivate = event => {
+    event.preventDefault();
+    axios({
+      method: 'patch',
+      url: '/api/user/' + event.target.id,
+      data: {
+        activated: false
+      }
+    }
+    ).then(() => window.location.reload(false));
+  }
+
+  render() {
+    return (
+      <div>
+        <Table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.WaitingList.map(user =>
+              <tr>
+                <td >{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>
+                  <Button
+                    id={user.id}
+                    color="success"
+                    onClick={this.handleSubmitActivate}
+                  >Activate
+                  </Button>
+                </td>
+              </tr>)}
+
+          </tbody>
         </Table>
         <Table>
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.ActivatedUsers.map(user =>
-                <tr>
-                  <td >{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <Button
-                          id={user.id}
-                          color="danger"
-                          onClick={this.handleSubmitDeactivate}
-                      >Deactivate
-                    </Button>
-                  </td>
-                </tr>)}
-                
-              </tbody>
-        </Table>
-        </div>
-      
-      
-      
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.ActivatedUsers.map(user =>
+              <tr>
+                <td >{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>
+                  <Button
+                    id={user.id}
+                    color="danger"
+                    onClick={this.handleSubmitDeactivate}
+                  >Deactivate
+                  </Button>
+                </td>
+              </tr>)}
 
-        );
-    }
+          </tbody>
+        </Table>
+      </div>
+
+
+
+
+    );
+  }
 
 
 }
