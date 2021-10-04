@@ -11,7 +11,7 @@ export default function ManagerDashboard(props) {
     <div className="dashboard">
       <div>
         
-        <Link to="/trainingplans">
+        <Link to="/myusers">
           <button className="m-3 btn-sm btn-success">Clients</button>
         </Link>
         <Link to="/workouts">
