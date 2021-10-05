@@ -7,7 +7,7 @@ import CalendarBody from './CalendarBody'
 import CalendarHead from './CalendarHead'
 
 function Calendar(props) {
-    const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     /* HOOKS */
     // Later add hook for active days from database
     const [dateObject, setdateObject] = useState(moment())
