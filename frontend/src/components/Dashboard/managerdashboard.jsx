@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./dashboard.css";
 import TrainingPlanList from "../TrainingPlans/TrainingPlanList";
 import Calendar from "../Calendar"
-import { Modal } from "reactstrap";
 
 export default function ManagerDashboard(props) {
   const [ selectedUser, setSelectedUser ] = useState(null);
