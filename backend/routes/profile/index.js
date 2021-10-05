@@ -6,16 +6,14 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
 /*
 Methods for fetching and deleting profile
 */
-app.get('/api/profile/', verifyToken, (req, res, next) => {
+app.get('/api/profile/:id', verifyToken, (req, res, next) => {
     /*
       Returns a specific user
       Example usage:
    $ curl http://localhost:8000/api users 5 -X GET
     */
-    console.log('Returning one user...')
-  
     const sql = 'select * from users where id = ?'
-    const params = [getID(req)]
+    const params = [req.params.id]
     db.get(sql, params, (err, row) => {
       if (err) {
         res.status(400).json({ error: err.message })
@@ -47,7 +45,7 @@ app.get('/api/profile/', verifyToken, (req, res, next) => {
     })
   })
   
-  app.patch('/api/profile/', (req, res, next) => {
+  app.patch('/api/profile/', verifyToken, (req, res, next) => {
     /*
   
       Modifies an existing user in the db.
@@ -58,12 +56,11 @@ app.get('/api/profile/', verifyToken, (req, res, next) => {
     const data = {
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
       role: req.body.role
     }
   
-    const sql = 'UPDATE users set name = COALESCE(?,name), email = COALESCE(?,email), password = COALESCE(?,password), role = COALESCE(?,role) WHERE id = ?'
-    const params = [data.name, data.email, data.password, data.role, getID(req)]
+    const sql = 'UPDATE users set name = COALESCE(?,name), email = COALESCE(?,email), role = COALESCE(?,role) WHERE id = ?'
+    const params = [data.name, data.email, data.role, getID(req)]
     db.run(sql, params, function (err, row) {
       if (err) {
         res.status(400).json({ error: err.message })

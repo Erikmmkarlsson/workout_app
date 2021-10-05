@@ -19,4 +19,4 @@ export { default as GetToken } from './GetToken'
 
 export { default as GetRole } from './GetRole'
 
-export { default as GetId } from './GetId'
+export { default as GetID } from './GetId'

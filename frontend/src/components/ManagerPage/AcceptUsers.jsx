@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GetToken, GetId } from "../auth"
+import { GetToken, GetID } from "../auth"
 import axios from 'axios';
 import {
   Button,
@@ -12,7 +12,7 @@ export default class RegisterUser extends Component {
   state = {
     ActivatedUsers: [],
     WaitingList: [],
-    manager_id: GetId()
+    manager_id: GetID()
 
 
   };

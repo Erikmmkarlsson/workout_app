@@ -43,9 +43,10 @@ function App() {
             <Route exact path='/trainingplans/create'> <CreateTrainingPlan /> </Route>
             <Route exact path='/trainingplans/edit'> <EditTrainingPlan /> </Route>
 
-            <Route exact path='/editprofile/:id' render={(props) => <EditProfile {...props} />} />
-            <Route exact path='/passwordreset/:id' render={(props) => <PasswordReset {...props} />} />
+            <Route path='/editprofile'> <EditProfile/> </Route>
+            <Route path='/passwordreset'> <PasswordReset/> </Route>
             <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
+            <Route path='/profile'> <Profile/> </Route>
 
             <Route exactpath='/'>  <ManagerDashboard /></Route>
 

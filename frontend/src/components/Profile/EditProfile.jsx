@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { GetToken } from '../auth'
+import { GetID, GetToken } from '../auth'
 
 export default class Profile extends Component {
   constructor (props) {
@@ -17,7 +17,7 @@ export default class Profile extends Component {
 
     this.state = {
       currentProfile: {
-        id: this.props.match.params.id,
+        id: GetID(),
         name: '',
         email: '',
         password: '',
@@ -28,7 +28,7 @@ export default class Profile extends Component {
   }
 
   componentDidMount () {
-    this.getProfile(this.props.match.params.id)
+    this.getProfile(GetID())
   }
 
   onChangeName (e) {
@@ -78,7 +78,11 @@ export default class Profile extends Component {
   }
 
   updateProfile () {
-    axios.patch('/api/profile/' + this.state.currentProfile.id, this.state.currentProfile)
+
+    axios.patch('/api/profile/', this.state.currentProfile, {
+      headers: {
+        'x-access-token': GetToken()
+      }})
       .then(response => {
         console.log(response.data.data)
         this.setState({
@@ -90,8 +94,9 @@ export default class Profile extends Component {
       })
   }
 
+  //TODO: Improve this functionality
   deleteProfile () {
-    axios.delete('/api/profile/' + this.state.currentProfile.id)
+    axios.delete('/api/profile/')
   }
 
   render () {
@@ -101,14 +106,14 @@ export default class Profile extends Component {
       <div>
         <div>
           <Link
-            to={'/profile/' + currentProfile.id}
+            to={'/profile/'}
             className='btn btn-warning'
             style={{ marginTop: 25 }}
           >
             Back
           </Link>
           <Link
-            to={'/passwordreset/' + currentProfile.id}
+            to={'/passwordreset/'}
             className='btn btn-warning'
             style={{ marginTop: 25, marginLeft: 10 }}
           >
@@ -162,7 +167,7 @@ export default class Profile extends Component {
                 Delete
               </button>
             </Link>
-            <Link to={'/profile/' + currentProfile.id}>
+            <Link to={'/profile/'}>
               <button
                 type='submit'
                 className='m-3 btn btn-sm btn-success'

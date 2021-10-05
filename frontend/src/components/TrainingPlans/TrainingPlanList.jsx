@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { GetId, GetToken } from '../auth'
+import { GetID, GetToken } from '../auth'
 import axios from 'axios';
-
+import "./trainingplans.css"
 const TrainingPlanList = props => {
-  const managerId = GetId();
+  const managerId = GetID();
   const [ users, setUsers ] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(-1)
 

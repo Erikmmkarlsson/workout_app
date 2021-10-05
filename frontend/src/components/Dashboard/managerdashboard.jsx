@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import "./dashboard.css";
 import TrainingPlanList from "../TrainingPlans/TrainingPlanList";
 import Calendar from "../Calendar"
+import { Modal } from "reactstrap";
 
 export default function ManagerDashboard(props) {
   const [ selectedUser, setSelectedUser ] = useState(null);
 
   return (
     <div className="dashboard">
-      <div>
-        
+      <div className="buttons">
         <Link to="/myusers">
           <button className="m-3 btn-sm btn-success">Clients</button>
         </Link>
@@ -20,11 +20,14 @@ export default function ManagerDashboard(props) {
         <Link to="/exercises">
           <button className="m-3 btn-sm btn-success">Exercises</button>
         </Link>
-        <TrainingPlanList selectedUser={selectedUser} setSelectedUser={setSelectedUser}/>
+        </div>
+
+      <Calendar className="calendar"/>
+
+      <div className="list">
+      <TrainingPlanList selectedUser={selectedUser} setSelectedUser={setSelectedUser}/>
       </div>
-      <div>
-        <Calendar />
-      </div>
+
     </div>
   );
 }
