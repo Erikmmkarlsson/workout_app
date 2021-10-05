@@ -10,11 +10,11 @@ app.get('/api/profile/', verifyToken, (req, res, next) => {
     /*
       Returns a specific user
       Example usage:
-   $ curl http://localhost:8000/api/user/5 -X GET
+   $ curl http://localhost:8000/api users 5 -X GET
     */
     console.log('Returning one user...')
   
-    const sql = 'select * from user where id = ?'
+    const sql = 'select * from users where id = ?'
     const params = [getID(req)]
     db.get(sql, params, (err, row) => {
       if (err) {
@@ -36,7 +36,7 @@ app.get('/api/profile/', verifyToken, (req, res, next) => {
       */
     console.log('Deleting user...')
   
-    const sql = 'delete from user where id = ?'
+    const sql = 'delete from users where id = ?'
     const params = [getID(req)]
     db.get(sql, params, function (err, result) {
       if (err) {
@@ -62,7 +62,7 @@ app.get('/api/profile/', verifyToken, (req, res, next) => {
       role: req.body.role
     }
   
-    const sql = 'UPDATE user set name = COALESCE(?,name), email = COALESCE(?,email), password = COALESCE(?,password), role = COALESCE(?,role) WHERE id = ?'
+    const sql = 'UPDATE users set name = COALESCE(?,name), email = COALESCE(?,email), password = COALESCE(?,password), role = COALESCE(?,role) WHERE id = ?'
     const params = [data.name, data.email, data.password, data.role, getID(req)]
     db.run(sql, params, function (err, row) {
       if (err) {
@@ -95,7 +95,7 @@ app.get('/api/profile/', verifyToken, (req, res, next) => {
       role: req.body.role
     }
   
-    const sql = 'UPDATE user set password = COALESCE(?,password) WHERE id = ?'
+    const sql = 'UPDATE users set password = COALESCE(?,password) WHERE id = ?'
     const params = [data.password, getID(req)]
     db.run(sql, params, function (err, row) {
       if (err) {

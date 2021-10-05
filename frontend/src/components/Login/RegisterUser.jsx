@@ -157,9 +157,7 @@ export default class RegisterUser extends Component {
                 name: this.state.name,
                 email: this.state.email,
                 password: this.state.password,
-                manager: this.state.managerId,
-                role: 'user'
-            }}
+                manager: this.state.managerId            }}
             ).then(res =>{
             console.log(res);
             console.log(res.data);

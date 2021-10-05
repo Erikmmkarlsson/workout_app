@@ -11,15 +11,16 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
   } else {
     console.log('Connected to the SQLite database.')
 
-    db.run(`CREATE TABLE user (
+    db.run(`CREATE TABLE users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name text, 
             email text UNIQUE, 
             password text, 
-            role text DEFAULT "client",
+            role text DEFAULT client,
             manager text,
             activated boolean DEFAULT false,
             CONSTRAINT email_unique UNIQUE (email)
+
             )`,
     (err) => {
       if (err) {
@@ -27,13 +28,13 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
 
       } else {
         // Table just created, creating some rows
-        const insert_user = 'INSERT INTO user (name, email, password, manager, role, activated) VALUES (?,?,?,?,?,?)'
+        const insert_user = 'INSERT INTO users (name, email, password, manager, role, activated) VALUES (?,?,?,?,?,?)'
         db.run(insert_user, ['Jennifer Renoux', 'manager1@example.com', md5('admin123456'), null, 'manager', true])
         db.run(insert_user, ['Stewart Little', 'manager2@example.com', md5('user123456'), null, 'manager', true])
-        db.run(insert_user, ['Erik', 'Erik@example.com', md5('user123456'), 1, 'user', true])
+        db.run(insert_user, ['Erik', 'Erik@example.com', md5('user123456'), 1, 'client', true])
       }
     })
-    db.run(`CREATE TABLE exercise (
+    db.run(`CREATE TABLE exercises (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name text,
             description text,
@@ -45,7 +46,7 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         // Table already created
       } else {
         // Table just created, creating some rows
-        const insert_exercise = 'INSERT INTO exercise (name, description, video_link) VALUES (?,?,?)'
+        const insert_exercise = 'INSERT INTO exercises (name, description, video_link) VALUES (?,?,?)'
         db.run(insert_exercise, ['Squats', 'Bend your legs, push up your body. Make sure to keep your core and hips active.', 'https://www.youtube.com/watch?v=aclHkVaku9U&ab_channel=Bowflex'])
         db.run(insert_exercise, ['Push ups', 'Stand on all four with your body straight. Push up your body using your arms, your core should stay active.', 'https://www.youtube.com/watch?v=Pkj8LLRsoDw&ab_channel=Bowflex'])
         db.run(insert_exercise, ['Deadlifts', 'Pick up a heavy object and lift it using your legs and back.', 'youtube.com/watch?v=IiGk8g3e41w&ab_channel=Bowflex'])

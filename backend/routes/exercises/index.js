@@ -13,9 +13,9 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
     if (search == undefined) {
       // if no search terms defined
 
-      var sql = 'select * from exercise'
+      var sql = 'select * from exercises'
     } else {
-      var sql = `select * from exercise where name like '%?%'` // if search term works
+      var sql = `select * from exercises where name like '%?%'` // if search term works
     }
     const params = [search]
     db.all(sql, params, (err, rows) => {
@@ -34,11 +34,11 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
     /*
         Returns a specific exercise
         Example usage (returns the exercise with ID = 5):
-     $ curl http://localhost:8000/api/exercise/5 -X GET
+     $ curl http://localhost:8000/api/exercises/5 -X GET
       */
     console.log('Returning one exercise...')
 
-    const sql = 'select * from exercise where id = ?'
+    const sql = 'select * from exercises where id = ?'
     const params = [req.params.id]
     db.get(sql, params, (err, row) => {
       if (err) {
@@ -83,7 +83,7 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       description: req.body.description,
       video_link: req.body.video_link
     }
-    const sql = 'INSERT INTO exercise (name, description, video_link, last_updated) VALUES (?,?,?,CURRENT_TIMESTAMP)'
+    const sql = 'INSERT INTO exercises (name, description, video_link, last_updated) VALUES (?,?,?,CURRENT_TIMESTAMP)'
     const params = [data.name, data.description, data.video_link]
     db.run(sql, params, function (err, result) {
       if (err) {
@@ -105,7 +105,7 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
         */
     console.log('Deleting exercise...')
 
-    const sql = 'delete from exercise where id = ?' // delete by ID
+    const sql = 'delete from exercises where id = ?' // delete by ID
     const params = [req.params.id]
     db.get(sql, params, function (err, result) {
       if (err) {
@@ -128,7 +128,7 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       description: req.body.description,
       video_link: req.body.video_link
     }
-    const sql = 'UPDATE exercise set name = COALESCE(?,name), description = COALESCE(?,description), video_link = COALESCE(?,video_link), last_updated = CURRENT_TIMESTAMP WHERE id = ?'
+    const sql = 'UPDATE exercises set name = COALESCE(?,name), description = COALESCE(?,description), video_link = COALESCE(?,video_link), last_updated = CURRENT_TIMESTAMP WHERE id = ?'
     const params = [data.name, data.description, data.video_link, req.params.id]
     db.run(sql, params, function (err, row) {
       if (err) {

@@ -26,14 +26,14 @@ app.use(limiter)
 API routes
 */
 require('./routes/account')(app, db) // Sending "app" and "db" instance to account
+require('./routes/profile')(app, db) 
 
 require('./routes/exercises')(app, db) // Sending "app" and "db" instance to exercises
 require('./routes/workouts')(app, db) // Sending "app" and "db" instance to workouts
 require('./routes/training_plans')(app, db) 
 
 
-require('./routes/user')(app, db) 
-require('./routes/profile')(app, db) 
+require('./routes/users')(app, db) 
 
 app.get('/api/managers', (req, res, next) => {
   /*
@@ -43,7 +43,7 @@ app.get('/api/managers', (req, res, next) => {
    */
   console.log('Returning all managers...')
 
-  const sql = "select * from user where role='manager'"
+  const sql = "select * from users where role='manager'"
   const params = []
   db.all(sql, params, (err, rows) => {
     if (err) {
@@ -70,7 +70,7 @@ app.get('/api/manager/WaitingList', onlyManager, (req, res, next) => {
   const id = getID(req)
   console.log(id)
 
-  const sql = "select * from user where role='user' and activated=false and manager = ? "
+  const sql = "select * from users where activated=false and manager = ? "
   const params = [id]
   db.all(sql, params, (err, rows) => {
     if (err) {
@@ -89,7 +89,7 @@ app.get('/api/manager/myUsers', onlyManager, (req, res, next) => {
   const id = getID(req)
   console.log(id)
 
-  const sql = "select * from user where role='user' and activated=true and manager = ? "
+  const sql = "select * from users where activated=true and manager = ? "
   const params = [id]
   db.all(sql, params, (err, rows) => {
     if (err) {

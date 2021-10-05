@@ -41,7 +41,7 @@ export default class RegisterUser extends Component {
     event.preventDefault();
     axios({
       method: 'patch',
-      url: '/api/user/' + event.target.id,
+      url: '/api/users/' + event.target.id,
       headers: {
         'x-access-token': GetToken()
       },
@@ -52,7 +52,7 @@ export default class RegisterUser extends Component {
     )
     axios({
       method: 'post',
-      url: '/api/training_plans/',
+      url: '/api/training_plans',
       headers: {
         'x-access-token': GetToken()
       },
@@ -80,19 +80,19 @@ export default class RegisterUser extends Component {
       console.log(error.config);
 
     }).then(() =>
-      window.location.reload(false)
+    this.componentDidMount()
     );
   }
   handleSubmitDeactivate = event => {
     event.preventDefault();
     axios({
       method: 'patch',
-      url: '/api/user/' + event.target.id,
+      url: '/api/users/' + event.target.id,
       data: {
         activated: false
       }
     }
-    ).then(() => window.location.reload(false));
+    ).then(() => this.componentDidMount());
   }
 
   render() {

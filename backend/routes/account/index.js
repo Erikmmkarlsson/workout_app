@@ -14,7 +14,7 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
         return
       }
       // Validate if user exist in our database
-      const sql = 'select * from user where email = ?'
+      const sql = 'select * from users where email = ?'
       const params = [email]
       db.get(sql, params, (err, user) => {
         if (err) {
@@ -66,18 +66,18 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       .normalizeEmail()
 
   ], (req, res, next) => {
+    console.log('api/register...')
+
     const errors = validationResult(req)
     if (errors.isEmpty()) {
-      console.log('Creating a new user...')
       const data = {
         name: req.body.name,
         email: req.body.email,
         password: md5(req.body.password), // md5 hashes the password
-        manager: req.body.manager,
-        role: req.body.role
+        manager: req.body.manager
       }
-      const sql = 'INSERT INTO user (name, email, password,manager,role) VALUES (?,?,?,?,?)'
-      const params = [data.name, data.email, data.password, data.manager, data.role]
+      const sql = 'INSERT INTO users (name, email, password, manager) VALUES (?,?,?,?)'
+      const params = [data.name, data.email, data.password, data.manager]
       db.run(sql, params, function (err, result) {
         if (err) {
           res.status(400).json({ error: err.message })
@@ -85,8 +85,7 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
         }
         res.json({
           message: 'success',
-          data: data,
-          id: this.lastID
+          data: data
         })
       })
     };
