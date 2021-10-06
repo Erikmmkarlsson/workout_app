@@ -127,7 +127,7 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         // Table just created, creating some rows
         const insert_training_plan = 'INSERT INTO training_plans (client_id, manager_id) VALUES (?,?)'
         db.run(insert_training_plan, [1, 2])
-        db.run(insert_training_plan, [2, 1])
+        db.run(insert_training_plan, [3, 1])
       }
     })
     db.run(`CREATE TABLE workout_events (
@@ -153,6 +153,7 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         db.run(insert_workout_event, [2, 2, '2021-12-12', 0, '', ''])
         db.run(insert_workout_event, [2, 3, '2020-12-3', 0, '', ''])
         db.run(insert_workout_event, [2, 4, '2021-12-28', 0, '', ''])
+        db.run(insert_workout_event, [2, 5, '2021-10-28', 0, '', ''])
       }
     })
   }

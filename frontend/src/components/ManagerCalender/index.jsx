@@ -93,16 +93,16 @@ function Calendar(props) {
     const actualYear = () => moment().format('YYYY')
 
     const firstDayOfMonth = () => moment(dateObject).startOf('month').format('d')
-    const ActiveDays = new Array 
+    const ActiveDates = new Array 
     for (const workout of WorkoutList){
-        ActiveDays.push(moment(workout.date).date())
+        ActiveDates.push(workout.date)
     }
     return (
         <div className='calend'>
             <Container disableGutters='false'>
 
                 <Grid container>
-                        <Grid item xs={12} md={6} lg={15}>
+                        <Grid item xs={8} md={20} lg={30}>
                         <Dropdown style={{ marginTop: "1rem", width: "100%" }} group isOpen={dropdownOpen} toggle={toggle}>
                         <DropdownToggle caret style={{ marginTop: "1rem", width: "100%" }}>
                         {SelectedUser}
@@ -127,12 +127,13 @@ function Calendar(props) {
                                 currentMonth={currentMonth}
                                 currentMonthNum={currentMonthNum}
                                 currentYear={currentYear}
+                                currentYearNum={currentYearNum}
                                 selectedDay={selectedDay}
                                 setSelectedDay={setSelectedDay}
                                 actualMonth={actualMonth}
                                 actualYear={actualYear}
                                 weekdays={weekdays}
-                                ActiveDays={ActiveDays}
+                                ActiveDates={ActiveDates}
 
                             />
                         ) : null}

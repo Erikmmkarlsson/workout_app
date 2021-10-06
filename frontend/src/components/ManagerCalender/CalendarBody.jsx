@@ -1,7 +1,7 @@
 import React from 'react'
 import './calendar.css'
 import nextId from 'react-id-generator'
-
+import moment from 'moment'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper'
 
 
 const CalendarBody = props => {
-    const { firstDayOfMonth, daysInMonth, currentDay, currentMonth,currentYear, currentMonthNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays,ActiveDays } = props
+    const { firstDayOfMonth, daysInMonth, currentDay, currentMonth,currentYear, currentMonthNum,currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays,ActiveDates } = props
 
     const blanks = []
     for (let i = 1; i < firstDayOfMonth(); i++) {
@@ -21,14 +21,16 @@ const CalendarBody = props => {
         )
     }
 
-    console.log(ActiveDays)
     const monthDays = []
+    console.log(ActiveDates)
     for (let d = 1; d <= daysInMonth(); d++) {
         let currDay, selectDay, activeDay
 
-        for(const Day in ActiveDays){
-            console.log(Day)
-            if( ActiveDays[Day] === d && currentMonth() === actualMonth() && currentYear() === actualYear()){activeDay= 'active'}
+        for(const Date in ActiveDates){
+            if( moment(ActiveDates[Date]).date() === d 
+            && moment(ActiveDates[Date]).month()+1 === currentMonthNum() 
+            && moment(ActiveDates[Date]).year() === currentYearNum())
+            {activeDay= 'active'}
         }
 
         // Check if day is today

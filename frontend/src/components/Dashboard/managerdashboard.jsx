@@ -9,7 +9,7 @@ export default function ManagerDashboard(props) {
 
   return (
     <div className="dashboard">
-      <div>
+      <div style={{ textAlign: "center" }}>
       
         <Link to="/myusers">
           <button className="m-3 btn-sm btn-success">Clients</button>
