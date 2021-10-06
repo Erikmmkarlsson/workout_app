@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./dashboard.css";
 import TrainingPlanList from "../TrainingPlans/TrainingPlanList";
-import Calendar from "../Calendar"
+import Calendar from "../ManagerCalender"
 
 export default function ManagerDashboard(props) {
   const [ selectedUser, setSelectedUser ] = useState(null);
@@ -10,7 +10,7 @@ export default function ManagerDashboard(props) {
   return (
     <div className="dashboard">
       <div>
-        
+      
         <Link to="/myusers">
           <button className="m-3 btn-sm btn-success">Clients</button>
         </Link>
@@ -20,11 +20,9 @@ export default function ManagerDashboard(props) {
         <Link to="/exercises">
           <button className="m-3 btn-sm btn-success">Exercises</button>
         </Link>
-        <TrainingPlanList selectedUser={selectedUser} setSelectedUser={setSelectedUser}/>
-      </div>
-      <div>
         <Calendar />
       </div>
+      
     </div>
   );
 }

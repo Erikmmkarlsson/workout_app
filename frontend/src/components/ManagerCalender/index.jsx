@@ -1,18 +1,58 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
-
+import axios from 'axios'
+import  {GetToken} from "../auth"
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import CalendarBody from './CalendarBody'
 import CalendarHead from './CalendarHead'
+import{
 
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+
+} from 'reactstrap';
 function Calendar(props) {
-    const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    
+    const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     /* HOOKS */
     // Later add hook for active days from database
     const [dateObject, setdateObject] = useState(moment())
     const [showMonthTable, setShowMonthTable] = useState(false)
     const [selected, hasSelected] = useState(false)
+    const [UsersList, setUsersList] = useState([])
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const toggle = () => setDropdownOpen(prevState => !prevState);
+    const [WorkoutList, setWorkoutList] = useState([])
+    const [SelectedUser, setSelectedUser] = useState('')
+    
+    
+
+    useEffect(() => {
+        axios.get('/api/manager/myUsers',{
+            headers: {
+              'x-access-token': GetToken()
+            }
+          })
+          .then((response) => {setUsersList(response.data.data)
+        })
+    }, [])
+    
+    function handleSelect(selectedID,selectedName){
+        setSelectedUser(selectedName)
+        
+        axios.get('/api/UserWorkoutsByInput/'+ selectedID,{
+            headers: {
+              'x-access-token': GetToken()
+            }
+          })
+          .then((response) => {setWorkoutList(response.data.data)
+        })
+    }
+
+
 
     const defaultSelectedDay = {
         day: moment().date(),
@@ -50,14 +90,27 @@ function Calendar(props) {
     const daysInMonth = () => dateObject.daysInMonth()
     const currentDay = () => moment().date()
     const actualMonth = () => moment().format('MMMM')
+    const actualYear = () => moment().format('YYYY')
 
     const firstDayOfMonth = () => moment(dateObject).startOf('month').format('d')
+    const ActiveDays = new Array 
+    for (const workout of WorkoutList){
+        ActiveDays.push(moment(workout.date).date())
+    }
     return (
         <div className='calend'>
             <Container disableGutters='false'>
 
                 <Grid container>
-                    <Grid item xs={12} md={6} lg={9}>
+                        <Grid item xs={12} md={6} lg={15}>
+                        <Dropdown style={{ marginTop: "1rem", width: "100%" }} group isOpen={dropdownOpen} toggle={toggle}>
+                        <DropdownToggle caret style={{ marginTop: "1rem", width: "100%" }}>
+                        {SelectedUser}
+                        </DropdownToggle>
+                        <DropdownMenu style={{ marginTop: "1rem", width: "100%" }}>
+                        {UsersList.map(User => <DropdownItem   onClick={()=>handleSelect(User.id,User.name)}>{User.name}</DropdownItem>)}
+                        </DropdownMenu>
+                        </Dropdown>
                         <CalendarHead
                             allMonths={allMonths}
                             currentMonth={currentMonth}
@@ -73,10 +126,14 @@ function Calendar(props) {
                                 currentDay={currentDay}
                                 currentMonth={currentMonth}
                                 currentMonthNum={currentMonthNum}
+                                currentYear={currentYear}
                                 selectedDay={selectedDay}
                                 setSelectedDay={setSelectedDay}
                                 actualMonth={actualMonth}
+                                actualYear={actualYear}
                                 weekdays={weekdays}
+                                ActiveDays={ActiveDays}
+
                             />
                         ) : null}
 

@@ -8,7 +8,7 @@ import { Hero } from './components/Landing Page/'
 import { Login } from './components/Login'
 
 import ManagerDashboard from './components/Dashboard/managerdashboard'
-import Calendar from './components/Calendar'
+import Calendar from './components/UserCalendar'
 import { AddExercise, EditExercise, ExerciseList } from './components/Exercises'
 import { CreateWorkout, WorkoutList, EditWorkout } from './components/Workouts/'
 import { CreateTrainingPlan, TrainingPlanList, EditTrainingPlan } from './components/TrainingPlans'

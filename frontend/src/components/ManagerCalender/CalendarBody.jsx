@@ -10,8 +10,9 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
+
 const CalendarBody = props => {
-    const { firstDayOfMonth, daysInMonth, currentDay, currentMonth, currentMonthNum, selectedDay, setSelectedDay, actualMonth, weekdays } = props
+    const { firstDayOfMonth, daysInMonth, currentDay, currentMonth,currentYear, currentMonthNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays,ActiveDays } = props
 
     const blanks = []
     for (let i = 1; i < firstDayOfMonth(); i++) {
@@ -20,12 +21,18 @@ const CalendarBody = props => {
         )
     }
 
+    console.log(ActiveDays)
     const monthDays = []
     for (let d = 1; d <= daysInMonth(); d++) {
         let currDay, selectDay, activeDay
 
+        for(const Day in ActiveDays){
+            console.log(Day)
+            if( ActiveDays[Day] === d && currentMonth() === actualMonth() && currentYear() === actualYear()){activeDay= 'active'}
+        }
+
         // Check if day is today
-        if (currentDay() === d && currentMonth() === actualMonth()) currDay = 'today'
+        if (currentDay() === d && currentMonth() === actualMonth() && currentYear() === actualYear()) currDay = 'today'
 
         // Check if day is selected day
         if (selectedDay !== undefined) {
@@ -34,7 +41,7 @@ const CalendarBody = props => {
         monthDays.push(
             <TableCell
                 key={d}
-                className={`week-day ${currDay} ${selectDay}`}
+                className={`week-day ${currDay} ${selectDay} ${activeDay}`}
                 onClick={() => {
                     setSelectedDay(d)
                 }}
