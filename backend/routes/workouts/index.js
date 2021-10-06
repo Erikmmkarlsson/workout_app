@@ -149,7 +149,7 @@ Methods for workout_exercises
       /// /if no search terms defined
       var sql = 'select * from workout_exercises'
     } else {
-      var sql = `select workout_exercises.id, exercises.name, workout_exercises.num_sets, workout_exercises.num_reps, workout_exercises.num_seconds from workout_exercises inner join exercises on workout_exercises.exercise_id=exercise.id where workout_id=${search}`
+      var sql = `select workout_exercises.id, exercises.name, workout_exercises.num_sets, workout_exercises.num_reps, workout_exercises.num_seconds from workout_exercises inner join exercises on workout_exercises.exercise_id=exercises.id where workout_id=${search}`
       // if search term is defined
     }
     console.log('Returning workout_exercises...')

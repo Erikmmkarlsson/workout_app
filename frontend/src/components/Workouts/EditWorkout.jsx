@@ -6,6 +6,9 @@ export default function EditWorkout (props) {
   const [workout_id, setWorkoutId] = useState(null)
   const [exercisesList, setExerciseslist] = useState([])
   const [selectedExercisesList, setSelectedExerciseslist] = useState([])
+
+  const [hasUpdated, setUpdated] = useState(false)
+  
   const [currentExercise, setCurrentExercise] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [searchName, setSearchName] = useState('')
@@ -17,6 +20,7 @@ export default function EditWorkout (props) {
     num_seconds: null,
     comment: ''
   })
+
 
   useEffect(() => {
     setWorkoutId(
@@ -33,7 +37,7 @@ export default function EditWorkout (props) {
       .then((response) => {
         setSelectedExerciseslist(response.data.data)
       })
-  }, [])
+  }, [hasUpdated])
 
   const handleChange = (name) => (e) => {
     setCurrentWorkoutExercise({
@@ -68,8 +72,8 @@ export default function EditWorkout (props) {
       .get(
         'http://localhost:8000/api/workout_exercises?workout_id=' + workout_id
       )
-      .then((response) => {
-        setSelectedExerciseslist(response.data.data)
+      .then(() => {
+        setUpdated(!hasUpdated)
       })
   }
 
@@ -84,8 +88,8 @@ export default function EditWorkout (props) {
         'http://localhost:8000/api/workout_exercises?workout_id=' +
           parseInt(workout_id, 10)
       )
-      .then((response) => {
-        setSelectedExerciseslist(response.data.data)
+      .then(() => {
+        setUpdated(!hasUpdated)
       })
   }
 
