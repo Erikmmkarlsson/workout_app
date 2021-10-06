@@ -4,8 +4,8 @@ import axios from 'axios'
 import  {GetToken} from "../auth"
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
-import CalendarBody from './CalendarBody'
-import CalendarHead from './CalendarHead'
+import CalendarBody from '../ManagerCalender/CalendarBody'
+import CalendarHead from '../ManagerCalender/CalendarHead'
 
 function Calendar(props) {
     const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -67,9 +67,9 @@ function Calendar(props) {
     const actualYear = () => moment().format('YYYY')
 
     const firstDayOfMonth = () => moment(dateObject).startOf('month').format('d')
-    const ActiveDays = new Array 
+    const ActiveDays = []
     for (const workout of WorkoutList){
-        ActiveDays.push(moment(workout.date).date())
+        ActiveDays.push(workout.date)
     }
     return (
         <div className='calend'>
@@ -93,12 +93,13 @@ function Calendar(props) {
                                 currentMonth={currentMonth}
                                 currentMonthNum={currentMonthNum}
                                 currentYear={currentYear}
+                                currentYearNum={currentYearNum}
                                 selectedDay={selectedDay}
                                 setSelectedDay={setSelectedDay}
                                 actualMonth={actualMonth}
                                 actualYear={actualYear}
                                 weekdays={weekdays}
-                                ActiveDays={ActiveDays}
+                                ActiveDates={ActiveDays}
                             />
                         ) : null}
 

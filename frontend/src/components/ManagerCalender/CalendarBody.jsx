@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper'
 
 
 const CalendarBody = props => {
-    const { firstDayOfMonth, daysInMonth, currentDay, currentMonth,currentYear, currentMonthNum,currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays,ActiveDates } = props
+    const { firstDayOfMonth, daysInMonth, currentDay, currentMonth,currentYear, currentMonthNum,currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays, ActiveDates } = props
 
     const blanks = []
     for (let i = 1; i < firstDayOfMonth(); i++) {

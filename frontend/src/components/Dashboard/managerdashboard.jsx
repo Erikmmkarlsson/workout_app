@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./dashboard.css";
-import TrainingPlanList from "../TrainingPlans/TrainingPlanList";
 import Calendar from "../ManagerCalender"
 
 export default function ManagerDashboard(props) {
-  const [ selectedUser, setSelectedUser ] = useState(null);
 
   return (
     <div className="dashboard">

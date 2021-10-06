@@ -93,7 +93,7 @@ function Calendar(props) {
     const actualYear = () => moment().format('YYYY')
 
     const firstDayOfMonth = () => moment(dateObject).startOf('month').format('d')
-    const ActiveDates = new Array 
+    const ActiveDates = []
     for (const workout of WorkoutList){
         ActiveDates.push(workout.date)
     }
