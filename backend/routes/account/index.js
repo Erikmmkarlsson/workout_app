@@ -39,7 +39,7 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
             },
             process.env.TOKEN_KEY,
             {
-              expiresIn: '2h'
+              expiresIn: '7 days'
             }
           )
           // save user token
