@@ -28,7 +28,6 @@
     "jsonwebtoken": "^8.5.1",
     "material-ui": "^0.20.2",
     "md5": "^2.3.0",
-    "node-sass": "^6.0.1",
     "react-id-generator": "^3.0.2",
     "sqlite3": "^5.0.2"
   },
