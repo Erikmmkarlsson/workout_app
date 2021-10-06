@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { GetToken } from '../auth'
+import { GetToken, GetID } from '../auth'
 
 export default class ViewProfile extends Component {
   constructor (props) {
@@ -9,7 +9,9 @@ export default class ViewProfile extends Component {
 
     this.getProfile = this.getProfile.bind(this)
 
+    if (this.props.match !== undefined){
     this.state = {
+      otherProfile: true,
       currentProfile: {
         id: this.props.match.params.id,
         name: '',
@@ -21,9 +23,24 @@ export default class ViewProfile extends Component {
       message: ''
     }
   }
+  else{
+    this.state = {
+      otherProfile: false,
+      currentProfile: {
+        id: GetID(),
+        name: '',
+        email: '',
+        password: '',
+        role: '',
+        manager: ''
+      },
+      message: ''
+    }
+  }
+  }
 
   componentDidMount () {
-    this.getProfile(this.props.match.params.id)
+    this.getProfile(this.state.currentProfile.id)
   }
 
   getProfile (id) {
@@ -44,7 +61,7 @@ export default class ViewProfile extends Component {
 
     return (
       <div>
-        <div>
+        {!this.state.otherProfile ? (<div>
           <Link
             to='/editprofile/'
             className='btn btn-warning'
@@ -59,7 +76,8 @@ export default class ViewProfile extends Component {
           >
             Edit Profile
           </Link>
-        </div>
+        </div>): null}
+        
 
         {currentProfile ? (
           <div className='edit-form'>

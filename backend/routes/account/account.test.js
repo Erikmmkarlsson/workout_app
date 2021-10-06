@@ -2,7 +2,7 @@ const app = require('../../server') // Link to your server file
 const supertest = require('supertest')
 const request = supertest(app)
 
-const token =''
+var token =''
 
 it('Receives error', async () => {
   const res = await request.post('/api/login')
@@ -48,7 +48,6 @@ it('Can register', async () => {
   expect(res.status).toBe(200)
   expect(res.body.message).toBe('success')
 })
-*/
 
 
 it('Can delete account', async () => {
@@ -63,3 +62,4 @@ it('Can delete account', async () => {
   expect(res.status).toBe(200)
   expect(res.body.message).toBe('success')
 })
+*/

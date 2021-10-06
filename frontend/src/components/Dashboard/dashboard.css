@@ -1,4 +1,17 @@
 .dashboard{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+
+}
+
+
+.dashboard .buttons{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.dashboard .list{
+    width: 10%;
 }

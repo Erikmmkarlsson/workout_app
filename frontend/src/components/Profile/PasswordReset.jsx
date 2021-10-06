@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { GetID, GetToken } from '../auth'
 const md5 = require('md5')
 
 export default class Profile extends Component {
@@ -13,7 +14,7 @@ export default class Profile extends Component {
 
     this.state = {
       currentProfile: {
-        id: this.props.match.params.id,
+        id: GetID,
         name: '',
         email: '',
         password: '',
@@ -24,7 +25,7 @@ export default class Profile extends Component {
   }
 
   componentDidMount () {
-    this.getProfile(this.props.match.params.id)
+    this.getProfile(GetID())
   }
 
   onChangePassword (e) {
@@ -39,7 +40,10 @@ export default class Profile extends Component {
   }
 
   getProfile (id) {
-    axios.get('/api/profile/' + id, )
+    axios.get('/api/profile/' + id, {
+      headers: {
+        'x-access-token': GetToken()
+      } })
       .then(response => {
         this.setState({
           currentProfile: response.data.data
@@ -48,7 +52,10 @@ export default class Profile extends Component {
   }
 
   updatePassword () {
-    axios.patch('/api/password/' + this.state.currentProfile.id, this.state.currentProfile)
+    axios.patch('/api/password/', this.state.currentProfile, {
+      headers: {
+        'x-access-token': GetToken()
+      }})
       .then(response => {
         console.log(response.data.data)
         this.setState({
