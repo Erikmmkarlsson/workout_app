@@ -10,14 +10,14 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
     console.log('Search is set to: ')
     console.log(req.query.search)
     const search = req.query.search
-    if (search == undefined) {
+    if (search === undefined) {
       // if no search terms defined
-
       var sql = 'select * from exercises'
     } else {
-      var sql = `select * from exercises where name like '%?%'` // if search term works
+      var sql = `select * from exercises where name like '%' || ? || '%'` // if search term works
     }
     const params = [search]
+    console.log(sql)
     db.all(sql, params, (err, rows) => {
       if (err) {
         res.status(400).json({ error: err.message })

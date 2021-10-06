@@ -20,9 +20,9 @@ export default function ManagerDashboard(props) {
         <Link to="/exercises">
           <button className="m-3 btn-sm btn-success">Exercises</button>
         </Link>
-        <Calendar />
       </div>
-      
+      <Calendar />
+
     </div>
   );
 }
