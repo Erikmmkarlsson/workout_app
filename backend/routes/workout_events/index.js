@@ -52,20 +52,23 @@ module.exports = function (app, db) {
      $ curl http://localhost:8000/api/workout_events/5 -X GET
       */
         console.log("/api/users_workout_events/:id...");
-    
-        const sql = "select *  from training_plans Inner join workout_events\
-                    on training_plans.id = workout_events.training_plan_id \
+        console.log(req.params.id);
+
+        const sql = "select workout_events.date, workout_events.workout_id, workouts.name from training_plans \
+                    Inner join workout_events on training_plans.id = workout_events.training_plan_id \
+                    Inner join workouts on workout_events.workout_id = workouts.id \
                     where training_plans.client_id = ?";
         const params = [req.params.id];
-        db.get(sql, params, (err, row) => {
+        db.all(sql, params, (err, rows) => {
           if (err) {
             res.status(400).json({ error: err.message });
             return;
           }
           res.json({
             message: "success",
-            data: row,
+            data: rows
           });
+          console.log(rows)
         });
       });
 

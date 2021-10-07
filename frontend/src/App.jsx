@@ -39,12 +39,12 @@ function App() {
             <Route exact path='/workouts/create'> <CreateWorkout /> </Route>
             <Route exact path='/workouts/edit'> <EditWorkout /> </Route>
 
-            <Route exact path='/trainingplans/'> <EditTrainingPlan /> </Route>
+            <Route path='/trainingplans'> <EditTrainingPlan /> </Route>
 
-            <Route path='/editprofile'> <EditProfile/> </Route>
-            <Route path='/passwordreset'> <PasswordReset/> </Route>
+            <Route path='/editprofile'> <EditProfile /> </Route>
+            <Route path='/passwordreset'> <PasswordReset /> </Route>
             <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
-            <Route path='/profile'> <Profile/> </Route>
+            <Route path='/profile'> <Profile /> </Route>
 
             <Route exactpath='/'>  <ManagerDashboard /></Route>
 
@@ -58,9 +58,10 @@ function App() {
         <AppNavbar />
         <Switch>
 
-          <Route exact path='/editprofile/:id' render={(props) => <EditProfile {...props} />} />
-          <Route exact path='/passwordreset/:id' render={(props) => <PasswordReset {...props} />} />
+          <Route path='/editprofile'> <EditProfile /> </Route>
+          <Route path='/passwordreset'> <PasswordReset /> </Route>
           <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
+          <Route path='/profile'> <Profile /> </Route>
           <Route exact path='/login'> <Login /> </Route>
 
           <Route path='/'>  welcome regular user <Calendar /></Route>
@@ -73,13 +74,13 @@ function App() {
       <div>
         <Navbar />
         <div>
-        <Switch>
+          <Switch>
 
-          <Route path='/register'> <Login /> </Route>
-          <Route path='/login'> <Login /> </Route>
-          <Route path='/'>  <Hero /> </Route>
-        
-        </Switch>
+            <Route path='/register'> <Login /> </Route>
+            <Route path='/login'> <Login /> </Route>
+            <Route path='/'>  <Hero /> </Route>
+
+          </Switch>
 
         </div>
       </div>
