@@ -1,4 +1,5 @@
 // Imports
+const { check, validationResult } = require('express-validator')
 const express = require('express')
 const app = express()
 const db = require('./database/database.js')
@@ -7,7 +8,6 @@ require('dotenv').config()
 const onlyManager = require('./auth/onlyManager.js')
 
 const getID = require('./auth/getID')
-
 // Specify functionality to be used
 app.use(cors())
 app.use(express.json())
@@ -89,9 +89,10 @@ app.get('/api/manager/WaitingList', onlyManager, (req, res, next) => {
 app.get('/api/manager/myUsers', onlyManager, (req, res, next) => {
   const id = getID(req)
   console.log(id)
-
-  const sql = "select * from users where activated=true and manager = ? "
+  
+  const sql = "select * from users where activated=true and id != manager and manager = ? "
   const params = [id]
+
   db.all(sql, params, (err, rows) => {
     if (err) {
       res.status(400).json({ error: err.message })
@@ -139,6 +140,93 @@ app.get('/api/UserWorkoutsByInput/:id',(req, res, next) => {
     })
   })
 })
+
+app.get('/api/UserWorkoutsExercises/:id/:date',(req, res, next) => {
+  const sql = 
+  "select workouts.name,exercises.name,exercises.description,exercises.video_link, workout_exercises.num_sets, workout_exercises.num_reps, workout_exercises.num_seconds from training_plans Inner join workout_events on training_plans.id= workout_events.training_plan_id Inner join  workouts on workout_events.workout_id= workouts.id Inner join  workout_exercises on workout_events.workout_id= workout_exercises.workout_id Inner join  exercises on workout_exercises.exercise_id = exercises.id where training_plans.client_id = ? AND workout_events.date= ? "
+  const params = [req.params.id,req.params.date]
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    console.log(rows)
+    res.json({
+      message: 'success',
+      data: rows
+
+    })
+  })
+})
+
+
+app.get('/api/GetUser&UserManagerWorkouts/:id',(req, res, next) => {
+  const sql = 
+  "SELECT workouts.id,workouts.name from users Inner join workouts on users.id =workouts.creator where users.id= ? or users.id in ( select users.manager from users where users.id= ?)"
+  const params = [req.params.id,req.params.id]
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    console.log(rows)
+    res.json({
+      message: 'success',
+      data: rows
+
+    })
+  })
+})
+
+
+app.get('/api/GetTrainingplanIdByClientID/:id',(req, res, next) => {
+  const sql = "select training_plans.id from training_plans where training_plans.client_id =?"
+  const params = [req.params.id]
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    console.log(rows)
+    res.json({
+      message: 'success',
+      data: rows
+
+    })
+  })
+})
+
+
+
+app.post('/api/AddWorkOutToUser/', (req, res, next) => {
+
+  const errors = validationResult(req)
+  if (errors.isEmpty()) {
+    const data = {
+      training_plan_id: req.body.training_plan_id,
+      workout_id: req.body.workout_id,
+      date: req.body.date,
+      is_done: req.body.is_done
+    }
+    const sql='INSERT INTO  workout_events (training_plan_id,workout_id,date,is_done) VALUES (?,?,?,?)'
+    const params = [data.training_plan_id, data.workout_id, data.date, data.is_done]
+    db.run(sql, params, function (err, result) {
+      if (err) {
+        res.status(400).json({ error: err.message })
+        return
+      }
+      res.json({
+        message: 'success',
+        data: data
+      })
+    })
+  };
+})
+
+
+
+
+
 
 
 // Default response for any other request

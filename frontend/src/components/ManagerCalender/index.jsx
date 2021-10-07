@@ -12,8 +12,14 @@ import{
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
+    Table,
+    ButtonGroup,
+    Button,
+    Alert,
+    FormGroup
 
 } from 'reactstrap';
+import { WorkOutline } from '@material-ui/icons'
 function Calendar(props) {
     
     const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -25,10 +31,17 @@ function Calendar(props) {
     const [UsersList, setUsersList] = useState([])
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(prevState => !prevState);
+    const [dropdownOpenWorkouts, setDropdownOpenWorkouts] = useState(false);
+    const toggleWorkouts = () => setDropdownOpenWorkouts(prevState => !prevState);
     const [WorkoutList, setWorkoutList] = useState([])
-    const [SelectedUser, setSelectedUser] = useState('')
-    
-    
+    const [SelectedUserName, setSelectedUserName] = useState('')
+    const [SelectedUserID, setSelectedUserID] = useState('')
+    const [SelectedWorkoutExercises, setSelectedWorkoutExercises] = useState([])
+    const [WorkoutListDropdown, setWorkoutListDropdown] = useState([])
+    const [SelectedWorkoutID, setSelectedWorkoutID] = useState('')
+    const [SelectedWorkoutName, setSelectedWorkoutName] = useState('Select a Workout')
+    const [SelectedUserTrainingplanID, setSelectedUserTrainingplanID] = useState([])
+   
 
     useEffect(() => {
         axios.get('/api/manager/myUsers',{
@@ -38,11 +51,32 @@ function Calendar(props) {
           })
           .then((response) => {setUsersList(response.data.data)
         })
+        
     }, [])
+
+    const TrainingplanID=[]
+    for (const ID of SelectedUserTrainingplanID){
+        TrainingplanID.push(ID.id)
+    }
+
+    function handleButton(){
+        const data = { training_plan_id:TrainingplanID,workout_id:SelectedWorkoutID,date:selectedDay.year+'-'+selectedDay.month+'-'+selectedDay.day,is_done: 0 }
+        axios.post('api/AddWorkOutToUser',data)
+        
+
+    }
+    
     
     function handleSelect(selectedID,selectedName){
-        setSelectedUser(selectedName)
-        
+        setSelectedUserName(selectedName)
+        setSelectedUserID(selectedID)
+        axios.get('/api/GetTrainingplanIdByClientID/'+ selectedID,{
+            headers: {
+              'x-access-token': GetToken()
+            }
+          })
+          .then((response) => {setSelectedUserTrainingplanID(response.data.data)
+        })
         axios.get('/api/UserWorkoutsByInput/'+ selectedID,{
             headers: {
               'x-access-token': GetToken()
@@ -50,6 +84,8 @@ function Calendar(props) {
           })
           .then((response) => {setWorkoutList(response.data.data)
         })
+
+        console.log('tesst'+TrainingplanID)
     }
 
 
@@ -85,6 +121,17 @@ function Calendar(props) {
         })
         hasSelected(true)
     }
+
+    function OpenLink(link){
+        window.open(link);
+    }
+
+    function handleDropdownSelect(WorkoutId,WorkoutName){
+        setSelectedWorkoutID(WorkoutId)
+        setSelectedWorkoutName(WorkoutName)
+
+
+    }
     const currentMonthNum = () => dateObject.month() + 1
     const currentYearNum = () => dateObject.year()
     const daysInMonth = () => dateObject.daysInMonth()
@@ -105,7 +152,7 @@ function Calendar(props) {
                         <Grid item xs={8} md={20} lg={30}>
                         <Dropdown style={{ marginTop: "1rem", width: "100%" }} group isOpen={dropdownOpen} toggle={toggle}>
                         <DropdownToggle caret style={{ marginTop: "1rem", width: "100%" }}>
-                        {SelectedUser}
+                        {SelectedUserName}
                         </DropdownToggle>
                         <DropdownMenu style={{ marginTop: "1rem", width: "100%" }}>
                         {UsersList.map(User => <DropdownItem   onClick={()=>handleSelect(User.id,User.name)}>{User.name}</DropdownItem>)}
@@ -134,24 +181,63 @@ function Calendar(props) {
                                 actualYear={actualYear}
                                 weekdays={weekdays}
                                 ActiveDates={ActiveDates}
-
+                                SelectedUserID={SelectedUserID}
+                                setSelectedWorkoutExercises={setSelectedWorkoutExercises}
+                                setWorkoutListDropdown={setWorkoutListDropdown}
                             />
                         ) : null}
+                        {selected ? (
+                            <div>
+                            <div class='buttons'>
+                                <FormGroup>
+                                    <Dropdown  group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
+                                    <DropdownToggle caret >
+                                    {SelectedWorkoutName}
+                                    </DropdownToggle>
+                                    <DropdownMenu >
+                                    {WorkoutListDropdown.map(Workout => <DropdownItem   onClick={()=>handleDropdownSelect(Workout.id,Workout.name)}>{Workout.name}</DropdownItem>)}
+                                    </DropdownMenu>
+                                    </Dropdown>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Button
+                                    onClick={()=>handleButton()}
+                                    color='dark'
+                                    type='submit'
+                                    >Add workout
+                                    </Button>
+                                </FormGroup>
+                            </div>
+                            <Table  hover style={{ background: 'white',marginTop: "1rem", width: "100%" }}>
+                                <thead>
+                                    <tr>
+                                    <th>Name</th>
+                                    <th>Sets</th>
+                                    <th>reps</th>
+                                    <th>Video</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {SelectedWorkoutExercises.map(workout =>
+                                    <tr>
+                                        <td >{workout.name}<Alert color="info">{workout.description}</Alert></td>
+                                        <td>{workout.num_sets}</td>
+                                        <td>{workout.num_reps}</td>
+                                        <td>
+                                         <Button color="primary" onClick={()=> OpenLink(workout.video_link)}>Video</Button>
+                                        </td>
+                                        
+                                    </tr>)}
+
+                                </tbody>
+                            </Table>
+                            </div>
+                        ) : (null)}
 
                     </Grid>
                 </Grid>
             </Container>
 
-            <Container>
-                {selected ? (
-                    <div style={{ textAlign: "center" }}>
-                        <br />
-                        <p>    Selected day: {selectedDay.day}</p>
-                        <p>  Month: {selectedDay.month} </p>
-                        <p>  Year: {selectedDay.year} </p>
-                    </div>
-                ) : (null)}
-            </Container>
 
         </div>
     )
