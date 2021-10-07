@@ -190,19 +190,34 @@ function Calendar(props) {
                             <div>
                             <div class='buttons'>
                                 <FormGroup>
-                                    <Dropdown  group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
-                                    <DropdownToggle caret >
+                                    <Dropdown group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
+                                    <DropdownToggle color="info" caret >
                                     {SelectedWorkoutName}
                                     </DropdownToggle>
-                                    <DropdownMenu >
+                                    <DropdownMenu modifiers={{
+                                        setMaxHeight: {
+                                            enabled: true,
+                                            order: 890,
+                                            fn: (data) => {
+                                            return {
+                                                ...data,
+                                                styles: {
+                                                ...data.styles,
+                                                overflow: 'auto',
+                                                maxHeight: '100px',
+                                                },
+                                            };
+                                            },
+                                        },
+                                        }}>
                                     {WorkoutListDropdown.map(Workout => <DropdownItem   onClick={()=>handleDropdownSelect(Workout.id,Workout.name)}>{Workout.name}</DropdownItem>)}
                                     </DropdownMenu>
                                     </Dropdown>
                                 </FormGroup>
                                 <FormGroup>
                                     <Button
+                                    color="success"
                                     onClick={()=>handleButton()}
-                                    color='dark'
                                     type='submit'
                                     >Add workout
                                     </Button>
