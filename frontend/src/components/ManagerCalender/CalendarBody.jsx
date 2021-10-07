@@ -1,6 +1,9 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './calendar.css'
 import nextId from 'react-id-generator'
+import axios from 'axios'
+import  {GetToken} from "../auth"
+
 import moment from 'moment'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -12,7 +15,7 @@ import Paper from '@material-ui/core/Paper'
 
 
 const CalendarBody = props => {
-    const { firstDayOfMonth, daysInMonth, currentDay, currentMonth,currentYear, currentMonthNum,currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays, ActiveDates } = props
+    const { firstDayOfMonth, daysInMonth, currentDay, currentMonth,currentYear, currentMonthNum,currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays, ActiveDates ,SelectedUserID,setSelectedWorkoutExercises,setWorkoutListDropdown} = props
 
     const blanks = []
     for (let i = 1; i < firstDayOfMonth(); i++) {
@@ -20,6 +23,28 @@ const CalendarBody = props => {
             <TableCell key={nextId()} />
         )
     }
+    useEffect(() => {
+        //console.log('/api/UserWorkoutsExercises/'+SelectedUserID+'/'+selectedDay.year+'-'+(selectedDay.month)+'-'+selectedDay.day)
+        axios.get('/api/UserWorkoutsExercises/'+SelectedUserID+'/'+selectedDay.year+'-'+(selectedDay.month)+'-'+selectedDay.day,{
+            headers: {
+              'x-access-token': GetToken()
+            }
+          })
+          .then((response) => {setSelectedWorkoutExercises(response.data.data)
+        })
+        
+
+        axios.get('/api/GetUser&UserManagerWorkouts/'+SelectedUserID,{
+            headers: {
+              'x-access-token': GetToken()
+            }
+          })
+          .then((response) => {setWorkoutListDropdown(response.data.data)
+        })
+
+
+        
+    }, [selectedDay])
 
     const monthDays = []
     console.log(ActiveDates)
