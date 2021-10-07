@@ -11,7 +11,7 @@ import ManagerDashboard from './components/Dashboard/managerdashboard'
 import Calendar from './components/UserCalendar'
 import { AddExercise, EditExercise, ExerciseList } from './components/Exercises'
 import { CreateWorkout, WorkoutList, EditWorkout } from './components/Workouts/'
-import { CreateTrainingPlan, TrainingPlanList, EditTrainingPlan } from './components/TrainingPlans'
+import { EditTrainingPlan } from './components/TrainingPlans'
 import AcceptUsers from './components/ManagerPage/AcceptUsers'
 import { EditProfile, PasswordReset, Profile } from './components/Profile'
 import { useAuth, GetRole } from './components/auth'
@@ -39,9 +39,7 @@ function App() {
             <Route exact path='/workouts/create'> <CreateWorkout /> </Route>
             <Route exact path='/workouts/edit'> <EditWorkout /> </Route>
 
-            <Route exact path='/trainingplans/'> <TrainingPlanList /> </Route>
-            <Route exact path='/trainingplans/create'> <CreateTrainingPlan /> </Route>
-            <Route exact path='/trainingplans/edit'> <EditTrainingPlan /> </Route>
+            <Route exact path='/trainingplans/'> <EditTrainingPlan /> </Route>
 
             <Route path='/editprofile'> <EditProfile/> </Route>
             <Route path='/passwordreset'> <PasswordReset/> </Route>

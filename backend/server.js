@@ -31,6 +31,7 @@ require('./routes/profile')(app, db)
 require('./routes/exercises')(app, db) // Sending "app" and "db" instance to exercises
 require('./routes/workouts')(app, db) // Sending "app" and "db" instance to workouts
 require('./routes/training_plans')(app, db) 
+require('./routes/workout_events')(app, db) 
 
 
 require('./routes/users')(app, db) 
