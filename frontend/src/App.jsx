@@ -9,7 +9,6 @@ import { Login } from './components/Login'
 
 import ManagerDashboard from './components/ManagerDashboard/managerdashboard'
 import UserDashboard from './components/UserDashboard/userdashboard'
-import Calendar from './components/UserCalendar'
 import { AddExercise, EditExercise, ExerciseList } from './components/Exercises'
 import { CreateWorkout, WorkoutList, EditWorkout } from './components/Workouts/'
 import { EditTrainingPlan } from './components/TrainingPlans'
@@ -58,6 +57,7 @@ function App() {
       <div className='App'>
         <AppNavbar />
         <Switch>
+        
 
           <Route path='/editprofile'> <EditProfile /> </Route>
           <Route path='/passwordreset'> <PasswordReset /> </Route>

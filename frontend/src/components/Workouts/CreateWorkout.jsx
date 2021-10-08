@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import {GetID} from '../auth'
 
 export default function CreateWorkout (props) {
   const [values, setValues] = useState({
-    name: ''
+    name: '',
+    creator: GetID()
+
   })
 
   const history = useHistory()
@@ -15,8 +18,8 @@ export default function CreateWorkout (props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { name } = values
-    const workout_data = { name }
+    const { name ,creator} = values
+    const workout_data = { name,creator}
     await axios.post('/api/workouts', workout_data)
     history.goBack()
   }

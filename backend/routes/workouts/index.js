@@ -72,7 +72,7 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       creator: req.body.creator
     }
     const sql = 'INSERT INTO workouts (name, creator) VALUES (?,?)'
-    const params = [data.name]
+    const params = [data.name,data.creator]
     db.run(sql, params, function (err, result) {
       if (err) {
         res.status(400).json({ error: err.message })
