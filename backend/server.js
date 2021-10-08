@@ -30,7 +30,7 @@ require('./routes/profile')(app, db)
 
 require('./routes/exercises')(app, db) // Sending "app" and "db" instance to exercises
 require('./routes/workouts')(app, db) // Sending "app" and "db" instance to workouts
-require('./routes/training_plans')(app, db) 
+require('./routes/training_plans')(app, db)
 require('./routes/workout_events')(app, db) 
 
 
@@ -91,6 +91,31 @@ app.get('/api/manager/myUsers', onlyManager, (req, res, next) => {
   console.log(id)
   
   const sql = "select * from users where activated=true and id != manager and manager = ? "
+  const params = [id]
+
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    console.log(rows)
+    res.json({
+      message: 'success',
+      data: rows
+
+    })
+  })
+})
+
+
+///MODIFY WHEN FRIENDS SYSTEM ADDED 
+///MODIFY WHEN FRIENDS SYSTEM ADDED 
+///MODIFY WHEN FRIENDS SYSTEM ADDED 
+app.get('/api/user/user&friends', (req, res, next) => {
+  const id = getID(req)
+  console.log(id)
+  
+  const sql = "select * from users where activated=true and id = ? "
   const params = [id]
 
   db.all(sql, params, (err, rows) => {

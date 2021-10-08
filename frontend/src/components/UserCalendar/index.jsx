@@ -7,25 +7,92 @@ import Container from '@material-ui/core/Container'
 import CalendarBody from '../ManagerCalender/CalendarBody'
 import CalendarHead from '../ManagerCalender/CalendarHead'
 
+import{
+
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+    Table,
+    ButtonGroup,
+    Button,
+    Alert,
+    FormGroup
+
+} from 'reactstrap';
+import { WorkOutline } from '@material-ui/icons'
 function Calendar(props) {
+    
     const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     /* HOOKS */
     // Later add hook for active days from database
     const [dateObject, setdateObject] = useState(moment())
     const [showMonthTable, setShowMonthTable] = useState(false)
     const [selected, hasSelected] = useState(false)
+    const [UsersList, setUsersList] = useState([])
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const toggle = () => setDropdownOpen(prevState => !prevState);
+    const [dropdownOpenWorkouts, setDropdownOpenWorkouts] = useState(false);
+    const toggleWorkouts = () => setDropdownOpenWorkouts(prevState => !prevState);
     const [WorkoutList, setWorkoutList] = useState([])
-
+    const [SelectedUserName, setSelectedUserName] = useState('')
+    const [SelectedUserID, setSelectedUserID] = useState('')
+    const [SelectedWorkoutExercises, setSelectedWorkoutExercises] = useState([])
+    const [WorkoutListDropdown, setWorkoutListDropdown] = useState([])
+    const [SelectedWorkoutID, setSelectedWorkoutID] = useState('')
+    const [SelectedWorkoutName, setSelectedWorkoutName] = useState('Select a Workout')
+    const [SelectedUserTrainingplanID, setSelectedUserTrainingplanID] = useState([])
+   
+    
+    ///MODIFY BACKEND WHEN FRIENDS SYSTEM ADDED 
+    ///MODIFY  BACKEND WHEN FRIENDS SYSTEM ADDED 
+    ///MODIFY   BACKEND WHEN FRIENDS SYSTEM ADDED 
+    ///MODIFY     BACKEND WHEN FRIENDS SYSTEM ADDED 
     useEffect(() => {
-        axios.get('/api/UserWorkouts',{
+        axios.get('/api/user/user&friends',{
+            headers: {
+              'x-access-token': GetToken()
+            }
+          })
+          .then((response) => {setUsersList(response.data.data)
+        })
+        
+    }, [])
+
+    const TrainingplanID=[]
+    for (const ID of SelectedUserTrainingplanID){
+        TrainingplanID.push(ID.id)
+    }
+
+    function handleButton(){
+        const data = { training_plan_id:TrainingplanID,workout_id:SelectedWorkoutID,date:selectedDay.year+'-'+selectedDay.month+'-'+selectedDay.day,is_done: 0 }
+        axios.post('api/AddWorkOutToUser',data)
+        
+
+    }
+    
+    
+    function handleSelect(selectedID,selectedName){
+        setSelectedUserName(selectedName)
+        setSelectedUserID(selectedID)
+        axios.get('/api/GetTrainingplanIdByClientID/'+ selectedID,{
+            headers: {
+              'x-access-token': GetToken()
+            }
+          })
+          .then((response) => {setSelectedUserTrainingplanID(response.data.data)
+        })
+        axios.get('/api/UserWorkoutsByInput/'+ selectedID,{
             headers: {
               'x-access-token': GetToken()
             }
           })
           .then((response) => {setWorkoutList(response.data.data)
         })
-    }, [])
-      console.log(WorkoutList[1])
+
+        console.log('tesst'+TrainingplanID)
+    }
+
 
 
     const defaultSelectedDay = {
@@ -59,6 +126,17 @@ function Calendar(props) {
         })
         hasSelected(true)
     }
+
+    function OpenLink(link){
+        window.open(link);
+    }
+
+    function handleDropdownSelect(WorkoutId,WorkoutName){
+        setSelectedWorkoutID(WorkoutId)
+        setSelectedWorkoutName(WorkoutName)
+
+
+    }
     const currentMonthNum = () => dateObject.month() + 1
     const currentYearNum = () => dateObject.year()
     const daysInMonth = () => dateObject.daysInMonth()
@@ -67,16 +145,24 @@ function Calendar(props) {
     const actualYear = () => moment().format('YYYY')
 
     const firstDayOfMonth = () => moment(dateObject).startOf('month').format('d')
-    const ActiveDays = []
+    const ActiveDates = []
     for (const workout of WorkoutList){
-        ActiveDays.push(workout.date)
+        ActiveDates.push(workout.date)
     }
     return (
         <div className='calend'>
             <Container disableGutters='false'>
 
                 <Grid container>
-                    <Grid item xs={12} md={6} lg={9}>
+                        <Grid item xs={8} md={20} lg={30}>
+                        <Dropdown style={{ marginTop: "1rem", width: "100%" }} group isOpen={dropdownOpen} toggle={toggle}>
+                        <DropdownToggle caret style={{ marginTop: "1rem", width: "100%" }}>
+                        {SelectedUserName}
+                        </DropdownToggle>
+                        <DropdownMenu style={{ marginTop: "1rem", width: "100%" }}>
+                        {UsersList.map(User => <DropdownItem   onClick={()=>handleSelect(User.id,User.name)}>{User.name}</DropdownItem>)}
+                        </DropdownMenu>
+                        </Dropdown>
                         <CalendarHead
                             allMonths={allMonths}
                             currentMonth={currentMonth}
@@ -99,27 +185,87 @@ function Calendar(props) {
                                 actualMonth={actualMonth}
                                 actualYear={actualYear}
                                 weekdays={weekdays}
-                                ActiveDates={ActiveDays}
+                                ActiveDates={ActiveDates}
+                                SelectedUserID={SelectedUserID}
+                                setSelectedWorkoutExercises={setSelectedWorkoutExercises}
+                                setWorkoutListDropdown={setWorkoutListDropdown}
                             />
                         ) : null}
+                        {selected ? (
+                            <div>
+                            <div class='buttons'>
+                                <FormGroup>
+                                    <Dropdown group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
+                                    <DropdownToggle color="info" caret >
+                                    {SelectedWorkoutName}
+                                    </DropdownToggle>
+                                    <DropdownMenu modifiers={{
+                                        setMaxHeight: {
+                                            enabled: true,
+                                            order: 890,
+                                            fn: (data) => {
+                                            return {
+                                                ...data,
+                                                styles: {
+                                                ...data.styles,
+                                                overflow: 'auto',
+                                                maxHeight: '100px',
+                                                },
+                                            };
+                                            },
+                                        },
+                                        }}>
+                                    {WorkoutListDropdown.map(Workout => <DropdownItem   onClick={()=>handleDropdownSelect(Workout.id,Workout.name)}>{Workout.name}</DropdownItem>)}
+                                    </DropdownMenu>
+                                    </Dropdown>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Button
+                                    color="success"
+                                    onClick={()=>handleButton()}
+                                    type='submit'
+                                    >Add workout
+                                    </Button>
+                                </FormGroup>
+                            </div>
+                            <Table  hover style={{ background: 'white',marginTop: "1rem", width: "100%" }}>
+                                <thead>
+                                    <tr>
+                                    <th>Name</th>
+                                    <th>Sets</th>
+                                    <th>reps</th>
+                                    <th>Video</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {SelectedWorkoutExercises.map(workout =>
+                                    <tr>
+                                        <td >{workout.name}</td>
+                                        <td>{workout.num_sets}</td>
+                                        <td>{workout.num_reps}</td>
+                                        <td>
+                                         <Button color="primary" onClick={()=> OpenLink(workout.video_link)}>Video</Button>
+                                        </td>
+                                        
+                                    </tr>)}
+
+                                </tbody>
+                            </Table>
+                            </div>
+                        ) : (null)}
 
                     </Grid>
                 </Grid>
             </Container>
 
-            <Container>
-                {selected ? (
-                    <div style={{ textAlign: "center" }}>
-                        <br />
-                        <p>    Selected day: {selectedDay.day}</p>
-                        <p>  Month: {selectedDay.month} </p>
-                        <p>  Year: {selectedDay.year} </p>
-                    </div>
-                ) : (null)}
-            </Container>
 
         </div>
     )
 };
 
 export default Calendar
+
+
+
+
+

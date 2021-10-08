@@ -9,10 +9,11 @@ import{
     NavLink,
     Container
 } from 'reactstrap';
-
+import { GetID } from '../../components/auth'
 class AppNavbar extends Component{
     state = {
-        isOpen: false
+        isOpen: false,
+        id: GetID()
     }
     toggle = () =>{
         this.setState({
@@ -34,8 +35,8 @@ class AppNavbar extends Component{
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="">
-                                    Settings
+                                <NavLink href={`/editprofile/${this.state.id}`}>
+                                    Profile
                                 </NavLink>
                             </NavItem>
                             <NavItem>

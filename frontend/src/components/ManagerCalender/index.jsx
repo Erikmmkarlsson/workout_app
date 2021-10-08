@@ -235,7 +235,7 @@ function Calendar(props) {
                                 <tbody>
                                     {SelectedWorkoutExercises.map(workout =>
                                     <tr>
-                                        <td >{workout.name}<Alert color="info">{workout.description}</Alert></td>
+                                        <td >{workout.name}</td>
                                         <td>{workout.num_sets}</td>
                                         <td>{workout.num_reps}</td>
                                         <td>
