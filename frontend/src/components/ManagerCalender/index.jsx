@@ -19,7 +19,7 @@ import{
     FormGroup
 
 } from 'reactstrap';
-import { WorkOutline } from '@material-ui/icons'
+
 function Calendar(props) {
     
     const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']

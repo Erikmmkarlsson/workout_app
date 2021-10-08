@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import axios from 'axios'
-import  {GetToken} from "../auth"
+import  {GetToken,GetID} from "../auth"
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import CalendarBody from '../ManagerCalender/CalendarBody'
 import CalendarHead from '../ManagerCalender/CalendarHead'
-
 import{
 
     Dropdown,
@@ -20,45 +19,43 @@ import{
     FormGroup
 
 } from 'reactstrap';
-import { WorkOutline } from '@material-ui/icons'
+
 function Calendar(props) {
-    
     const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     /* HOOKS */
     // Later add hook for active days from database
     const [dateObject, setdateObject] = useState(moment())
     const [showMonthTable, setShowMonthTable] = useState(false)
     const [selected, hasSelected] = useState(false)
-    const [UsersList, setUsersList] = useState([])
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const toggle = () => setDropdownOpen(prevState => !prevState);
     const [dropdownOpenWorkouts, setDropdownOpenWorkouts] = useState(false);
     const toggleWorkouts = () => setDropdownOpenWorkouts(prevState => !prevState);
     const [WorkoutList, setWorkoutList] = useState([])
-    const [SelectedUserName, setSelectedUserName] = useState('')
-    const [SelectedUserID, setSelectedUserID] = useState('')
     const [SelectedWorkoutExercises, setSelectedWorkoutExercises] = useState([])
     const [WorkoutListDropdown, setWorkoutListDropdown] = useState([])
     const [SelectedWorkoutID, setSelectedWorkoutID] = useState('')
     const [SelectedWorkoutName, setSelectedWorkoutName] = useState('Select a Workout')
     const [SelectedUserTrainingplanID, setSelectedUserTrainingplanID] = useState([])
-   
-    
-    ///MODIFY BACKEND WHEN FRIENDS SYSTEM ADDED 
-    ///MODIFY  BACKEND WHEN FRIENDS SYSTEM ADDED 
-    ///MODIFY   BACKEND WHEN FRIENDS SYSTEM ADDED 
-    ///MODIFY     BACKEND WHEN FRIENDS SYSTEM ADDED 
+    const id=GetID()
+
     useEffect(() => {
-        axios.get('/api/user/user&friends',{
+        axios.get('/api/GetTrainingplanIdByClientID/'+id,{
             headers: {
               'x-access-token': GetToken()
             }
           })
-          .then((response) => {setUsersList(response.data.data)
+          .then((response) => {setSelectedUserTrainingplanID(response.data.data)
         })
-        
-    }, [])
+        axios.get('/api/UserWorkouts',{
+            headers: {
+              'x-access-token': GetToken()
+            }
+          })
+          .then((response) => {setWorkoutList(response.data.data)
+        })
 
+    }, [])  
+   
+  
     const TrainingplanID=[]
     for (const ID of SelectedUserTrainingplanID){
         TrainingplanID.push(ID.id)
@@ -70,30 +67,6 @@ function Calendar(props) {
         
 
     }
-    
-    
-    function handleSelect(selectedID,selectedName){
-        setSelectedUserName(selectedName)
-        setSelectedUserID(selectedID)
-        axios.get('/api/GetTrainingplanIdByClientID/'+ selectedID,{
-            headers: {
-              'x-access-token': GetToken()
-            }
-          })
-          .then((response) => {setSelectedUserTrainingplanID(response.data.data)
-        })
-        axios.get('/api/UserWorkoutsByInput/'+ selectedID,{
-            headers: {
-              'x-access-token': GetToken()
-            }
-          })
-          .then((response) => {setWorkoutList(response.data.data)
-        })
-
-        console.log('tesst'+TrainingplanID)
-    }
-
-
 
     const defaultSelectedDay = {
         day: moment().date(),
@@ -131,7 +104,7 @@ function Calendar(props) {
         window.open(link);
     }
 
-    function handleDropdownSelect(WorkoutId,WorkoutName){
+        function handleDropdownSelect(WorkoutId,WorkoutName){
         setSelectedWorkoutID(WorkoutId)
         setSelectedWorkoutName(WorkoutName)
 
@@ -154,15 +127,7 @@ function Calendar(props) {
             <Container disableGutters='false'>
 
                 <Grid container>
-                        <Grid item xs={8} md={20} lg={30}>
-                        <Dropdown style={{ marginTop: "1rem", width: "100%" }} group isOpen={dropdownOpen} toggle={toggle}>
-                        <DropdownToggle caret style={{ marginTop: "1rem", width: "100%" }}>
-                        {SelectedUserName}
-                        </DropdownToggle>
-                        <DropdownMenu style={{ marginTop: "1rem", width: "100%" }}>
-                        {UsersList.map(User => <DropdownItem   onClick={()=>handleSelect(User.id,User.name)}>{User.name}</DropdownItem>)}
-                        </DropdownMenu>
-                        </Dropdown>
+                    <Grid item xs={8} md={20} lg={30}>
                         <CalendarHead
                             allMonths={allMonths}
                             currentMonth={currentMonth}
@@ -186,7 +151,7 @@ function Calendar(props) {
                                 actualYear={actualYear}
                                 weekdays={weekdays}
                                 ActiveDates={ActiveDates}
-                                SelectedUserID={SelectedUserID}
+                                SelectedUserID={id}
                                 setSelectedWorkoutExercises={setSelectedWorkoutExercises}
                                 setWorkoutListDropdown={setWorkoutListDropdown}
                             />

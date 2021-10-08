@@ -7,7 +7,8 @@ import { Navbar, AppNavbar } from './components/navbar/'
 import { Hero } from './components/Landing Page/'
 import { Login } from './components/Login'
 
-import ManagerDashboard from './components/Dashboard/managerdashboard'
+import ManagerDashboard from './components/ManagerDashboard/managerdashboard'
+import UserDashboard from './components/UserDashboard/userdashboard'
 import Calendar from './components/UserCalendar'
 import { AddExercise, EditExercise, ExerciseList } from './components/Exercises'
 import { CreateWorkout, WorkoutList, EditWorkout } from './components/Workouts/'
@@ -64,7 +65,7 @@ function App() {
           <Route path='/profile'> <Profile /> </Route>
           <Route exact path='/login'> <Login /> </Route>
 
-          <Route path='/'>  welcome regular user <Calendar /></Route>
+          <Route exactpath='/'>  <UserDashboard /></Route>
 
         </Switch>
       </div>
