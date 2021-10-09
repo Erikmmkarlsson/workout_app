@@ -54,7 +54,8 @@ module.exports = function (app, db) {
         console.log("/api/users_workout_events/:id...");
         console.log(req.params.id);
 
-        const sql = "select workout_events.date, workout_events.workout_id, workouts.name from training_plans \
+        const sql = "select workout_events.date, workout_events.workout_id, workout_events.manager_comment, \
+                    workout_events.client_comment, workout_events.is_done, workouts.name from training_plans \
                     Inner join workout_events on training_plans.id = workout_events.training_plan_id \
                     Inner join workouts on workout_events.workout_id = workouts.id \
                     where training_plans.client_id = ?";

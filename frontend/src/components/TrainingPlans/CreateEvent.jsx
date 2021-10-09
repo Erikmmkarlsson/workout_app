@@ -1,90 +1,129 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
-
+import { Form, FormGroup, Input, Label, Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap'
+import { GetToken } from '../auth'
+import { useHistory } from 'react-router'
 export const CreateEvent = (props) => {
+  const [open, setOpen] = useState(false)
+  const [workoutList, setWorkoutList] = useState([])
+  const [selectedWorkout, setSelectedWorkout] = useState({ id: 0, name: "" })
+  const { selectedUser, trainingPlan } = props
+  const [date, setDate] = useState('')
+  const [comment, setComment] = useState('')
 
-  const [values, setValues] = useState({
-    workout_id: '',
-    date: '',
-    manager_comment: ''
-  })
+  const [dropdownOpenWorkouts, setDropdownOpenWorkouts] = useState(false);
+  const toggleWorkouts = () => setDropdownOpenWorkouts(prevState => !prevState);
 
-  const history = useHistory()
+  useEffect(() => {
+    axios.get('/api/GetUser&UserManagerWorkouts/' + selectedUser, {
+      headers: {
+        'x-access-token': GetToken()
+      }
+    })
+      .then((response) => {
+        setWorkoutList(response.data.data)
+      })
+  }, [])
 
-  const handleChange = (Name) => (e) => {
-    setValues({ ...values, [Name]: e.target.value })
+
+  const handleButton = async (e) => {
+    const data = {
+      training_plan_id: trainingPlan[0].id,
+      workout_id: selectedWorkout.id,
+      date: date,
+      manager_comment: comment
+    }
+    console.log(data)
+    await axios.post('/api/workout_events', data).then(response => console.log(response))
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const { workout_id: workout_id, date: date, manager_comment: manager_comment } = values
-    const workout_data = { workout_id: workout_id, date: date, manager_comment: manager_comment }
-    await axios.post('/api/exercises', workout_data)
-    history.goBack()
+  const handleDateChange = (e) => {
+    setDate(e.target.value)
   }
+  const handleCommentChange = (e) => {
+    setComment(e.target.value)
+
+    const data = {
+      training_plan_id: trainingPlan[0].id,
+      workout_id: selectedWorkout.id,
+      date: date,
+      manager_comment: comment
+    }
+    console.log(data)
+  }
+
 
   return (
     <div>
-      <div>
-        <button
-          className='btn btn-warning'
-          style={{ marginTop: 25 }}
-          onClick={history.goBack}
-        >
-          Go back
-        </button>
-      </div>
-      <div className='submit-form'>
-        <div>
-          <div className='form-group'>
-            <label htmlFor='date'>Date</label>
-            <input
-              type='date'
-              className='form-control'
-              id='date'
-              required
-              value={values.date}
-              onChange={handleChange('date')}
-              name='date'
-              placeholder='Enter a date'
-            />
-          </div>
-          <div className='form-group'>
-            <label htmlFor='workout_id'>workout_id</label>
-            <input
-              type='text'
-              className='form-control'
-              id='workout_id'
-              required
-              value={values.workout_id}
-              onChange={handleChange('workout_id')}
-              name='workout_id'
-              placeholder='Enter a workout_id for the exercise'
-            />
-          </div>
-          <div className='form-group'>
-            <label htmlFor='comment'>Comment</label>
-            <input
-              type='text'
-              className='form-control'
-              id='comment'
-              value={values.manager_comment}
-              onChange={handleChange('comment')}
-              name='comment'
-              placeholder="Add a comment for the client..."
-            />
-          </div>
+      <Button onClick={() => setOpen(true)}>Add new event </Button>
 
-          <button
-            onClick={handleSubmit}
-            className='btn btn-success'
-            style={{ marginTop: 25 }}
-          >
-            Submit
-          </button>
-        </div>
-      </div>
+      {open ? (<div>
+        <Form>
+          <FormGroup>
+            <Label for="date">Date</Label>
+            <Input
+              type="date"
+              name="date"
+              id="date"
+              placeholder="date"
+              onChange={handleDateChange}
+              value={date}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Dropdown group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
+              <DropdownToggle color="info" caret placeholder="Select workout" >
+                {selectedWorkout.name}
+              </DropdownToggle>
+              <DropdownMenu modifiers={{
+                setMaxHeight: {
+                  enabled: true,
+                  order: 890,
+                  fn: (data) => {
+                    return {
+                      ...data,
+                      styles: {
+                        ...data.styles,
+                        overflow: 'auto',
+                        maxHeight: '100px',
+                      },
+                    };
+                  },
+                },
+              }}>
+                {workoutList.map((workout, key) =>
+                  <DropdownItem onClick={() =>
+                    (setSelectedWorkout({ id: workout.id, name: workout.name }))}>
+                    {workout.name}
+                  </DropdownItem>)}
+              </DropdownMenu>
+            </Dropdown>
+
+          </FormGroup>
+          <FormGroup>
+            <Label for="comment">Comment</Label>
+            <Input type="textarea"
+              name="text"
+              id="comment"
+              placeholder="Add a helpful comment..."
+              onChange={handleCommentChange}
+              value={comment} />
+          </FormGroup>
+
+
+
+
+        </Form>
+        <button
+          className='btn btn-success'
+          style={{ marginTop: 25 }}
+
+          onClick={() => { handleButton() }}
+        >Add workout
+        </button>
+
+      </div>) : null}
+
     </div>
   )
 }
