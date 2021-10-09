@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { GetToken } from '../auth'
 import axios from 'axios';
-import { Table } from 'reactstrap'
+import { Container, Table } from 'reactstrap'
 import { CreateEvent } from './CreateEvent';
-
+import "./trainingplan.css"
 const EditTrainingPlan = (props) => {
   //const managerId = GetID();
   const [users, setUsers] = useState([])
@@ -11,6 +11,8 @@ const EditTrainingPlan = (props) => {
   const [selectedUser, setSelectedUser] = useState(0)
   const [trainingPlan, setTrainingPlan] = useState(0)
   const [selected, setSelected] = useState(false)
+  const [pressedAdd, setPressed] = useState(false)
+
   const [selectedWorkoutEvents, setSelectedWorkoutEvents] = useState([])
   console.log(selectedUser)
 
@@ -36,14 +38,15 @@ const EditTrainingPlan = (props) => {
       })
       .then((response) => {setTrainingPlan(response.data.data)})
 
-  }, [selectedUser]);
+  }, [selectedUser, pressedAdd]);
 
   console.log(selectedWorkoutEvents)
 
   
 
   return (
-    <div>
+    <div className="training_plan">
+      <Container>
       <ul className='list-group'>
         {users &&
           users.map((user, key) => (
@@ -63,8 +66,18 @@ const EditTrainingPlan = (props) => {
           ))}
       </ul>
       {selected ? (
-        <div>
-          <Table style={{ background: 'white', marginTop: "1rem", width: "100%" }}>
+        <Container style={{marginTop:"4rem"}}>
+      <CreateEvent
+          selectedUser={selectedUser}
+          trainingPlan={trainingPlan}
+          setPressed={setPressed}
+          pressedAdd={pressedAdd}
+
+          /></Container>):null}
+      </Container>
+      {selected ? (
+        <Container>
+          <Table style={{ background: 'white', width: "100%" }}>
             <thead> <tr>
               <th>Date</th>
               <th>Workout Name</th>
@@ -83,11 +96,8 @@ const EditTrainingPlan = (props) => {
                 </tr>)}
             </tbody>
           </Table>
-          <CreateEvent  
-          selectedUser={selectedUser}
-          trainingPlan={trainingPlan}
-          />
-        </div>) : null}
+         
+        </Container>) : null}
 
 
 

@@ -1,0 +1,10 @@
+
+.training_plan{
+    display: flex;
+    align-items: row;
+}
+
+
+.event_button{
+    padding-top: 30px;
+}

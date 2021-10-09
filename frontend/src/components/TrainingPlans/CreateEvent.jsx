@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Form, FormGroup, Input, Label, Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap'
 import { GetToken } from '../auth'
-import { useHistory } from 'react-router'
 export const CreateEvent = (props) => {
+  const { selectedUser, trainingPlan, setPressed, pressedAdd } = props
+
   const [open, setOpen] = useState(false)
   const [workoutList, setWorkoutList] = useState([])
   const [selectedWorkout, setSelectedWorkout] = useState({ id: 0, name: "" })
-  const { selectedUser, trainingPlan } = props
   const [date, setDate] = useState('')
   const [comment, setComment] = useState('')
 
@@ -34,7 +34,8 @@ export const CreateEvent = (props) => {
       manager_comment: comment
     }
     console.log(data)
-    await axios.post('/api/workout_events', data).then(response => console.log(response))
+    await axios.post('/api/workout_events', data)
+    .then(response => setPressed(!pressedAdd))
   }
 
   const handleDateChange = (e) => {
