@@ -73,7 +73,8 @@ const CalendarBody = props => {
                     setSelectedDay(d)
                 }}
             >
-                <span className={activeDay}>{d}</span>
+            { d>10 ?(<span className={activeDay}>{d}</span>)
+             : (<span className={activeDay}>&nbsp;{d}&nbsp;</span>)}
             </TableCell>
         )
     }
