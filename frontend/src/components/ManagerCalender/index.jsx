@@ -39,7 +39,6 @@ function Calendar(props) {
     const [SelectedWorkoutID, setSelectedWorkoutID] = useState('')
     const [SelectedWorkoutName, setSelectedWorkoutName] = useState('Select a Workout')
     const [SelectedUserTrainingplanID, setSelectedUserTrainingplanID] = useState([])
-   
 
     useEffect(() => {
         axios.get('/api/manager/myUsers',{
@@ -61,7 +60,7 @@ function Calendar(props) {
         const data = { training_plan_id:TrainingplanID,workout_id:SelectedWorkoutID,date:selectedDay.year+'-'+selectedDay.month+'-'+selectedDay.day,is_done: 0 }
         axios.post('api/AddWorkOutToUser',data)
         
-
+        hasAdded(!added)
     }
     
     
@@ -86,6 +85,10 @@ function Calendar(props) {
         console.log('tesst'+TrainingplanID)
     }
 
+    const [added, hasAdded] = useState(false)
+    useEffect(() => {
+        handleSelect(SelectedUserID, SelectedUserName)
+    }, [added])
 
 
     const defaultSelectedDay = {
@@ -182,6 +185,7 @@ function Calendar(props) {
                                 SelectedUserID={SelectedUserID}
                                 setSelectedWorkoutExercises={setSelectedWorkoutExercises}
                                 setWorkoutListDropdown={setWorkoutListDropdown}
+                                added={added}
                             />
                         ) : null}
                         {selected ? (
