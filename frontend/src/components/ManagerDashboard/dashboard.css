@@ -1,17 +1,25 @@
-.dashboard{
+.dash{
     display: flex;
-    justify-content: center;
-    flex-direction: column;
-
-}
-
-
-.dashboard .buttons{
-    display: flex;
-    justify-content: center;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
-.dashboard .list{
-    width: 10%;
+.dash .cal {
+    width: 110vw;
+    left: -2rem;
+    position: absolute;
+    z-index: 0;
 }
+
+
+.dash a {
+    color: black;
+    position: relative;
+    z-index: 99;
+}
+
+.dash .icon {
+    margin: 3rem 3rem;
+}
+
+
