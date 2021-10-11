@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { GetID } from '../auth'
+import { GetID ,GetToken} from '../auth'
 
-export default function FindFriend(props) {
-  const [friendsList, setFriendsList] = useState([])
-  const [currentFriend, setCurrentFriend] = useState(null)
+export default function Finduser(props) {
+  const [usersList, setusersList] = useState([])
+  const [currentuser, setCurrentuser] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [searchName, setSearchName] = useState('')
   const [reciever, setreciever]= useState('')
 
   useEffect(() => {
-    axios.get('/api/friends').then((response) => {
-      setFriendsList(response.data.data)
+    axios.get('/api/reqList',{
+      headers: {
+        'x-access-token': GetToken()
+      }
+    }).then((response) => {
+      setusersList(response.data.data)
     })
   }, [])
 
@@ -20,22 +24,26 @@ export default function FindFriend(props) {
     setSearchName(e.target.value)
   }
 
-  function setActiveFriend(friend, index) {
-    setCurrentFriend(friend)
+  function setActiveuser(user, index) {
+    setCurrentuser(user)
     setCurrentIndex(index)
     
   }
 
   function search() {
-    axios.get('/api/friends?search=' + searchName).then((response) => {
-      setFriendsList(response.data.data)
+    axios.get('/api/reqList?search=' + searchName,{
+      headers: {
+        'x-access-token': GetToken()
+      }
+    }).then((response) => {
+      setusersList(response.data.data)
     })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const request_data = { id_sender:GetID(), id_reciever:reciever }
-    await axios.post('/api/friends', request_data)
+    await axios.post('/api/reqList', request_data)
   }
 
   return (
@@ -64,37 +72,37 @@ export default function FindFriend(props) {
         </div>
       </div>
       <div className='col-md-6'>
-        <h4>Friends</h4>
+        <h4>users</h4>
         <ul className='list-group'>
-          {friendsList &&
-            friendsList.map((friend, index) => (
+          {usersList &&
+            usersList.map((user, index) => (
               <li
                 className={
                   'list-group-item ' + (index === currentIndex ? 'active' : '')
                 }
-                onClick={() => {setActiveFriend(friend, index); setreciever(friend.id);}}
+                onClick={() => {setActiveuser(user, index); setreciever(user.id);}}
                 key={index}
               >
-                {friend.name}
+                {user.name}
               </li>
             ))}
         </ul>
       </div>
       <div className='col-md-6'>
-        {currentFriend ? (
+        {currentuser ? (
           <div>
             <h4>Information</h4>
             <div>
               <label>
                 <strong>Name:</strong>
               </label>{' '}
-              {currentFriend.name}
+              {currentuser.name}
             </div>
             <div>
               <label>
                 <strong>Email:</strong>
               </label>{' '}
-              {currentFriend.email}
+              {currentuser.email}
             </div>
             <button
               onClick={handleSubmit}

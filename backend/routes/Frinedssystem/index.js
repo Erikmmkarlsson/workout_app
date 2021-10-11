@@ -1,24 +1,28 @@
+const getID = require('../../auth/getID')
+const verifyToken = require('../../auth/')
 
 module.exports = function (app, db) { // receiving "app" and "db" instance
     
     
-  app.get('/api/friends/', (req, res, next) => {
+  app.get('/api/reqList/',verifyToken, (req, res, next) => {
     /*
         Returns all the users.
         Example usage:
-      $ curl http://localhost:8000/api/friends -X GET
+      $ curl http://localhost:8000/api/reqList -X GET
        */
-    console.log("Find a friend..")
-      console.log(req.query.search)
+
 
     const search = req.query.search
     if (search === undefined) {
       // if no search terms defined
-      var sql = 'select * from users'
+      var sql = 'select * from users where id != ?'
+      
     } else {
-      var sql = `select * from users where name like '%' || ? || '%'` // if search term works
+      var sql = `select * from users where id != ? and name like '%' || ? || '%'` // if search term works
     }
-    const params = [search]
+    const params = [getID(req),search]
+   
+    console.log(params)
     console.log(sql)
     db.all(sql, params, (err, rows) => {
       if (err) {
@@ -33,12 +37,12 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
   })
  
 
- app.post('/api/friends/', (req, res, next) => {
+ app.post('/api/reqList/', (req, res, next) => {
     /*
         Posts a new request to be added to the db.
 
         Example usage:
-        $ curl http://localhost:8000/api/friends -X POST \
+        $ curl http://localhost:8000/api/reqList -X POST \
                    -d '
                    {
                       "id_sender": Integer,

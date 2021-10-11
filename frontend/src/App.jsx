@@ -15,7 +15,7 @@ import { EditTrainingPlan } from './components/TrainingPlans'
 import AcceptUsers from './components/ManagerPage/AcceptUsers'
 import { EditProfile, PasswordReset, Profile } from './components/Profile'
 import { useAuth, GetRole } from './components/auth'
-import FindFriend from './components/Friend/FindFriend.jsx'
+import FindFriend from './components/FriendSystem/Finduser.jsx'
 
 function App() {
   const [loggedIn] = useAuth()
@@ -59,7 +59,7 @@ function App() {
         <AppNavbar />
         <Switch>
         
-
+        <Route path='/findfriend'> <FindFriend/> </Route>
           <Route path='/editprofile'> <EditProfile /> </Route>
           <Route path='/passwordreset'> <PasswordReset /> </Route>
           <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
