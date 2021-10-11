@@ -25,7 +25,8 @@ function App() {
     return (
       <div className='App'>
         <Sidebar/>
-          <Switch>
+        <div className="appBox">
+                    <Switch>
             <PrivateRoute path='/MyUsers'> <AcceptUsers /> </PrivateRoute>
             <Route exact path='/login'> <Login /> </Route>
 
@@ -49,12 +50,14 @@ function App() {
             <Route exactpath='/'>  <ManagerDashboard /></Route>
 
           </Switch>
+          </div>
         </div>
     )
   } else if (loggedIn) { // regular user
     return (
       <div className='App'>
         <Sidebar/>
+        <div className="appBox">
         <Switch>
         
         <Route path='/findfriend'> <FindFriend/> </Route>
@@ -67,6 +70,7 @@ function App() {
           <Route exactpath='/'>  <UserDashboard /></Route>
 
         </Switch>
+        </div>
       </div>
     )
   } else { // not logged in

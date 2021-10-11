@@ -6,3 +6,9 @@ body {
     background-size: 100% 180vh;
     overflow-x: hidden;
 }
+.appBox{
+    border-radius: 0.5%;
+    height: 70vh;
+    width: 90vw;
+    margin: auto;
+}

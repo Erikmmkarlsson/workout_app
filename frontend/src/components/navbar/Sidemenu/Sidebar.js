@@ -32,7 +32,7 @@ const NavIcon = styled(Link)`
   
 const SidebarNav = styled.nav`
   background: #15171c;
-  width: 15rem;
+  width: 250px;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -49,7 +49,6 @@ const SidebarWrap = styled.div`
   
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(true);
-  const [sidebarMobile, setsidebarMobile] = useState(true);
   const showSidebar = () => setSidebar(!sidebar);
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
 
@@ -78,7 +77,7 @@ const Sidebar = () => {
             Gymific‎‎‎ 
           </h1>
         </Nav>
-        <SidebarNav sidebar={sidebar} style={{marginRight: "10rem"}}>
+        <SidebarNav sidebar={sidebar} style={{marginRight: "20rem"}}>
           <SidebarWrap>
             <NavIcon to="#">
             {isMobile && <AiIcons.AiOutlineClose onClick={showSidebar} />}

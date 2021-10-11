@@ -35,12 +35,12 @@ function Calendar(props) {
     const [dropdownOpenWorkouts, setDropdownOpenWorkouts] = useState(false);
     const toggleWorkouts = () => setDropdownOpenWorkouts(prevState => !prevState);
     const [WorkoutList, setWorkoutList] = useState([])
-    const [SelectedUserName, setSelectedUserName] = useState('')
+    const [SelectedUserName, setSelectedUserName] = useState('Select a client')
     const [SelectedUserID, setSelectedUserID] = useState('')
     const [SelectedWorkoutExercises, setSelectedWorkoutExercises] = useState([])
     const [WorkoutListDropdown, setWorkoutListDropdown] = useState([])
     const [SelectedWorkoutID, setSelectedWorkoutID] = useState('')
-    const [SelectedWorkoutName, setSelectedWorkoutName] = useState('Select a Workout')
+    const [SelectedWorkoutName, setSelectedWorkoutName] = useState('Select a workout')
     const [SelectedUserTrainingplanID, setSelectedUserTrainingplanID] = useState([])
 
     useEffect(() => {

@@ -1,8 +1,7 @@
 import React from "react";
 import * as FaIcons from "react-icons/fa";
-import * as AiIcons from "react-icons/ai";
+import {AiOutlineCalendar} from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
-import * as RiIcons from "react-icons/ri";
 import * as HiIcons from "react-icons/hi";
 import * as CgIcons from "react-icons/cg";
 import * as BsIcons from "react-icons/bs";
@@ -14,7 +13,7 @@ export const SidebarData = [
   {
     title: "Calendar",
     path: "/",
-    icon: <AiIcons.AiOutlineCalendar />,
+    icon: <AiOutlineCalendar />,
   }, 
   {
     title: "Clients",
