@@ -4,7 +4,7 @@ import "./calendar.css"
 const WorkoutReport = props => {
     const [modal, setModal] = useState(false);
     const [selected, setSelected] = useState('')
-
+    const {toggleModal} = props
     const toggle = () => setModal(!modal);
 
     const handleChange = e => {
@@ -54,7 +54,7 @@ const WorkoutReport = props => {
 
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="success" onClick={toggle}>Submit</Button>{' '}
+                    <Button color="success" onClick={() => {toggle(); toggleModal()}}>Submit</Button>{' '}
                     <Button color="secondary" onClick={toggle}>Cancel</Button>
                 </ModalFooter>
             </Modal>

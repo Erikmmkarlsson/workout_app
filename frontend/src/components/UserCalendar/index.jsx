@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import axios from 'axios'
-import  {GetToken,GetID} from "../auth"
+import { GetToken, GetID } from "../auth"
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import CalendarBody from '../ManagerCalender/CalendarBody'
 import CalendarHead from '../ManagerCalender/CalendarHead'
 import WorkoutReport from './WorkoutReport'
-import{
+import {
 
     Dropdown,
     DropdownToggle,
@@ -15,7 +15,9 @@ import{
     DropdownItem,
     Table,
     Button,
-    FormGroup
+    FormGroup,
+    Modal,
+    ModalFooter
 
 } from 'reactstrap';
 
@@ -34,37 +36,41 @@ function Calendar(props) {
     const [SelectedWorkoutID, setSelectedWorkoutID] = useState('')
     const [SelectedWorkoutName, setSelectedWorkoutName] = useState('Select a Workout')
     const [SelectedUserTrainingplanID, setSelectedUserTrainingplanID] = useState([])
-    const id=GetID()
+    const id = GetID()
+    const [added, hasAdded] = useState(false)
 
     useEffect(() => {
-        axios.get('/api/GetTrainingplanIdByClientID/'+id,{
+        axios.get('/api/GetTrainingplanIdByClientID/' + id, {
             headers: {
-              'x-access-token': GetToken()
+                'x-access-token': GetToken()
             }
-          })
-          .then((response) => {setSelectedUserTrainingplanID(response.data.data)
         })
-        axios.get('/api/UserWorkouts',{
+            .then((response) => {
+                setSelectedUserTrainingplanID(response.data.data)
+            })
+        axios.get('/api/UserWorkouts', {
             headers: {
-              'x-access-token': GetToken()
+                'x-access-token': GetToken()
             }
-          })
-          .then((response) => {setWorkoutList(response.data.data)
         })
+            .then((response) => {
+                setWorkoutList(response.data.data)
+            })
 
-    }, [])  
-   
-  
-    const TrainingplanID=[]
-    for (const ID of SelectedUserTrainingplanID){
+    }, [added])
+
+
+    const TrainingplanID = []
+    for (const ID of SelectedUserTrainingplanID) {
         TrainingplanID.push(ID.id)
     }
 
-    function handleButton(){
-        const data = { training_plan_id:TrainingplanID,workout_id:SelectedWorkoutID,date:selectedDay.year+'-'+selectedDay.month+'-'+selectedDay.day,is_done: 0 }
-        axios.post('api/AddWorkOutToUser',data)
-        
 
+
+    function handleButton() {
+        const data = { training_plan_id: TrainingplanID, workout_id: SelectedWorkoutID, date: selectedDay.year + '-' + selectedDay.month + '-' + selectedDay.day, is_done: 0 }
+        axios.post('api/AddWorkOutToUser', data).then(() =>
+            hasAdded(!added))
     }
 
     const defaultSelectedDay = {
@@ -99,11 +105,11 @@ function Calendar(props) {
         hasSelected(true)
     }
 
-    function OpenLink(link){
+    function OpenLink(link) {
         window.open(link);
     }
 
-        function handleDropdownSelect(WorkoutId,WorkoutName){
+    function handleDropdownSelect(WorkoutId, WorkoutName) {
         setSelectedWorkoutID(WorkoutId)
         setSelectedWorkoutName(WorkoutName)
 
@@ -116,9 +122,12 @@ function Calendar(props) {
     const actualMonth = () => moment().format('MMMM')
     const actualYear = () => moment().format('YYYY')
 
+    const [modal, setModal] = useState(false);
+    const toggleModal = () => setModal(!modal);
+
     const firstDayOfMonth = () => moment(dateObject).startOf('month').format('d')
     const ActiveDates = []
-    for (const workout of WorkoutList){
+    for (const workout of WorkoutList) {
         ActiveDates.push(workout.date)
     }
     return (
@@ -153,71 +162,77 @@ function Calendar(props) {
                                 SelectedUserID={id}
                                 setSelectedWorkoutExercises={setSelectedWorkoutExercises}
                                 setWorkoutListDropdown={setWorkoutListDropdown}
+                                toggleModal={toggleModal}
                             />
                         ) : null}
                         {selected ? (
                             <div>
-                            <div class='buttons'>
-                                <FormGroup>
-                                    <Dropdown group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
-                                    <DropdownToggle color="info" caret >
-                                    {SelectedWorkoutName}
-                                    </DropdownToggle>
-                                    <DropdownMenu modifiers={{
-                                        setMaxHeight: {
-                                            enabled: true,
-                                            order: 890,
-                                            fn: (data) => {
-                                            return {
-                                                ...data,
-                                                styles: {
-                                                ...data.styles,
-                                                overflow: 'auto',
-                                                maxHeight: '100px',
+                                <div class='buttons'>
+                                    <FormGroup>
+                                        <Dropdown group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
+                                            <DropdownToggle caret >
+                                                {SelectedWorkoutName}
+                                            </DropdownToggle>
+                                            <DropdownMenu modifiers={{
+                                                setMaxHeight: {
+                                                    enabled: true,
+                                                    order: 890,
+                                                    fn: (data) => {
+                                                        return {
+                                                            ...data,
+                                                            styles: {
+                                                                ...data.styles,
+                                                                overflow: 'auto',
+                                                                maxHeight: '100px',
+                                                            },
+                                                        };
+                                                    },
                                                 },
-                                            };
-                                            },
-                                        },
-                                        }}>
-                                    {WorkoutListDropdown.map(Workout => <DropdownItem   onClick={()=>handleDropdownSelect(Workout.id,Workout.name)}>{Workout.name}</DropdownItem>)}
-                                    </DropdownMenu>
-                                    </Dropdown>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Button
-                                    color="success"
-                                    onClick={()=>handleButton()}
-                                    type='submit'
-                                    >Add workout
-                                    </Button>
-                                </FormGroup>
-                                <FormGroup>
-                                    <WorkoutReport />
-                                </FormGroup>
-                            </div>
-                            <Table  hover style={{ background: 'white',marginTop: "1rem", width: "100%" }}>
-                                <thead>
-                                    <tr>
-                                    <th>Name</th>
-                                    <th>Sets</th>
-                                    <th>reps</th>
-                                    <th>Video</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {SelectedWorkoutExercises.map(workout =>
-                                    <tr>
-                                        <td >{workout.name}</td>
-                                        <td>{workout.num_sets}</td>
-                                        <td>{workout.num_reps}</td>
-                                        <td>
-                                         <Button color="primary" onClick={()=> OpenLink(workout.video_link)}>Video</Button>
-                                        </td>
-                                        
-                                    </tr>)}
+                                            }}>
+                                                {WorkoutListDropdown.map(Workout => <DropdownItem onClick={() => handleDropdownSelect(Workout.id, Workout.name)}>{Workout.name}</DropdownItem>)}
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Button
+                                            color="primary"
+                                            onClick={() => handleButton()}
+                                            type='submit'
+                                        >Add workout
+                                        </Button>
+                                    </FormGroup>
+                                </div>
 
-                                </tbody>
-                            </Table>
+                                <Modal isOpen={modal} toggle={toggleModal}>
+
+                                    <Table hover style={{ background: 'white', marginTop: "1rem", width: "100%" }}>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Sets</th>
+                                                <th>reps</th>
+                                                <th>Video</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {SelectedWorkoutExercises.map(workout =>
+                                                <tr>
+                                                    <td >{workout.name}</td>
+                                                    <td>{workout.num_sets}</td>
+                                                    <td>{workout.num_reps}</td>
+                                                    <td>
+                                                        <Button color="primary" onClick={() => OpenLink(workout.video_link)}>Video</Button>
+                                                    </td>
+
+                                                </tr>)}
+
+                                        </tbody>
+                                    </Table>
+
+                                    <ModalFooter>
+                                        <WorkoutReport toggleModal={toggleModal}/>
+                                    </ModalFooter>
+                                </Modal>
                             </div>
                         ) : (null)}
 
