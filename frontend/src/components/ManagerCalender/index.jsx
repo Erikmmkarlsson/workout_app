@@ -6,6 +6,8 @@ import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import CalendarBody from './CalendarBody'
 import CalendarHead from './CalendarHead'
+import './calendar.css'
+
 import{
 
     Dropdown,
@@ -194,7 +196,7 @@ function Calendar(props) {
                         ) : null}
                         {selected ? (
                             <div>
-                            <div class='buttons'>
+                            <div class='calendButtons'>
                                 <FormGroup>
                                     <Dropdown group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
                                     <DropdownToggle color="info" caret >

@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Button, FormGroup, Label, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
-import "./calendar.css"
 const WorkoutReport = props => {
     const [modal, setModal] = useState(false);
     const [selected, setSelected] = useState('')

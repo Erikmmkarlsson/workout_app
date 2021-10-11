@@ -1,5 +1,4 @@
 .calendar {
-    overflow: hidden;
     transition: all 0.5s ease;
 }
 
@@ -99,4 +98,15 @@ svg.MuiSvgIcon-root:hover {
     display: flex;
     justify-content: center;
     overflow: hidden;
+}
+
+.calendButtons {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    padding-bottom: 100px;
+}
+
+.calendButtons div {
+    margin-right: 1rem;
 }
