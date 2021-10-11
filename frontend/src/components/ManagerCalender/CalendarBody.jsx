@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import './calendar.css'
 import nextId from 'react-id-generator'
 import axios from 'axios'
-import  {GetToken} from "../auth"
+import { GetToken } from "../auth"
 
 import moment from 'moment'
 import Table from '@material-ui/core/Table'
@@ -15,7 +15,7 @@ import Paper from '@material-ui/core/Paper'
 
 
 const CalendarBody = props => {
-    const { added, firstDayOfMonth, daysInMonth, currentDay, currentMonth,currentYear, currentMonthNum,currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays, ActiveDates ,SelectedUserID,setSelectedWorkoutExercises,setWorkoutListDropdown} = props
+    const { toggleModal, added, firstDayOfMonth, daysInMonth, currentDay, currentMonth, currentYear, currentMonthNum, currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays, ActiveDates, SelectedUserID, setSelectedWorkoutExercises, setWorkoutListDropdown } = props
 
     const blanks = []
     for (let i = 1; i < firstDayOfMonth(); i++) {
@@ -25,25 +25,27 @@ const CalendarBody = props => {
     }
     useEffect(() => {
         //console.log('/api/UserWorkoutsExercises/'+SelectedUserID+'/'+selectedDay.year+'-'+(selectedDay.month)+'-'+selectedDay.day)
-        axios.get('/api/UserWorkoutsExercises/'+SelectedUserID+'/'+selectedDay.year+'-'+(selectedDay.month)+'-'+selectedDay.day,{
+        axios.get('/api/UserWorkoutsExercises/' + SelectedUserID + '/' + selectedDay.year + '-' + (selectedDay.month) + '-' + selectedDay.day, {
             headers: {
-              'x-access-token': GetToken()
+                'x-access-token': GetToken()
             }
-          })
-          .then((response) => {setSelectedWorkoutExercises(response.data.data)
         })
-        
+            .then((response) => {
+                setSelectedWorkoutExercises(response.data.data)
+            })
 
-        axios.get('/api/GetUser&UserManagerWorkouts/'+SelectedUserID,{
+
+        axios.get('/api/GetUser&UserManagerWorkouts/' + SelectedUserID, {
             headers: {
-              'x-access-token': GetToken()
+                'x-access-token': GetToken()
             }
-          })
-          .then((response) => {setWorkoutListDropdown(response.data.data)
         })
+            .then((response) => {
+                setWorkoutListDropdown(response.data.data)
+            })
 
 
-        
+
     }, [selectedDay, added])
 
     const monthDays = []
@@ -51,11 +53,10 @@ const CalendarBody = props => {
     for (let d = 1; d <= daysInMonth(); d++) {
         let currDay, selectDay, activeDay
 
-        for(const Date in ActiveDates){
-            if( moment(ActiveDates[Date]).date() === d 
-            && moment(ActiveDates[Date]).month()+1 === currentMonthNum() 
-            && moment(ActiveDates[Date]).year() === currentYearNum())
-            {activeDay= 'active'}
+        for (const Date in ActiveDates) {
+            if (moment(ActiveDates[Date]).date() === d
+                && moment(ActiveDates[Date]).month() + 1 === currentMonthNum()
+                && moment(ActiveDates[Date]).year() === currentYearNum()) { activeDay = 'active' }
         }
 
         // Check if day is today
@@ -71,10 +72,14 @@ const CalendarBody = props => {
                 className={`week-day ${currDay} ${selectDay}`}
                 onClick={() => {
                     setSelectedDay(d)
+
+                    if (activeDay === 'active') {
+                        toggleModal()
+                    }
                 }}
             >
-            { d>10 ?(<span className={activeDay}>{d}</span>)
-             : (<span className={activeDay}>&nbsp;{d}&nbsp;</span>)}
+                {d > 9 ? (<span className={activeDay}>{d}</span>)
+                    : (<span className={activeDay}>&nbsp;{d}&nbsp;</span>)}
             </TableCell>
         )
     }

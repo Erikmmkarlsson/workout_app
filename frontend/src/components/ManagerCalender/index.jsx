@@ -6,6 +6,8 @@ import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import CalendarBody from './CalendarBody'
 import CalendarHead from './CalendarHead'
+import './calendar.css'
+
 import{
 
     Dropdown,
@@ -14,7 +16,8 @@ import{
     DropdownItem,
     Table,
     Button,
-    FormGroup
+    FormGroup,
+    Modal
 
 } from 'reactstrap';
 
@@ -139,7 +142,8 @@ function Calendar(props) {
     const currentDay = () => moment().date()
     const actualMonth = () => moment().format('MMMM')
     const actualYear = () => moment().format('YYYY')
-
+    const [modal, setModal] = useState(false);
+    const toggleModal = () => setModal(!modal);
     const firstDayOfMonth = () => moment(dateObject).startOf('month').format('d')
     const ActiveDates = []
     for (const workout of WorkoutList){
@@ -186,11 +190,13 @@ function Calendar(props) {
                                 setSelectedWorkoutExercises={setSelectedWorkoutExercises}
                                 setWorkoutListDropdown={setWorkoutListDropdown}
                                 added={added}
+                                toggleModal={toggleModal}
+
                             />
                         ) : null}
                         {selected ? (
                             <div>
-                            <div class='buttons'>
+                            <div class='calendButtons'>
                                 <FormGroup>
                                     <Dropdown group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
                                     <DropdownToggle color="info" caret >
@@ -225,6 +231,8 @@ function Calendar(props) {
                                     </Button>
                                 </FormGroup>
                             </div>
+                            <Modal isOpen={modal} toggle={toggleModal}>
+
                             <Table  hover style={{ background: 'white',marginTop: "1rem", width: "100%" }}>
                                 <thead>
                                     <tr>
@@ -248,6 +256,7 @@ function Calendar(props) {
 
                                 </tbody>
                             </Table>
+                            </Modal>
                             </div>
                         ) : (null)}
 
