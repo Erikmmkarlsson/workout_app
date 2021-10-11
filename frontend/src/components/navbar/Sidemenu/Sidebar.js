@@ -5,13 +5,16 @@ import { Link } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { SidebarData } from "./SidebarData";
+import { SidebarDataUser } from "./SidebarDataUser";
 import SubMenu from "./SubMenu";
 import { IconContext } from "react-icons/lib";
 import { useMediaQuery } from "react-responsive";
 import { DeviceSize } from "./size";
+import { GetRole, GetName } from "../../auth";
 import './sidebar.css'
 const Nav = styled.div`
-  background: #15171c;
+  background: rgba(0,0,0,0);
+  color: black;
   height: 80px;
   display: flex;
   justify-content: flex-start;
@@ -29,7 +32,7 @@ const NavIcon = styled(Link)`
   
 const SidebarNav = styled.nav`
   background: #15171c;
-  width: 250px;
+  width: 15rem;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -50,6 +53,14 @@ const Sidebar = () => {
   const showSidebar = () => setSidebar(!sidebar);
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
 
+  var data;
+  if(GetRole()==='client'){
+    data = SidebarDataUser
+  }
+  else {
+    data = SidebarData
+  }
+
   useEffect(() => {
     if(!isMobile){
       setSidebar(true)
@@ -58,13 +69,13 @@ const Sidebar = () => {
   return (
     
     <React.Fragment >
-      <IconContext.Provider value={{ color: "#fff" }}>
-        <Nav style={{marginBottom: "2rem"}}>
+      <IconContext.Provider value={{}}>
+      <Nav style={{marginBottom: "2rem"}}>
         {isMobile && <NavIcon to="#">
             <FaIcons.FaBars onClick={showSidebar} />
           </NavIcon>}
           <h1 className='navH1'>
-            Gymific‎‎‎ 
+            Gymific‎‎‎ 
           </h1>
         </Nav>
         <SidebarNav sidebar={sidebar} style={{marginRight: "10rem"}}>
@@ -72,7 +83,9 @@ const Sidebar = () => {
             <NavIcon to="#">
             {isMobile && <AiIcons.AiOutlineClose onClick={showSidebar} />}
             </NavIcon>
-            {SidebarData.map((item, index) => {
+            {GetName()}
+
+            {data.map((item, index) => {
               return <SubMenu item={item} key={index} />;
             })}
           </SidebarWrap>

@@ -18,7 +18,7 @@ const Example = (props) => {
   return (
     <div>
       <Navbar color='light' light expand='md'>
-        <NavbarBrand href='/' className='title'>GYMIFIC</NavbarBrand>
+        <NavbarBrand href='/' className='title'>Gymific</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className='mr-auto' navbar>

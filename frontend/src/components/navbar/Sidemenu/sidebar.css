@@ -1,7 +1,11 @@
-
-.title{
-    padding-left: 10px;
+.navH1{
     font-family: 'Roboto', sans-serif;
+
+    margin-left:auto; 
+    color: black;
+    margin-right: 2rem;
     font-weight: 900;
     font-style: normal;
+
 }
+

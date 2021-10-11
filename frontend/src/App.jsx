@@ -3,7 +3,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import './App.css'
 
-import { Navbar, AppNavbar } from './components/navbar/'
+import { Navbar } from './components/navbar/'
 import { Hero } from './components/Landing Page/'
 import { Login } from './components/Login'
 
@@ -16,7 +16,7 @@ import AcceptUsers from './components/ManagerPage/AcceptUsers'
 import { EditProfile, PasswordReset, Profile } from './components/Profile'
 import { useAuth, GetRole } from './components/auth'
 import FindFriend from './components/FriendSystem/Finduser.jsx'
-import Sidebar from './components/Sidemenu/Sidebar'
+import Sidebar from './components/navbar/Sidemenu/Sidebar'
 function App() {
   const [loggedIn] = useAuth()
   const role = GetRole()
@@ -25,7 +25,6 @@ function App() {
     return (
       <div className='App'>
         <Sidebar/>
-        <div className="appBox">
           <Switch>
             <PrivateRoute path='/MyUsers'> <AcceptUsers /> </PrivateRoute>
             <Route exact path='/login'> <Login /> </Route>
@@ -51,7 +50,6 @@ function App() {
 
           </Switch>
         </div>
-      </div>
     )
   } else if (loggedIn) { // regular user
     return (

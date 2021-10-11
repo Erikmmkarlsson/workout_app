@@ -199,7 +199,7 @@ function Calendar(props) {
                             <div class='calendButtons'>
                                 <FormGroup>
                                     <Dropdown group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
-                                    <DropdownToggle color="info" caret >
+                                    <DropdownToggle color="secondary" caret >
                                     {SelectedWorkoutName}
                                     </DropdownToggle>
                                     <DropdownMenu modifiers={{
