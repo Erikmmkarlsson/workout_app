@@ -33,6 +33,7 @@ require('./routes/workouts')(app, db) // Sending "app" and "db" instance to work
 require('./routes/training_plans')(app, db)
 require('./routes/workout_events')(app, db) 
 
+require('./routes/friend')(app, db)
 
 require('./routes/users')(app, db) 
 

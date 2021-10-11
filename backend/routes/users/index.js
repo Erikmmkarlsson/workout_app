@@ -30,7 +30,7 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
           Example usage:
        $ curl http://localhost:8000/api/users  5 -X GET
         */
-        console.log('Returning one user...')
+        console.log('Returning one user.....')
 
         const sql = 'select * from users where id = ?'
         const params = [req.params.id]

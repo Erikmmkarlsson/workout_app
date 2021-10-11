@@ -15,6 +15,7 @@ import { EditTrainingPlan } from './components/TrainingPlans'
 import AcceptUsers from './components/ManagerPage/AcceptUsers'
 import { EditProfile, PasswordReset, Profile } from './components/Profile'
 import { useAuth, GetRole } from './components/auth'
+import FindFriend from './components/Friend/FindFriend.jsx'
 
 function App() {
   const [loggedIn] = useAuth()
@@ -45,6 +46,8 @@ function App() {
             <Route path='/passwordreset'> <PasswordReset /> </Route>
             <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
             <Route path='/profile'> <Profile /> </Route>
+
+            <Route path='/findfriend'> <FindFriend/> </Route>
 
             <Route exactpath='/'>  <ManagerDashboard /></Route>
 
