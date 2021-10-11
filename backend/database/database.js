@@ -26,7 +26,6 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         if (err) {
           // Table already created
 
-<<<<<<< Updated upstream
       } else {
         // Table just created, creating some rows
         const insert_user = 'INSERT INTO users (name, email, password, manager, role, activated) VALUES (?,?,?,?,?,?)'
@@ -35,16 +34,6 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         db.run(insert_user, ['Stewart Little', 'manager2@example.com', md5('user123456'), 2, 'manager', true])
       }
     })
-=======
-        } else {
-          // Table just created, creating some rows
-          const insert_user = 'INSERT INTO users (name, email, password, manager, role, activated) VALUES (?,?,?,?,?,?)'
-          db.run(insert_user, ['Jennifer Renoux', 'manager1@example.com', md5('admin123456'), null, 'manager', true])
-          db.run(insert_user, ['Stewart Little', 'manager2@example.com', md5('user123456'), null, 'manager', true])
-          db.run(insert_user, ['Erik', 'Erik@example.com', md5('user123456'), 1, 'client', true])
-        }
-      })
->>>>>>> Stashed changes
     db.run(`CREATE TABLE exercises (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name text,
@@ -179,8 +168,8 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         } else {
           // Table just created, creating some rows
           const insert_request = 'INSERT INTO friendsrequest (id_sender, id_reciever) VALUES (?,?)'
-          db.run(insert_exercise, ['1', '2'])
-          db.run(insert_exercise, ['3', '2'])
+          db.run(insert_request, ['1', '2'])
+          db.run(insert_request, ['3', '2'])
         }
       })
   }
