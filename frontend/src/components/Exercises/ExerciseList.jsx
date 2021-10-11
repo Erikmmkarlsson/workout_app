@@ -30,7 +30,7 @@ export default function ExercisesList (props) {
   }
 
   return (
-    <div className='list row'>
+    <div className='Exercise'>
       <Link to='/'>
         <button className='m-3 btn-sm btn-warning'>Return to dashboard</button>
       </Link>

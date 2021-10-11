@@ -40,7 +40,7 @@ export default function EditExercise (props) {
   }
 
   return (
-    <div>
+    <div className='Exercise'>
       <div>
         <Link
           to='/exercises/'

@@ -60,7 +60,7 @@ export default class ViewProfile extends Component {
     const { currentProfile } = this.state
 
     return (
-      <div>
+      <div className='Profile'>
         {!this.state.otherProfile ? (<div>
           <Link
             to='/editprofile/'

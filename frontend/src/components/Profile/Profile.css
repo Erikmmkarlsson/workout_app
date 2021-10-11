@@ -1,0 +1,17 @@
+.Profile{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+
+@media all and (min-width: 768px) {
+    .Profile {
+        margin-left: 210px;
+    }
+}
+
+.SameLine{
+    display: inline-block;
+}

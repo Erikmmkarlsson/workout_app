@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { GetID, GetToken } from '../auth'
-
+import './Profile.css'
 export default class Profile extends Component {
   constructor (props) {
     super(props)
@@ -105,24 +105,10 @@ export default class Profile extends Component {
     return (
       <div>
         <div>
-          <Link
-            to={'/profile/'}
-            className='btn btn-warning'
-            style={{ marginTop: 25 }}
-          >
-            Back
-          </Link>
-          <Link
-            to={'/passwordreset/'}
-            className='btn btn-warning'
-            style={{ marginTop: 25, marginLeft: 10 }}
-          >
-            Change Password
-          </Link>
         </div>
 
         {currentProfile ? (
-          <div className='edit-form'>
+          <div className='Profile edit-form'>
             <h4>Edit Profile</h4>
             <form>
               <div className='form-group'>
@@ -159,23 +145,34 @@ export default class Profile extends Component {
               </div>
 
             </form>
-            <Link to='/editprofile'>
-              <button
-                className='m-3 btn btn-sm btn-danger'
-                onClick={this.deleteProfile}
+            <div className='SameLine'>
+              <Link to={'/profile/'}>
+                <button
+                  type='submit'
+                  className='m-3 btn btn-sm btn-success'
+                  onClick={this.updateProfile}
+                >
+                  Update Profile
+                </button>
+              </Link>
+              <Link
+                to={'/passwordreset/'}
               >
-                Delete
-              </button>
-            </Link>
-            <Link to={'/profile/'}>
-              <button
+                <button
                 type='submit'
-                className='m-3 btn btn-sm btn-success'
-                onClick={this.updateProfile}
-              >
-                Update
-              </button>
-            </Link>
+                className='m-3 btn btn-sm btn-warning'>
+                Change Password
+                </button>
+              </Link>
+              <Link to='/editprofile'>
+                <button
+                  className='m-3 btn btn-sm btn-danger'
+                  onClick={this.deleteProfile}
+                >
+                  Delete Account
+                </button>
+              </Link>
+            </div>
             <p>
               {this.state.message}
             </p>

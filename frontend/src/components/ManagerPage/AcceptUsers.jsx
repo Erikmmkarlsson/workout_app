@@ -6,7 +6,7 @@ import {
   Table
 
 } from 'reactstrap';
-
+import './AcceptUsers.css'
 export default class RegisterUser extends Component {
 
   state = {
@@ -97,7 +97,7 @@ export default class RegisterUser extends Component {
 
   render() {
     return (
-      <div>
+      <div className='AcceptUsers'>
         <Table>
           <thead>
             <tr>

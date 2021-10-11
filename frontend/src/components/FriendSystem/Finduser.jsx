@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { GetID ,GetToken} from '../auth'
-
+import "./Finduser.css";
 export default function Finduser(props) {
   const [usersList, setusersList] = useState([])
   const [currentuser, setCurrentuser] = useState(null)
@@ -47,7 +47,7 @@ export default function Finduser(props) {
   }
 
   return (
-    <div className='list row'>
+    <div className='Finduser'>
       <Link to='/'>
         <button className='m-3 btn-sm btn-warning'>Return to dashboard</button>
       </Link>

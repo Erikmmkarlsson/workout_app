@@ -8,3 +8,9 @@
 .event_button{
     padding-top: 30px;
 }
+
+@media all and (min-width: 768px) {
+    .training_plan {
+        margin-left: 210px;
+    }
+}

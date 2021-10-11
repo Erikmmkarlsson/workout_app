@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
-
+import './Exercise.css'
 export default function AddExercise (props) {
   const [values, setValues] = useState({
     name: '',
@@ -24,7 +24,7 @@ export default function AddExercise (props) {
   }
 
   return (
-    <div>
+    <div className='Exercise'>
       <div>
         <button
           className='btn btn-warning'

@@ -1,0 +1,13 @@
+.AcceptUsers{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+
+@media all and (min-width: 768px) {
+    .AcceptUsers {
+        margin-left: 210px;
+    }
+}

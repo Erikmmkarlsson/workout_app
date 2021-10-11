@@ -71,7 +71,7 @@ export default class Profile extends Component {
     const { currentProfile } = this.state
 
     return (
-      <div>
+      <div className='Profile'>
         <div>
           <Link
             to={'/profile/' + currentProfile.id}

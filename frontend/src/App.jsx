@@ -16,7 +16,7 @@ import AcceptUsers from './components/ManagerPage/AcceptUsers'
 import { EditProfile, PasswordReset, Profile } from './components/Profile'
 import { useAuth, GetRole } from './components/auth'
 import FindFriend from './components/FriendSystem/Finduser.jsx'
-
+import Sidebar from './components/Sidemenu/Sidebar'
 function App() {
   const [loggedIn] = useAuth()
   const role = GetRole()
@@ -24,7 +24,7 @@ function App() {
   if (loggedIn && role === 'manager') {
     return (
       <div className='App'>
-        <AppNavbar />
+        <Sidebar/>
         <div className="appBox">
           <Switch>
             <PrivateRoute path='/MyUsers'> <AcceptUsers /> </PrivateRoute>
@@ -56,7 +56,7 @@ function App() {
   } else if (loggedIn) { // regular user
     return (
       <div className='App'>
-        <AppNavbar />
+        <Sidebar/>
         <Switch>
         
         <Route path='/findfriend'> <FindFriend/> </Route>

@@ -94,7 +94,7 @@ export default function EditWorkout (props) {
   }
 
   return (
-    <div className='list row'>
+    <div className='Workout'>
       <Link to='/workouts'>
         <button className='m-3 btn-sm btn-warning'>
           Return to your workouts
