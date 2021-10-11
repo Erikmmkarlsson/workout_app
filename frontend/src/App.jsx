@@ -25,7 +25,7 @@ function App() {
     return (
       <div className='App'>
         <AppNavbar />
-        <div>
+        <div className="appBox">
           <Switch>
             <PrivateRoute path='/MyUsers'> <AcceptUsers /> </PrivateRoute>
             <Route exact path='/login'> <Login /> </Route>

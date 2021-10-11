@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import CalendarBody from '../ManagerCalender/CalendarBody'
 import CalendarHead from '../ManagerCalender/CalendarHead'
+import WorkoutReport from './WorkoutReport'
 import{
 
     Dropdown,
@@ -189,6 +190,9 @@ function Calendar(props) {
                                     type='submit'
                                     >Add workout
                                     </Button>
+                                </FormGroup>
+                                <FormGroup>
+                                    <WorkoutReport />
                                 </FormGroup>
                             </div>
                             <Table  hover style={{ background: 'white',marginTop: "1rem", width: "100%" }}>

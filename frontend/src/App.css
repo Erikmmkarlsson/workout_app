@@ -1,7 +1,15 @@
 
 body {
-    background-color: #537895;
-    background-image: linear-gradient(315deg, #537895 0%, #09203f 74%);
+    background-color: #b8c6db;
+    background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
     resize: both;
     background-size: 100% 180vh;
+    overflow-x: hidden;
+}
+.appBox{
+    border: grey;
+    border-radius: 0.5%;
+    height: 70vh;
+    width: 90vw;
+    margin: auto;
 }
