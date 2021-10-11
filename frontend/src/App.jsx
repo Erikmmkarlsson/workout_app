@@ -15,6 +15,7 @@ import { EditTrainingPlan } from './components/TrainingPlans'
 import AcceptUsers from './components/ManagerPage/AcceptUsers'
 import { EditProfile, PasswordReset, Profile } from './components/Profile'
 import { useAuth, GetRole } from './components/auth'
+import FindFriend from './components/Friend/FindFriend.jsx'
 
 function App() {
   const [loggedIn] = useAuth()
@@ -34,7 +35,7 @@ function App() {
             <Route exact path='/exercises/'> <ExerciseList /> </Route>
             <Route exact path='/exercises/add'> <AddExercise /> </Route>
             <Route exact path='/exercises/edit'> <EditExercise /> </Route>
-
+            <Route path='/findfriend'> <FindFriend/> </Route>
             <Route exact path='/workouts/'> <WorkoutList /> </Route>
             <Route exact path='/workouts/create'> <CreateWorkout /> </Route>
             <Route exact path='/workouts/edit'> <EditWorkout /> </Route>

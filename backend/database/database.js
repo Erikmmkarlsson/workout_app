@@ -157,6 +157,21 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
       }
     })
   }
+  db.run(`CREATE TABLE friendsrequest (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_sender INTEGER,
+    id_reciever INTEGER
+    )`,
+    (err) => {
+      if (err) {
+        // Table already created
+      } else {
+        // Table just created, creating some rows
+        const insert_request = 'INSERT INTO friendsrequest (id_sender, id_reciever) VALUES (?,?)'
+        db.run(insert_request, [1, 2])
+        db.run(insert_request, [3, 2])
+      }
+    })
 })
 
 module.exports = db
