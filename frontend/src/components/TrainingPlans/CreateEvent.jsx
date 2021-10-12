@@ -43,14 +43,6 @@ export const CreateEvent = (props) => {
   }
   const handleCommentChange = (e) => {
     setComment(e.target.value)
-
-    const data = {
-      training_plan_id: trainingPlan[0].id,
-      workout_id: selectedWorkout.id,
-      date: date,
-      manager_comment: comment
-    }
-    console.log(data)
   }
 
 

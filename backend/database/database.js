@@ -135,7 +135,7 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
             training_plan_id INTEGER,
             workout_id INTEGER,
             date DATE,
-            is_done BOOLEAN,
+            is_done INTEGER,
             manager_comment text,
             client_comment text,
             FOREIGN KEY (training_plan_id) REFERENCES training_plans(id),
