@@ -9,7 +9,7 @@ export default class Profile extends Component {
     this.onChangeName = this.onChangeName.bind(this)
     this.onChangeEmail = this.onChangeEmail.bind(this)
 
-    this.onChangeRole = this.onChangeRole.bind(this)
+    /*this.onChangeRole = this.onChangeRole.bind(this)*/
 
     this.getProfile = this.getProfile.bind(this)
     this.updateProfile = this.updateProfile.bind(this)
@@ -53,7 +53,7 @@ export default class Profile extends Component {
     }))
   }
 
-  onChangeRole (e) {
+  /*onChangeRole (e) {
     const role = e.target.value
 
     this.setState(prevState => ({
@@ -62,7 +62,7 @@ export default class Profile extends Component {
         role: role
       }
     }))
-  }
+  }*/
 
   getProfile (id) {
     axios.get('/api/profile/' + id, {
@@ -133,16 +133,7 @@ export default class Profile extends Component {
                 />
               </div>
 
-              <div className='form-group'>
-                <label htmlFor='role'>Role</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='role'
-                  value={currentProfile.role}
-                  onChange={this.onChangeRole}
-                />
-              </div>
+              
 
             </form>
             <div className='SameLine'>
