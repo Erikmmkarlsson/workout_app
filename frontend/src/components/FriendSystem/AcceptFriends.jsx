@@ -24,6 +24,7 @@ export default class AcceptFriends extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    axios.all([
     axios({
       method: 'post',
       url: '/api/addtofriendslist/',
@@ -34,7 +35,18 @@ export default class AcceptFriends extends Component {
         id: event.target.id
       }
     }
-    )
+    ),
+    axios({
+      method: 'delete',
+      url: '/api/reqList/',
+      headers: {
+        'x-access-token': GetToken()
+      },
+      data: {
+        id: event.target.id
+      }
+    })
+  ])
   }
   render() {
     return (

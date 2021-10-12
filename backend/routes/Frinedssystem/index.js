@@ -146,4 +146,23 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       })
     })
   })
+
+  app.delete('/api/reqList/', verifyToken, (req, res, next) => {
+    /*
+  
+      Deletes an friendsrequest from the db
+  
+      */
+    console.log('Deleting friendsrequest...')
+  
+    const sql = 'delete from friendsrequest where id = ?'
+    const params = [getID(req)]
+    db.get(sql, params, function (err, result) {
+      if (err) {
+        res.status(400).json({ error: err.message })
+        return
+      }
+      res.json({ message: 'deleted', changes: this.changes })
+    })
+  })
 }
