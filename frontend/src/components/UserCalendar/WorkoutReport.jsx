@@ -3,19 +3,15 @@ import React, { useState, useEffect } from "react"
 import { Button, FormGroup, Label, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
 
 const WorkoutReport = props => {
-    const [eventId, setEventId] = useState(null)
     const [done, setDone] = useState(0)
     const [comment, setComment] = useState('')
     const [modal, setModal] = useState(false);
     const [selected, setSelected] = useState('')
-    const {toggleModal, selectedEvent} = props
     const toggle = () => setModal(!modal);
 
-    /*
-    useEffect(() => {
-        
-    }, [])
-    */
+    const {toggleModal, selectedEvent, added, hasAdded} = props
+
+
 
 
     const handleMarkChange = e => {
@@ -36,6 +32,7 @@ const WorkoutReport = props => {
     const handleSubmit = () => {
         const data = {is_done:done, client_comment:comment}
         axios.patch('/api/workout_events/' + selectedEvent, data)
+        .then(()=> hasAdded(!added))
     }
 
     return (

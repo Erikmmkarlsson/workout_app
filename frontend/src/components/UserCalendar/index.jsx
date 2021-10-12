@@ -182,6 +182,7 @@ function Calendar(props) {
                 setSelectedWorkoutExercises={setSelectedWorkoutExercises}
                 setWorkoutListDropdown={setWorkoutListDropdown}
                 toggleModal={toggleModal}
+                added={added}
               />
             ) : null}
             {selected ? (
@@ -277,6 +278,8 @@ function Calendar(props) {
                     <WorkoutReport
                       toggleModal={toggleModal}
                       selectedEvent={selectedEvent.id}
+                      added={added}
+                      hasAdded={hasAdded}
                     />
                   </ModalFooter>
                 </Modal>
