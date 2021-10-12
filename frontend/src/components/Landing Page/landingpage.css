@@ -3,7 +3,19 @@
   position: fixed;
   height: 100vh;
   width: 100vw;
-  background-image: url("https://c.pxhere.com/images/4e/f5/1bad0b9b045c3e81a9b49bf2a965-1633004.jpg!d");
+
+}
+
+.bk{
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-image: url("https://www.tworepcave.com/wp-content/uploads/battle-ropes-featured-16x9-1.jpg");
+  -webkit-transform:scaleX(-1);
+  -moz-transform:scaleX(-1);
+  -ms-transform:scaleX(-1);
+  -o-transform:scaleX(-1);
+  transform:scaleX(-1);
   color: white;
   background-position: center;
   background-repeat: no-repeat;
@@ -11,14 +23,17 @@
 
 }
 
+
 .text-container{
+  background: rgb(255,255,255);
+background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(201,16,16,0.35) 30%, rgba(217,11,11,0.6) 60%, rgba(235,11,11,0.8) 100%);
   font-family: 'Roboto', sans-serif;
   margin-top: calc(100vh - 24rem);
   padding-left: 5rem;
-  padding-bottom: 2rem;
+  padding-bottom: 2.4rem;
   flex-direction: column;
   align-items: flex-end;
-  color: lightgrey;
+  color: white;
 }
 
 p {

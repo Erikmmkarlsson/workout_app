@@ -16,6 +16,7 @@ import AcceptUsers from './components/ManagerPage/AcceptUsers'
 import { EditProfile, PasswordReset, Profile } from './components/Profile'
 import { useAuth, GetRole } from './components/auth'
 import FindFriend from './components/FriendSystem/Finduser.jsx'
+import AcceptFriends from './components/FriendSystem/AcceptFriends.jsx'
 import Sidebar from './components/navbar/Sidemenu/Sidebar'
 function App() {
   const [loggedIn] = useAuth()
@@ -36,6 +37,7 @@ function App() {
             <Route exact path='/exercises/add'> <AddExercise /> </Route>
             <Route exact path='/exercises/edit'> <EditExercise /> </Route>
             <Route path='/findfriend'> <FindFriend/> </Route>
+            <Route path='/requestlist'> <AcceptFriends/> </Route>
             <Route exact path='/workouts/'> <WorkoutList /> </Route>
             <Route exact path='/workouts/create'> <CreateWorkout /> </Route>
             <Route exact path='/workouts/edit'> <EditWorkout /> </Route>
@@ -59,7 +61,7 @@ function App() {
         <Sidebar/>
         <div className="appBox">
         <Switch>
-        
+        <Route path='/requestlist'> <AcceptFriends/> </Route>
         <Route path='/findfriend'> <FindFriend/> </Route>
           <Route path='/editprofile'> <EditProfile /> </Route>
           <Route path='/passwordreset'> <PasswordReset /> </Route>

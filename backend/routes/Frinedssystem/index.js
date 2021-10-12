@@ -35,6 +35,78 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       })
     })
   })
+
+
+  app.get('/api/requestList/',verifyToken, (req, res, next) => {
+    /*
+        Returns all the users.
+        Example usage:
+      $ curl http://localhost:8000/api/reqList -X GET
+       */
+
+    var sql = 'select users.id,users.name,users.email from friendsrequest inner join users on friendsrequest.id_sender= users.id where id_reciever = ?'
+    const params = [getID(req)]
+   
+    console.log(params)
+    console.log(sql)
+    db.all(sql, params, (err, rows) => {
+      if (err) {
+        res.status(400).json({ error: err.message })
+        return
+      }
+      res.json({
+        message: 'success',
+        data: rows
+      })
+    })
+  })
+
+  app.post('/api/addtofriendslist/',verifyToken ,(req, res, next) => {
+
+    const data = {
+      id: req.body.id
+    }
+    const sql='INSERT INTO friendsList (id_user1,id_user2) VALUES (?,?)'
+    const params = [data.id,getID(req)]
+    db.run(sql, params, function (err, result) {
+      if (err) {
+        res.status(400).json({ error: err.message })
+        return
+      }
+      res.json({
+        message: 'success',
+        data: data
+      })
+    })
+  })
+  
+
+
+  app.get('/api/FriendsList/',verifyToken, (req, res, next) => {
+    /*
+        Returns all the users.
+        Example usage:
+      $ curl http://localhost:8000/api/reqList -X GET
+       */
+
+    var sql = 'select * from friendsList where id_user1 != ? or id_user1 != ?'
+    const params = [getID(req),[getID(req)]]
+   
+    console.log(params)
+    console.log(sql)
+    db.all(sql, params, (err, rows) => {
+      if (err) {
+        res.status(400).json({ error: err.message })
+        return
+      }
+      res.json({
+        message: 'success',
+        data: rows
+      })
+    })
+  })
+
+  
  
 
  app.post('/api/reqList/', (req, res, next) => {
