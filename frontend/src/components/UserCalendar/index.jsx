@@ -38,6 +38,7 @@ function Calendar(props) {
     const [SelectedWorkoutID, setSelectedWorkoutID] = useState('')
     const [SelectedWorkoutName, setSelectedWorkoutName] = useState('Select a Workout')
     const [SelectedUserTrainingplanID, setSelectedUserTrainingplanID] = useState([])
+    const [selectedEvent, setSelectedEvent] = useState({id:0})
     const id = GetID()
     const [added, hasAdded] = useState(false)
 
@@ -130,8 +131,9 @@ function Calendar(props) {
     const firstDayOfMonth = () => moment(dateObject).startOf('month').format('d')
     const ActiveDates = []
     for (const workout of WorkoutList) {
-        ActiveDates.push(workout.date)
+        ActiveDates.push({date: workout.date, id: workout.id, is_done:workout.is_done})
     }
+    console.log(ActiveDates)
     return (
         <div className='calend'>
             <Container disableGutters='false'>
@@ -157,6 +159,8 @@ function Calendar(props) {
                                 currentYearNum={currentYearNum}
                                 selectedDay={selectedDay}
                                 setSelectedDay={setSelectedDay}
+                                SelectedEvent={selectedEvent}
+                                setSelectedEvent={setSelectedEvent}
                                 actualMonth={actualMonth}
                                 actualYear={actualYear}
                                 weekdays={weekdays}
@@ -232,7 +236,7 @@ function Calendar(props) {
                                     </Table>
 
                                     <ModalFooter>
-                                        <WorkoutReport toggleModal={toggleModal}/>
+                                        <WorkoutReport toggleModal={toggleModal} selectedEvent={selectedEvent.id}/>
                                     </ModalFooter>
                                 </Modal>
                             </div>

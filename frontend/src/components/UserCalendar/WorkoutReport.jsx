@@ -1,17 +1,43 @@
-import React, { useState } from "react"
+import axios from "axios";
+import React, { useState, useEffect } from "react"
 import { Button, FormGroup, Label, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
+
 const WorkoutReport = props => {
+    const [eventId, setEventId] = useState(null)
+    const [done, setDone] = useState(0)
+    const [comment, setComment] = useState('')
     const [modal, setModal] = useState(false);
     const [selected, setSelected] = useState('')
-    const {toggleModal} = props
+    const {toggleModal, selectedEvent} = props
     const toggle = () => setModal(!modal);
 
-    const handleChange = e => {
+    /*
+    useEffect(() => {
+        
+    }, [])
+    */
+
+
+    const handleMarkChange = e => {
+        if(e.target.value === "complete"){
+            setDone(1)
+        }
+        else{
+            setDone(2)
+        }
         const { value } = e.target;
-
         setSelected(value)
-
     };
+
+    const handleCommentChange = e => {
+        setComment(e.target.value)
+    };
+
+    const handleSubmit = () => {
+        const data = {is_done:done, client_comment:comment}
+        axios.patch('/api/workout_events/' + selectedEvent, data)
+    }
+
     return (
         <div className="report">
             <Button onClick={toggle} color="success">Complete workout</Button>
@@ -25,7 +51,7 @@ const WorkoutReport = props => {
                                 name="radio2"
                                 id="complete"
                                 value="complete"
-                                onChange={handleChange} />{' '}
+                                onChange={handleMarkChange} />{' '}
                             Mark completed
                         </Label> </FormGroup>
 
@@ -35,7 +61,7 @@ const WorkoutReport = props => {
                                 name="radio2"
                                 id="incomplete"
                                 value="incomplete"
-                                onChange={handleChange} />{' '}
+                                onChange={handleMarkChange} />{' '}
                             Mark missed <br />
                         </Label></FormGroup>
 
@@ -48,12 +74,12 @@ const WorkoutReport = props => {
                         : null}
 
                     {selected !== '' ? (
-                        <Input type="textarea" name="text" id="exampleText" />
+                        <Input type="textarea" name="text" id="comment" value={comment} onChange={handleCommentChange}/>
                     ) : null}
 
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="success" onClick={() => {toggle(); toggleModal()}}>Submit</Button>{' '}
+                    <Button color="success" onClick={() => {toggle(); toggleModal(); handleSubmit()}}>Submit</Button>{' '}
                     <Button color="secondary" onClick={toggle}>Cancel</Button>
                 </ModalFooter>
             </Modal>

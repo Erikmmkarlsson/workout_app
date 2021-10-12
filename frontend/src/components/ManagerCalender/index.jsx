@@ -41,7 +41,8 @@ function Calendar(props) {
     const [WorkoutListDropdown, setWorkoutListDropdown] = useState([])
     const [SelectedWorkoutID, setSelectedWorkoutID] = useState('')
     const [SelectedWorkoutName, setSelectedWorkoutName] = useState('Select a workout')
-    const [SelectedUserTrainingplanID, setSelectedUserTrainingplanID] = useState([])
+    const [SelectedUserTrainingplanID, setSelectedUserTrainingplanID] = useState(0)
+    const [SelectedEvent, setSelectedEvent] = useState(null)
 
     useEffect(() => {
         axios.get('/api/manager/myUsers',{
@@ -54,13 +55,8 @@ function Calendar(props) {
         
     }, [])
 
-    const TrainingplanID=[]
-    for (const ID of SelectedUserTrainingplanID){
-        TrainingplanID.push(ID.id)
-    }
-
     function handleButton(){
-        const data = { training_plan_id:TrainingplanID,workout_id:SelectedWorkoutID,date:selectedDay.year+'-'+selectedDay.month+'-'+selectedDay.day,is_done: 0 }
+        const data = { training_plan_id:SelectedUserTrainingplanID,workout_id:SelectedWorkoutID,date:selectedDay.year+'-'+selectedDay.month+'-'+selectedDay.day,is_done: 0 }
         axios.post('api/AddWorkOutToUser',data)
         
         hasAdded(!added)
@@ -75,7 +71,8 @@ function Calendar(props) {
               'x-access-token': GetToken()
             }
           })
-          .then((response) => {setSelectedUserTrainingplanID(response.data.data)
+          .then((response) => {setSelectedUserTrainingplanID(response.data.data[0].id) 
+            console.log(response.data)
         })
         axios.get('/api/UserWorkoutsByInput/'+ selectedID,{
             headers: {
@@ -85,7 +82,7 @@ function Calendar(props) {
           .then((response) => {setWorkoutList(response.data.data)
         })
 
-        console.log('tesst'+TrainingplanID)
+        console.log('tesst'+SelectedUserTrainingplanID)
     }
 
     const [added, hasAdded] = useState(false)
@@ -147,7 +144,7 @@ function Calendar(props) {
     const firstDayOfMonth = () => moment(dateObject).startOf('month').format('d')
     const ActiveDates = []
     for (const workout of WorkoutList){
-        ActiveDates.push(workout.date)
+        ActiveDates.push([workout.date, workout.id])
     }
     return (
         <div className='calend'>
@@ -191,6 +188,7 @@ function Calendar(props) {
                                 setWorkoutListDropdown={setWorkoutListDropdown}
                                 added={added}
                                 toggleModal={toggleModal}
+                                setSelectedEvent={setSelectedEvent}
 
                             />
                         ) : null}

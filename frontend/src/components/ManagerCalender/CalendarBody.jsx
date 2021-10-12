@@ -15,7 +15,7 @@ import Paper from '@material-ui/core/Paper'
 
 
 const CalendarBody = props => {
-    const { toggleModal, added, firstDayOfMonth, daysInMonth, currentDay, currentMonth, currentYear, currentMonthNum, currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays, ActiveDates, SelectedUserID, setSelectedWorkoutExercises, setWorkoutListDropdown } = props
+    const { SelectedEvent, setSelectedEvent, toggleModal, added, firstDayOfMonth, daysInMonth, currentDay, currentMonth, currentYear, currentMonthNum, currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays, ActiveDates, SelectedUserID, setSelectedWorkoutExercises, setWorkoutListDropdown } = props
 
     const blanks = []
     for (let i = 1; i < firstDayOfMonth(); i++) {
@@ -51,12 +51,17 @@ const CalendarBody = props => {
     const monthDays = []
     console.log(ActiveDates)
     for (let d = 1; d <= daysInMonth(); d++) {
-        let currDay, selectDay, activeDay
+        let currDay, selectDay, activeDay, selectEvent
 
         for (const Date in ActiveDates) {
-            if (moment(ActiveDates[Date]).date() === d
-                && moment(ActiveDates[Date]).month() + 1 === currentMonthNum()
-                && moment(ActiveDates[Date]).year() === currentYearNum()) { activeDay = 'active' }
+            if (moment(ActiveDates[Date].date).date() === d
+                && moment(ActiveDates[Date].date).month() + 1 === currentMonthNum()
+                && moment(ActiveDates[Date].date).year() === currentYearNum()) { 
+                
+                    activeDay = 'active' 
+                    selectEvent = {id:ActiveDates[Date].id, is_done: ActiveDates[Date].is_done}
+                    console.log(selectEvent)
+                }
         }
 
         // Check if day is today
@@ -72,6 +77,7 @@ const CalendarBody = props => {
                 className={`week-day ${currDay} ${selectDay}`}
                 onClick={() => {
                     setSelectedDay(d)
+                    setSelectedEvent(selectEvent)
 
                     if (activeDay === 'active') {
                         toggleModal()
