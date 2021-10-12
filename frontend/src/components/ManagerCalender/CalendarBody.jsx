@@ -61,6 +61,8 @@ const CalendarBody = props => {
                     selectEvent = {id:ActiveDates[Date].id, is_done: ActiveDates[Date].is_done}
                     console.log(selectEvent)
                     if(currentYear() < actualYear()){
+                        console.log("past year")
+
                         if(ActiveDates[Date].is_done === 2){
                             activeDay = 'missed'
                         }
@@ -73,6 +75,8 @@ const CalendarBody = props => {
                     }
 
                     else if((currentMonth() < actualMonth()) && (currentYear() === actualYear())){
+                        console.log("past month")
+
                         if(ActiveDates[Date].is_done === 2){
                             activeDay = 'missed'
                         }
@@ -85,6 +89,8 @@ const CalendarBody = props => {
                     }
 
                     else if((d < currentDay()) && (currentMonth() === actualMonth()) && (currentYear() === actualYear()) ){
+                        console.log("past day")
+
                         if(ActiveDates[Date].is_done === 2){
                             activeDay = 'missed'
                         }

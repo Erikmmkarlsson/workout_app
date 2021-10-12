@@ -150,7 +150,7 @@ app.get('/api/UserWorkouts',(req, res, next) => {
   })
 })
 app.get('/api/UserWorkoutsByInput/:id',(req, res, next) => {
-  const sql = "select workout_events.date, workout_events.workout_id from training_plans Inner join workout_events on training_plans.id= workout_events.training_plan_id where training_plans.client_id = ?"
+  const sql = "select workout_events.id, workout_events.is_done, workout_events.date, workout_events.workout_id from training_plans Inner join workout_events on training_plans.id= workout_events.training_plan_id where training_plans.client_id = ?"
   const params = [req.params.id]
   db.all(sql, params, (err, rows) => {
     if (err) {

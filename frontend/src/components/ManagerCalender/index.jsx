@@ -158,6 +158,7 @@ function Calendar(props) {
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
   const firstDayOfMonth = () => moment(dateObject).startOf("month").format("d");
+  
   const ActiveDates = [];
   for (const workout of eventList) {
     ActiveDates.push({
