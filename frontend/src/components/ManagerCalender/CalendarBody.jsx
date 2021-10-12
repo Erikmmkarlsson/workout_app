@@ -58,9 +58,46 @@ const CalendarBody = props => {
                 && moment(ActiveDates[Date].date).month() + 1 === currentMonthNum()
                 && moment(ActiveDates[Date].date).year() === currentYearNum()) { 
                 
-                    activeDay = 'active' 
                     selectEvent = {id:ActiveDates[Date].id, is_done: ActiveDates[Date].is_done}
                     console.log(selectEvent)
+                    if(currentYear() < actualYear()){
+                        if(ActiveDates[Date].is_done === 2){
+                            activeDay = 'missed'
+                        }
+                        else if(ActiveDates[Date].is_done === 1){
+                            activeDay = 'done'
+                        }
+                        else{
+                            activeDay = 'waiting'
+                        }
+                    }
+
+                    else if((currentMonth() < actualMonth()) && (currentYear() === actualYear())){
+                        if(ActiveDates[Date].is_done === 2){
+                            activeDay = 'missed'
+                        }
+                        else if(ActiveDates[Date].is_done === 1){
+                            activeDay = 'done'
+                        }
+                        else{
+                            activeDay = 'waiting'
+                        }
+                    }
+
+                    else if((d < currentDay()) && (currentMonth() === actualMonth()) && (currentYear() === actualYear()) ){
+                        if(ActiveDates[Date].is_done === 2){
+                            activeDay = 'missed'
+                        }
+                        else if(ActiveDates[Date].is_done === 1){
+                            activeDay = 'done'
+                        }
+                        else{
+                            activeDay = 'waiting'
+                        }
+                    }
+                    else{
+                        activeDay = 'active'
+                    }
                 }
         }
 
@@ -81,7 +118,7 @@ const CalendarBody = props => {
                         setSelectedEvent(selectEvent)
                     }
                     
-                    if (activeDay === 'active') {
+                    if (activeDay !== undefined) {
                         toggleModal()
                     }
                 }}
