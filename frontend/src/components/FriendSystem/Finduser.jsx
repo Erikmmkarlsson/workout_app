@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { GetID ,GetToken} from '../auth'
+import { Alert } from 'reactstrap';
 import "./Finduser.css";
 export default function Finduser(props) {
   const [usersList, setusersList] = useState([])
@@ -11,6 +12,7 @@ export default function Finduser(props) {
   const [reciever, setreciever]= useState('')
   const [requestList, setrequestList]= useState('')
   const [requestList2, setrequestList2]= useState('')
+  const [warning, setwarning]= useState('')
 
   useEffect(() => {
     axios.get('/api/reqList',{
@@ -40,38 +42,42 @@ export default function Finduser(props) {
     }).then((response) => {
       setusersList(response.data.data)
     })
-    
-    console.log(requestList);
-    if(requestList.length)
-    {
-      console.log('NOOOOOO')
-
-    }
-
   }
 
-  
-
-  const handleSubmit = async (e) =>{
-    e.preventDefault()
+  useEffect(() => {
     axios.get('/api/UserrequestList/'+GetID()+'/'+reciever 
     ).then(response => {setrequestList(response.data.data)
     });
     axios.get('/api/UserrequestList/'+reciever+'/'+GetID()
     ).then(response => {setrequestList2(response.data.data)
     });
+  }, [reciever,handleSubmit])
+
+  
+
+  
+
+  const handleSubmit = async (e) =>{
+    e.preventDefault()
     if(requestList.length !==0)
     {
-      console.log('Already sent')
+      setwarning('You already sent a request to selected user')
     }
     if(requestList2.length !==0)
     {
-      console.log('Go accept')
+      setwarning('Selected user already sent you a request, go accept')
     }
     if(requestList.length === 0 && requestList2.length === 0 )
     {
       const request_data = { id_sender:GetID(), id_reciever:reciever }
       axios.post('/api/reqList', request_data)
+      
+      axios.get('/api/UserrequestList/'+GetID()+'/'+reciever 
+      ).then(response => {setrequestList(response.data.data)
+      });
+      axios.get('/api/UserrequestList/'+reciever+'/'+GetID()
+      ).then(response => {setrequestList2(response.data.data)
+      });
 
     }
   }
@@ -150,6 +156,13 @@ export default function Finduser(props) {
           </div>
         )}
       </div>
+      {warning? (
+        <Alert color="warning">
+         {warning}
+        </Alert>)
+      : (null)}
+      
+
 
     </div>
   )     
