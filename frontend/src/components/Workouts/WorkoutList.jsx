@@ -3,21 +3,25 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 export default function WorkoutList (props) {
+  //States
   const [workoutList, setWorkoutList] = useState([])
   const [currentWorkout, setCurrentWorkout] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(-1)
 
+  //Set initial state
   useEffect(() => {
     axios.get('/api/workouts').then((response) => {
       setWorkoutList(response.data.data)
     })
   }, [])
 
+  //Set the selected workout as active
   function setActiveWorkout (workout, index) {
     setCurrentWorkout(workout)
     setCurrentIndex(index)
   }
 
+  //Handles when user deletes a workout, deletes it from the database
   function removeWorkout (id) {
     axios.delete('/api/workouts/' + id)
     window.location.reload(false)
