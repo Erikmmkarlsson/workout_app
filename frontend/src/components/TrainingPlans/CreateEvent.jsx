@@ -7,12 +7,12 @@ export const CreateEvent = (props) => {
 
   const [open, setOpen] = useState(false)
   const [workoutList, setWorkoutList] = useState([])
-  const [selectedWorkout, setSelectedWorkout] = useState({ id: 0, name: "" })
+  const [selectedWorkout, setSelectedWorkout] = useState({ id: 0, name: '' })
   const [date, setDate] = useState('')
   const [comment, setComment] = useState('')
 
-  const [dropdownOpenWorkouts, setDropdownOpenWorkouts] = useState(false);
-  const toggleWorkouts = () => setDropdownOpenWorkouts(prevState => !prevState);
+  const [dropdownOpenWorkouts, setDropdownOpenWorkouts] = useState(false)
+  const toggleWorkouts = () => setDropdownOpenWorkouts(prevState => !prevState)
 
   useEffect(() => {
     axios.get('/api/GetUser&UserManagerWorkouts/' + selectedUser, {
@@ -25,7 +25,6 @@ export const CreateEvent = (props) => {
       })
   }, [])
 
-
   const handleButton = async (e) => {
     const data = {
       training_plan_id: trainingPlan[0].id,
@@ -35,7 +34,7 @@ export const CreateEvent = (props) => {
     }
     console.log(data)
     await axios.post('/api/workout_events', data)
-    .then(response => setPressed(!pressedAdd))
+      .then(response => setPressed(!pressedAdd))
   }
 
   const handleDateChange = (e) => {
@@ -45,77 +44,79 @@ export const CreateEvent = (props) => {
     setComment(e.target.value)
   }
 
-
   return (
     <div>
       <Button onClick={() => setOpen(true)}>Add new event </Button>
 
-      {open ? (<div>
-        <Form>
-          <FormGroup>
-            <Label for="date">Date</Label>
-            <Input
-              type="date"
-              name="date"
-              id="date"
-              placeholder="date"
-              onChange={handleDateChange}
-              value={date}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Dropdown group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
-              <DropdownToggle color="info" caret placeholder="Select workout" >
-                {selectedWorkout.name}
-              </DropdownToggle>
-              <DropdownMenu modifiers={{
-                setMaxHeight: {
-                  enabled: true,
-                  order: 890,
-                  fn: (data) => {
-                    return {
-                      ...data,
-                      styles: {
-                        ...data.styles,
-                        overflow: 'auto',
-                        maxHeight: '100px',
-                      },
-                    };
-                  },
-                },
-              }}>
-                {workoutList.map((workout, key) =>
-                  <DropdownItem onClick={() =>
-                    (setSelectedWorkout({ id: workout.id, name: workout.name }))}>
-                    {workout.name}
-                  </DropdownItem>)}
-              </DropdownMenu>
-            </Dropdown>
+      {open
+        ? (<div>
+          <Form>
+            <FormGroup>
+              <Label for='date'>Date</Label>
+              <Input
+                type='date'
+                name='date'
+                id='date'
+                placeholder='date'
+                onChange={handleDateChange}
+                value={date}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Dropdown group isOpen={dropdownOpenWorkouts} toggle={toggleWorkouts}>
+                <DropdownToggle color='info' caret placeholder='Select workout'>
+                  {selectedWorkout.name}
+                </DropdownToggle>
+                <DropdownMenu modifiers={{
+                  setMaxHeight: {
+                    enabled: true,
+                    order: 890,
+                    fn: (data) => {
+                      return {
+                        ...data,
+                        styles: {
+                          ...data.styles,
+                          overflow: 'auto',
+                          maxHeight: '100px'
+                        }
+                      }
+                    }
+                  }
+                }}
+                >
+                  {workoutList.map((workout, key) =>
+                    <DropdownItem onClick={() =>
+                      (setSelectedWorkout({ id: workout.id, name: workout.name }))}
+                    >
+                      {workout.name}
+                    </DropdownItem>)}
+                </DropdownMenu>
+              </Dropdown>
 
-          </FormGroup>
-          <FormGroup>
-            <Label for="comment">Comment</Label>
-            <Input type="textarea"
-              name="text"
-              id="comment"
-              placeholder="Add a helpful comment..."
-              onChange={handleCommentChange}
-              value={comment} />
-          </FormGroup>
+            </FormGroup>
+            <FormGroup>
+              <Label for='comment'>Comment</Label>
+              <Input
+                type='textarea'
+                name='text'
+                id='comment'
+                placeholder='Add a helpful comment...'
+                onChange={handleCommentChange}
+                value={comment}
+              />
+            </FormGroup>
 
+          </Form>
+          <button
+            className='btn btn-success'
+            style={{ marginTop: 25 }}
 
+            onClick={() => { handleButton() }}
+          >Add workout
+          </button>
 
-
-        </Form>
-        <button
-          className='btn btn-success'
-          style={{ marginTop: 25 }}
-
-          onClick={() => { handleButton() }}
-        >Add workout
-        </button>
-
-      </div>) : null}
+        </div>)
+        : null}
 
     </div>
   )

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { GetID ,GetToken} from '../auth'
-import "./Finduser.css";
-export default function Finduser(props) {
+import { GetID, GetToken } from '../auth'
+import './Finduser.css'
+export default function Finduser (props) {
   const [usersList, setusersList] = useState([])
   const [currentuser, setCurrentuser] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [searchName, setSearchName] = useState('')
-  const [reciever, setreciever]= useState('')
+  const [reciever, setreciever] = useState('')
 
   useEffect(() => {
-    axios.get('/api/reqList',{
+    axios.get('/api/reqList', {
       headers: {
         'x-access-token': GetToken()
       }
@@ -24,14 +24,13 @@ export default function Finduser(props) {
     setSearchName(e.target.value)
   }
 
-  function setActiveuser(user, index) {
+  function setActiveuser (user, index) {
     setCurrentuser(user)
     setCurrentIndex(index)
-    
   }
 
-  function search() {
-    axios.get('/api/reqList?search=' + searchName,{
+  function search () {
+    axios.get('/api/reqList?search=' + searchName, {
       headers: {
         'x-access-token': GetToken()
       }
@@ -42,7 +41,7 @@ export default function Finduser(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const request_data = { id_sender:GetID(), id_reciever:reciever }
+    const request_data = { id_sender: GetID(), id_reciever: reciever }
     await axios.post('/api/reqList', request_data)
   }
 
@@ -80,7 +79,7 @@ export default function Finduser(props) {
                 className={
                   'list-group-item ' + (index === currentIndex ? 'active' : '')
                 }
-                onClick={() => {setActiveuser(user, index); setreciever(user.id);}}
+                onClick={() => { setActiveuser(user, index); setreciever(user.id) }}
                 key={index}
               >
                 {user.name}
@@ -89,38 +88,40 @@ export default function Finduser(props) {
         </ul>
       </div>
       <div className='col-md-6'>
-        {currentuser ? (
-          <div>
-            <h4>Information</h4>
+        {currentuser
+          ? (
             <div>
-              <label>
-                <strong>Name:</strong>
-              </label>{' '}
-              {currentuser.name}
+              <h4>Information</h4>
+              <div>
+                <label>
+                  <strong>Name:</strong>
+                </label>{' '}
+                {currentuser.name}
+              </div>
+              <div>
+                <label>
+                  <strong>Email:</strong>
+                </label>{' '}
+                {currentuser.email}
+              </div>
+              <button
+                onClick={handleSubmit}
+                className='btn btn-warning'
+                type='button'
+                style={{ marginTop: 25 }}
+              >
+                Send request
+              </button>
             </div>
+            )
+          : (
             <div>
-              <label>
-                <strong>Email:</strong>
-              </label>{' '}
-              {currentuser.email}
+              <br />
+              <p>Please click on an Name...</p>
             </div>
-            <button
-              onClick={handleSubmit}
-              className='btn btn-warning'
-              type='button'
-              style={{ marginTop: 25 }}
-            >
-              Send request
-            </button>
-          </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please click on an Name...</p>
-          </div>
-        )}
+            )}
       </div>
 
     </div>
-  )     
+  )
 }

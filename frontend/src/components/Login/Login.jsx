@@ -1,6 +1,6 @@
 import { login, useAuth, logout } from '../auth'
 import React, { useState } from 'react'
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom'
 import './login.css'
 import RegisterUser from './RegisterUser'
 import {
@@ -14,12 +14,12 @@ import {
   Alert
 } from 'reactstrap'
 
-export default function Login() {
+export default function Login () {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loggedIn] = useAuth()
   const [validCredentials, setValidCredentials] = useState(true)
-  const history = useHistory();
+  const history = useHistory()
 
   const onSubmitClick = (e) => {
     e.preventDefault()
@@ -46,7 +46,7 @@ export default function Login() {
         console.log(data)
         if (data !== undefined && data.token) {
           login(data)
-          history.push("/")
+          history.push('/')
         } else {
           console.log('Please type in correct email/password')
           setValidCredentials(false)
@@ -65,66 +65,68 @@ export default function Login() {
   return (
     <div class='login' id='login'>
 
-      {!loggedIn ? <form action='#'>
+      {!loggedIn
+        ? <form action='#'>
 
-        <Toast>
-          <h2 style={{ textAlign: 'center', margin: '10px 10px', color: 'darkgray' }}>
-            Login
-          </h2>
-        </Toast>
-        <Toast>
-          <Form className='login-form'>
-            <div style={{ textAlign: 'center', marginTop: 30 }}>
+          <Toast>
+            <h2 style={{ textAlign: 'center', margin: '10px 10px', color: 'darkgray' }}>
+              Login
+            </h2>
+          </Toast>
+          <Toast>
+            <Form className='login-form'>
+              <div style={{ textAlign: 'center', marginTop: 30 }}>
+                <FormGroup>
+                  <Input
+                    style={{ textAlign: 'center', marginBottom: '10px' }}
+                    type='text'
+                    placeholder='Email'
+                    onChange={handleUsernameChange}
+                    value={email}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Input
+                    style={{ textAlign: 'center' }}
+                    type='password'
+                    placeholder='Password'
+                    onChange={handlePasswordChange}
+                    value={password}
+                  />
+                </FormGroup>
+
+              </div>
+              <div class='buttons'>
+                <FormGroup>
+                  <Button
+                    color='dark'
+                    onClick={onSubmitClick}
+                    type='submit'
+                    style={{ marginTop: '1rem', width: '100%' }}
+                  >Log in
+                  </Button>
+                </FormGroup>
+
+                <FormGroup>
+                  <RegisterUser />
+                </FormGroup>
+              </div>
+
               <FormGroup>
-                <Input
-                  style={{ textAlign: 'center', marginBottom: '10px' }}
-                  type='text'
-                  placeholder='Email'
-                  onChange={handleUsernameChange}
-                  value={email}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Input
-                  style={{ textAlign: 'center' }}
-                  type='password'
-                  placeholder='Password'
-                  onChange={handlePasswordChange}
-                  value={password}
-                />
+
+                {!validCredentials
+                  ? (
+                    <Alert color='danger'>
+                      Please enter valid credentials
+                    </Alert>)
+                  : (null)}
               </FormGroup>
 
-            </div>
-            <div class='buttons'>
-              <FormGroup>
-                <Button
-                  color='dark'
-                  onClick={onSubmitClick}
-                  type='submit'
-                  style={{ marginTop: "1rem", width: "100%" }}
-                >Log in
-                </Button>
-              </FormGroup>
+            </Form>
+          </Toast>
 
-              <FormGroup>
-                <RegisterUser />
-              </FormGroup>
-            </div>
-
-            <FormGroup>
-
-              {!validCredentials ? (
-                <Alert color='danger'>
-                  Please enter valid credentials
-                </Alert>) : (null)}
-            </FormGroup>
-
-          </Form>
-        </Toast>
-
-      </form>
-        :
-        <div className="p-3 my-2 rounded">
+        </form>
+        : <div className='p-3 my-2 rounded'>
           <Toast>
             <ToastHeader>
               You sure you want to log out?
@@ -134,8 +136,7 @@ export default function Login() {
             </ToastBody>
           </Toast>
 
-        </div>
-      }
+        </div>}
 
     </div>
 

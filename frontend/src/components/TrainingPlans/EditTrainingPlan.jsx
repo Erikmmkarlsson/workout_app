@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { GetToken } from '../auth'
-import axios from 'axios';
+import axios from 'axios'
 import { Container, Table } from 'reactstrap'
-import { CreateEvent } from './CreateEvent';
-import "./trainingplan.css"
+import { CreateEvent } from './CreateEvent'
+import './trainingplan.css'
 const EditTrainingPlan = (props) => {
-  //const managerId = GetID();
+  // const managerId = GetID();
   const [users, setUsers] = useState([])
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [selectedUser, setSelectedUser] = useState(0)
@@ -16,39 +16,34 @@ const EditTrainingPlan = (props) => {
   const [selectedWorkoutEvents, setSelectedWorkoutEvents] = useState([])
   console.log(selectedUser)
 
-
   useEffect(() => {
     axios.get('/api/manager/myUsers', { headers: { 'x-access-token': GetToken() } }).then((response) => {
       setUsers(response.data.data)
-    });
-  }, []);
+    })
+  }, [])
 
-
-  //When selected user is updated, get workouts from that user
+  // When selected user is updated, get workouts from that user
   useEffect(() => {
     axios.get('/api/users_workout_events/' + selectedUser, { headers: { 'x-access-token': GetToken() } })
       .then((response) => {
         setSelectedWorkoutEvents(response.data.data)
-      });
-
-      axios.get('/api/GetTrainingplanIdByClientID/'+ selectedUser, {
-        headers: {
-          'x-access-token': GetToken()
-        }
       })
-      .then((response) => {setTrainingPlan(response.data.data)})
 
-  }, [selectedUser, pressedAdd]);
+    axios.get('/api/GetTrainingplanIdByClientID/' + selectedUser, {
+      headers: {
+        'x-access-token': GetToken()
+      }
+    })
+      .then((response) => { setTrainingPlan(response.data.data) })
+  }, [selectedUser, pressedAdd])
 
   console.log(selectedWorkoutEvents)
 
-  
-
   return (
-    <div className="training_plan">
+    <div className='training_plan'>
       <Container>
-      <ul className='list-group'>
-        {users &&
+        <ul className='list-group'>
+          {users &&
           users.map((user, key) => (
             <li
               className={
@@ -64,42 +59,45 @@ const EditTrainingPlan = (props) => {
               {user.name}
             </li>
           ))}
-      </ul>
-      {selected ? (
-        <Container style={{marginTop:"4rem"}}>
-      <CreateEvent
-          selectedUser={selectedUser}
-          trainingPlan={trainingPlan}
-          setPressed={setPressed}
-          pressedAdd={pressedAdd}
-
-          /></Container>):null}
+        </ul>
+        {selected
+          ? (
+            <Container style={{ marginTop: '4rem' }}>
+              <CreateEvent
+                selectedUser={selectedUser}
+                trainingPlan={trainingPlan}
+                setPressed={setPressed}
+                pressedAdd={pressedAdd}
+              />
+            </Container>)
+          : null}
       </Container>
-      {selected ? (
-        <Container>
-          <Table style={{ background: 'white', width: "100%" }}>
-            <thead> <tr>
-              <th>Date</th>
-              <th>Workout Name</th>
-              <th>Comment</th>
-            </tr></thead>
-            <tbody>
-              {selectedWorkoutEvents.sort(function (a, b) {
-                var dateA = new Date(a.date), dateB = new Date(b.date)
-                return dateA - dateB
-              }).map((workout, key) =>
-                <tr>
-                  <td >{workout.date} </td>
-                  <td >{workout.name} </td>
-                  <td >{workout.manager_comment} </td>
+      {selected
+        ? (
+          <Container>
+            <Table style={{ background: 'white', width: '100%' }}>
+              <thead> <tr>
+                <th>Date</th>
+                <th>Workout Name</th>
+                <th>Comment</th>
+                      </tr>
+              </thead>
+              <tbody>
+                {selectedWorkoutEvents.sort(function (a, b) {
+                  const dateA = new Date(a.date); const dateB = new Date(b.date)
+                  return dateA - dateB
+                }).map((workout, key) =>
+                  <tr>
+                    <td>{workout.date} </td>
+                    <td>{workout.name} </td>
+                    <td>{workout.manager_comment} </td>
 
-                </tr>)}
-            </tbody>
-          </Table>
-         
-        </Container>) : null}
+                  </tr>)}
+              </tbody>
+            </Table>
 
-
+          </Container>)
+        : null}
 
     </div>
   )

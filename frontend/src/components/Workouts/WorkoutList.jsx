@@ -50,40 +50,42 @@ export default function WorkoutList (props) {
         </ul>
       </div>
       <div className='col-md-6'>
-        {currentWorkout ? (
-          <div>
-            <h4>Selected workout:</h4>
+        {currentWorkout
+          ? (
             <div>
-              <label>
-                <strong>Name</strong>
-              </label>{' '}
-              {currentWorkout.name}
+              <h4>Selected workout:</h4>
+              <div>
+                <label>
+                  <strong>Name</strong>
+                </label>{' '}
+                {currentWorkout.name}
+              </div>
+              <div>
+                <Link
+                  to={'/workouts/edit?id=' + currentWorkout.id}
+                  className='btn btn-warning'
+                  style={{ marginTop: 25 }}
+                >
+                  Add exercises
+                </Link>
+              </div>
+              <div>
+                <button
+                  onClick={() => removeWorkout(currentWorkout.id)}
+                  className='btn btn-danger'
+                  style={{ marginTop: 25 }}
+                >
+                  Delete workout
+                </button>
+              </div>
             </div>
+            )
+          : (
             <div>
-              <Link
-                to={'/workouts/edit?id=' + currentWorkout.id}
-                className='btn btn-warning'
-                style={{ marginTop: 25 }}
-              >
-                Add exercises
-              </Link>
+              <br />
+              <p>Please click on a Workout...</p>
             </div>
-            <div>
-              <button
-                onClick={() => removeWorkout(currentWorkout.id)}
-                className='btn btn-danger'
-                style={{ marginTop: 25 }}
-              >
-                Delete workout
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please click on a Workout...</p>
-          </div>
-        )}
+            )}
       </div>
       <div>
         <Link
