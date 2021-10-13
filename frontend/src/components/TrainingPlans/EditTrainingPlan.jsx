@@ -42,21 +42,21 @@ const EditTrainingPlan = (props) => {
       <Container>
         <ul className='list-group'>
           {users &&
-          users.map((user, key) => (
-            <li
-              className={
-                'list-group-item ' + (key === currentIndex ? 'active' : '')
-              }
-              onClick={() => {
-                setSelectedUser(user.id)
-                setCurrentIndex(key)
-                setSelected(true)
-              }}
-              key={key}
-            >
-              {user.name}
-            </li>
-          ))}
+            users.map((user, key) => (
+              <li
+                className={
+                  'list-group-item ' + (key === currentIndex ? 'active' : '')
+                }
+                onClick={() => {
+                  setSelectedUser(user.id)
+                  setCurrentIndex(key)
+                  setSelected(true)
+                }}
+                key={key}
+              >
+                {user.name}
+              </li>
+            ))}
         </ul>
         {selected
           ? (
@@ -78,7 +78,7 @@ const EditTrainingPlan = (props) => {
                 <th>Date</th>
                 <th>Workout Name</th>
                 <th>Comment</th>
-                      </tr>
+              </tr>
               </thead>
               <tbody>
                 {selectedWorkoutEvents.sort(function (a, b) {
