@@ -25,11 +25,7 @@ export default function CreateWorkout(props) {
     e.preventDefault()
     const { name, creator } = values
     const workout_data = { name, creator }
-<<<<<<< HEAD
-    await axios.post("/api/workouts", workout_data)
-=======
     await axios.post('/api/workouts', workout_data)
->>>>>>> ac2507e43c8fb0abd6964847b82f0bcebeb08cc6
     history.goBack()
   }
 
