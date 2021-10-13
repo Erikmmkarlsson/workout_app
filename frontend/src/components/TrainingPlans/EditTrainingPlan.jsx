@@ -4,18 +4,18 @@ import axios from 'axios'
 import { Container, Table } from 'reactstrap'
 import { CreateEvent } from './CreateEvent'
 import './trainingplan.css'
+
 const EditTrainingPlan = (props) => {
-  // const managerId = GetID();
+  //States
   const [users, setUsers] = useState([])
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [selectedUser, setSelectedUser] = useState(0)
   const [trainingPlan, setTrainingPlan] = useState(0)
   const [selected, setSelected] = useState(false)
   const [pressedAdd, setPressed] = useState(false)
-
   const [selectedWorkoutEvents, setSelectedWorkoutEvents] = useState([])
-  console.log(selectedUser)
 
+  //Set intial state
   useEffect(() => {
     axios.get('/api/manager/myUsers', { headers: { 'x-access-token': GetToken() } }).then((response) => {
       setUsers(response.data.data)
@@ -36,8 +36,6 @@ const EditTrainingPlan = (props) => {
     })
       .then((response) => { setTrainingPlan(response.data.data) })
   }, [selectedUser, pressedAdd])
-
-  console.log(selectedWorkoutEvents)
 
   return (
     <div className='training_plan'>
