@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Button, FormGroup, Label, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
 
 const WorkoutReport = props => {

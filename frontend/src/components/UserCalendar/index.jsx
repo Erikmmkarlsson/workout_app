@@ -4,9 +4,9 @@ import axios from "axios";
 import { GetToken, GetID } from "../auth";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import CalendarBody from "../ManagerCalender/CalendarBody";
-import CalendarHead from "../ManagerCalender/CalendarHead";
-import "../ManagerCalender/calendar.css";
+import CalendarBody from "../ManagerCalendar/CalendarBody";
+import CalendarHead from "../ManagerCalendar/CalendarHead";
+import "../ManagerCalendar/calendar.css";
 import WorkoutReport from "./WorkoutReport";
 import {
   Dropdown,

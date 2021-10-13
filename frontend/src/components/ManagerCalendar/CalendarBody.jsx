@@ -15,6 +15,7 @@ import Paper from '@material-ui/core/Paper'
 
 
 const CalendarBody = props => {
+    //Get props from parent component
     const { setSelectedEvent, 
             toggleModal, 
             added, 
