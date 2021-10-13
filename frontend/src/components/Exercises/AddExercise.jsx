@@ -34,7 +34,7 @@ export default function AddExercise(props) {
         <button
           className='btn btn-warning'
           style={{ marginTop: 25 }}
-          onClick={history.goBack}
+          onClick={() => history.goBack()}
         >
           Go back
         </button>

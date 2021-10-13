@@ -2,18 +2,21 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Form, FormGroup, Input, Label, Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu } from 'reactstrap'
 import { GetToken } from '../auth'
+
 export const CreateEvent = (props) => {
+  //Props from parent component
   const { selectedUser, trainingPlan, setPressed, pressedAdd } = props
 
+  //States
   const [open, setOpen] = useState(false)
   const [workoutList, setWorkoutList] = useState([])
   const [selectedWorkout, setSelectedWorkout] = useState({ id: 0, name: '' })
   const [date, setDate] = useState('')
   const [comment, setComment] = useState('')
-
   const [dropdownOpenWorkouts, setDropdownOpenWorkouts] = useState(false)
   const toggleWorkouts = () => setDropdownOpenWorkouts(prevState => !prevState)
 
+  //Set initial state
   useEffect(() => {
     axios.get('/api/GetUser&UserManagerWorkouts/' + selectedUser, {
       headers: {
@@ -25,7 +28,9 @@ export const CreateEvent = (props) => {
       })
   }, [])
 
+  //Function
   const handleButton = async (e) => {
+    //Handles button press, inserts training plan into database
     const data = {
       training_plan_id: trainingPlan[0].id,
       workout_id: selectedWorkout.id,
@@ -38,9 +43,12 @@ export const CreateEvent = (props) => {
   }
 
   const handleDateChange = (e) => {
+    //Handles when user enters a new date, updates variable
     setDate(e.target.value)
   }
+
   const handleCommentChange = (e) => {
+    //Handles when user enters a comment, updates variable
     setComment(e.target.value)
   }
 
