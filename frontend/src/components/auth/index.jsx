@@ -21,4 +21,4 @@ export { default as GetRole } from './GetRole'
 
 export { default as GetID } from './GetId'
 
-export { default as GetName} from './GetName'
+export { default as GetName } from './GetName'

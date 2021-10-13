@@ -8,7 +8,7 @@ import { Hero } from './components/Landing Page/'
 import { Login } from './components/Login'
 
 import ManagerDashboard from './components/ManagerDashboard/managerdashboard'
-import UserDashboard from './components/UserDashboard/userdashboard'
+import UserDashboard from './components/ManagerDashboard/UserDashboard/userdashboard'
 import { AddExercise, EditExercise, ExerciseList } from './components/Exercises'
 import { CreateWorkout, WorkoutList, EditWorkout } from './components/Workouts/'
 import { EditTrainingPlan } from './components/TrainingPlans'
@@ -18,16 +18,16 @@ import { useAuth, GetRole } from './components/auth'
 import FindFriend from './components/FriendSystem/Finduser.jsx'
 import AcceptFriends from './components/FriendSystem/AcceptFriends.jsx'
 import Sidebar from './components/navbar/Sidemenu/Sidebar'
-function App() {
+function App () {
   const [loggedIn] = useAuth()
   const role = GetRole()
 
   if (loggedIn && role === 'manager') {
     return (
       <div className='App'>
-        <Sidebar/>
-        <div className="appBox">
-                    <Switch>
+        <Sidebar />
+        <div className='appBox'>
+          <Switch>
             <PrivateRoute path='/MyUsers'> <AcceptUsers /> </PrivateRoute>
             <Route exact path='/login'> <Login /> </Route>
 
@@ -36,8 +36,8 @@ function App() {
             <Route exact path='/exercises/'> <ExerciseList /> </Route>
             <Route exact path='/exercises/add'> <AddExercise /> </Route>
             <Route exact path='/exercises/edit'> <EditExercise /> </Route>
-            <Route path='/findfriend'> <FindFriend/> </Route>
-            <Route path='/requestlist'> <AcceptFriends/> </Route>
+            <Route path='/findfriend'> <FindFriend /> </Route>
+            <Route path='/requestlist'> <AcceptFriends /> </Route>
             <Route exact path='/workouts/'> <WorkoutList /> </Route>
             <Route exact path='/workouts/create'> <CreateWorkout /> </Route>
             <Route exact path='/workouts/edit'> <EditWorkout /> </Route>
@@ -52,26 +52,26 @@ function App() {
             <Route exactpath='/'>  <ManagerDashboard /></Route>
 
           </Switch>
-          </div>
         </div>
+      </div>
     )
   } else if (loggedIn) { // regular user
     return (
       <div className='App'>
-        <Sidebar/>
-        <div className="appBox">
-        <Switch>
-        <Route path='/requestlist'> <AcceptFriends/> </Route>
-        <Route path='/findfriend'> <FindFriend/> </Route>
-          <Route path='/editprofile'> <EditProfile /> </Route>
-          <Route path='/passwordreset'> <PasswordReset /> </Route>
-          <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
-          <Route path='/profile'> <Profile /> </Route>
-          <Route exact path='/login'> <Login /> </Route>
+        <Sidebar />
+        <div className='appBox'>
+          <Switch>
+            <Route path='/requestlist'> <AcceptFriends /> </Route>
+            <Route path='/findfriend'> <FindFriend /> </Route>
+            <Route path='/editprofile'> <EditProfile /> </Route>
+            <Route path='/passwordreset'> <PasswordReset /> </Route>
+            <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
+            <Route path='/profile'> <Profile /> </Route>
+            <Route exact path='/login'> <Login /> </Route>
 
-          <Route exactpath='/'>  <UserDashboard /></Route>
+            <Route exactpath='/'>  <UserDashboard /></Route>
 
-        </Switch>
+          </Switch>
         </div>
       </div>
     )

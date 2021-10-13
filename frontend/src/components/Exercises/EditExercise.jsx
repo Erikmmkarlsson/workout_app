@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Link, useHistory } from 'react-router-dom'
+import axios from 'axios'
 
 export default function EditExercise (props) {
+  // States
   const [id, setId] = useState(null)
   const [values, setValues] = useState({
     description: '',
     video_link: ''
   })
 
+  // Variables
   const history = useHistory()
 
+  // Handles initial state
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const id = parseInt(params.get('id'), 10)
@@ -23,11 +26,14 @@ export default function EditExercise (props) {
     })
   }, [])
 
+  // Functions
   const handleChange = (name) => (e) => {
+    // Handles when a user types text into a field, updates said variable
     setValues({ ...values, [name]: e.target.value })
   }
 
   const handleSubmit = async (e) => {
+    // Handles when the user submits, patches the exercise in the database
     e.preventDefault()
     const { description, video_link } = values
     const exercise_data = { description, video_link }
@@ -36,6 +42,7 @@ export default function EditExercise (props) {
   }
 
   function deleteExercise () {
+    // Handles when the user clicks on "delete", removes the exercise from the database
     axios.delete('/api/exercises/' + id)
   }
 

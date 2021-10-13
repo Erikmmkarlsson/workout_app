@@ -4,8 +4,8 @@ import './landingpage.css'
 const Hero = (props) => {
   return (
     <div>
-    <div className='bk'></div>
-    <div className='grad'></div>
+      <div className='bk' />
+      <div className='grad' />
       <div className='jumbotron'>
         <Jumbotron>
           <div className='box'>

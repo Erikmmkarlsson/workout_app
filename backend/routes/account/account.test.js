@@ -2,7 +2,7 @@ const app = require('../../server') // Link to your server file
 const supertest = require('supertest')
 const request = supertest(app)
 
-var token =''
+let token = ''
 
 it('Receives error', async () => {
   const res = await request.post('/api/login')
@@ -17,7 +17,7 @@ it('Can login', async () => {
       email: 'manager1@example.com',
       password: 'admin123456'
     })
-  
+
   token = res.body.token
   expect(res.status).toBe(200)
   expect(res.body.email).toBe('manager1@example.com')
@@ -34,7 +34,6 @@ it('Cant login with invalid credentials', async () => {
   expect(res.body.message).toBe('Invalid credentials')
 })
 
-
 /*
 it('Can register', async () => {
   const res = await request.post('/api/register')
@@ -48,7 +47,6 @@ it('Can register', async () => {
   expect(res.status).toBe(200)
   expect(res.body.message).toBe('success')
 })
-
 
 it('Can delete account', async () => {
   const res = await request.delete('/api/delete')

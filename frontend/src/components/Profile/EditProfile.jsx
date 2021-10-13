@@ -78,11 +78,11 @@ export default class Profile extends Component {
   }
 
   updateProfile () {
-
     axios.patch('/api/profile/', this.state.currentProfile, {
       headers: {
         'x-access-token': GetToken()
-      }})
+      }
+    })
       .then(response => {
         console.log(response.data.data)
         this.setState({
@@ -94,7 +94,7 @@ export default class Profile extends Component {
       })
   }
 
-  //TODO: Improve this functionality
+  // TODO: Improve this functionality
   deleteProfile () {
     axios.delete('/api/profile/')
   }
@@ -104,85 +104,87 @@ export default class Profile extends Component {
 
     return (
       <div>
-        <div>
-        </div>
+        <div />
 
-        {currentProfile ? (
-          <div className='Profile edit-form'>
-            <h4>Edit Profile</h4>
-            <form>
-              <div className='form-group'>
-                <label htmlFor='name'>Name</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='name'
-                  value={currentProfile.name}
-                  onChange={this.onChangeName}
-                />
-              </div>
+        {currentProfile
+          ? (
+            <div className='Profile edit-form'>
+              <h4>Edit Profile</h4>
+              <form>
+                <div className='form-group'>
+                  <label htmlFor='name'>Name</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='name'
+                    value={currentProfile.name}
+                    onChange={this.onChangeName}
+                  />
+                </div>
 
-              <div className='form-group'>
-                <label htmlFor='email'>Email</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='email'
-                  value={currentProfile.email}
-                  onChange={this.onChangeEmail}
-                />
-              </div>
+                <div className='form-group'>
+                  <label htmlFor='email'>Email</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='email'
+                    value={currentProfile.email}
+                    onChange={this.onChangeEmail}
+                  />
+                </div>
 
-              <div className='form-group'>
-                <label htmlFor='role'>Role</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='role'
-                  value={currentProfile.role}
-                  onChange={this.onChangeRole}
-                />
-              </div>
+                <div className='form-group'>
+                  <label htmlFor='role'>Role</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='role'
+                    value={currentProfile.role}
+                    onChange={this.onChangeRole}
+                  />
+                </div>
 
-            </form>
-            <div className='SameLine'>
-              <Link to={'/profile/'}>
-                <button
-                  type='submit'
-                  className='m-3 btn btn-sm btn-success'
-                  onClick={this.updateProfile}
+              </form>
+              <div className='SameLine'>
+                <Link to='/profile/'>
+                  <button
+                    type='submit'
+                    className='m-3 btn btn-sm btn-success'
+                    onClick={this.updateProfile}
+                  >
+                    Update Profile
+                  </button>
+                </Link>
+                <Link
+                  to='/passwordreset/'
                 >
-                  Update Profile
-                </button>
-              </Link>
-              <Link
-                to={'/passwordreset/'}
-              >
-                <button
-                type='submit'
-                className='m-3 btn btn-sm btn-warning'>
-                Change Password
-                </button>
-              </Link>
-              <Link to='/editprofile'>
-                <button
-                  className='m-3 btn btn-sm btn-danger'
-                  onClick={this.deleteProfile}
-                >
-                  Delete Account
-                </button>
-              </Link>
+                  <button
+                    type='submit'
+                    className='m-3 btn btn-sm btn-warning'
+                  >
+                    Change Password
+                  </button>
+                </Link>
+                <Link to='/editprofile'>
+                  <button
+                    className='m-3 btn btn-sm btn-danger'
+                    onClick={this.deleteProfile}
+                  >
+                    Delete Account
+                  </button>
+                </Link>
+              </div>
+              <p>
+                {this.state.message}
+              </p>
             </div>
-            <p>
-              {this.state.message}
-            </p>
-          </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please choose right person...</p>
-          </div>
-        )}
+            )
+          : (
+            <div>
+              <br />
+              <p>Please choose right person...</p>
+            </div>
+            )}
       </div>
     )
   }

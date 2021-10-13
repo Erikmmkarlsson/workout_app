@@ -1,21 +1,26 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import { useHistory } from 'react-router-dom'
+import axios from 'axios'
 import './Exercise.css'
-export default function AddExercise (props) {
+
+export default function AddExercise(props) {
+  // States
   const [values, setValues] = useState({
-    name: '',
+    name: "",
     description: '',
     video_link: ''
   })
 
   const history = useHistory()
 
+  // Functions
   const handleChange = (name) => (e) => {
+    // Handles changes when user types text into fields, updates said variable
     setValues({ ...values, [name]: e.target.value })
   }
 
   const handleSubmit = async (e) => {
+    // Handles submit, posts the created exercise to the database
     e.preventDefault()
     const { name, description, video_link } = values
     const exercise_data = { name, description, video_link }

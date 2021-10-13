@@ -14,7 +14,7 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       // if no search terms defined
       var sql = 'select * from exercises'
     } else {
-      var sql = `select * from exercises where name like '%' || ? || '%'` // if search term works
+      var sql = 'select * from exercises where name like \'%\' || ? || \'%\'' // if search term works
     }
     const params = [search]
     console.log(sql)

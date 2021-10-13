@@ -26,15 +26,14 @@ app.use(limiter)
 API routes
 */
 require('./routes/account')(app, db) // Sending "app" and "db" instance to account
-require('./routes/profile')(app, db) 
+require('./routes/profile')(app, db)
 require('./routes/Frinedssystem')(app, db)
 require('./routes/exercises')(app, db) // Sending "app" and "db" instance to exercises
 require('./routes/workouts')(app, db) // Sending "app" and "db" instance to workouts
 require('./routes/training_plans')(app, db)
-require('./routes/workout_events')(app, db) 
+require('./routes/workout_events')(app, db)
 
-
-require('./routes/users')(app, db) 
+require('./routes/users')(app, db)
 
 app.get('/api/managers', (req, res, next) => {
   /*
@@ -64,14 +63,11 @@ Methods for fetching and creating exercises
 
 */
 
-
-
-
 app.get('/api/manager/WaitingList', onlyManager, (req, res, next) => {
   const id = getID(req)
   console.log(id)
 
-  const sql = "select * from users where activated=false and manager = ? "
+  const sql = 'select * from users where activated=false and manager = ? '
   const params = [id]
   db.all(sql, params, (err, rows) => {
     if (err) {
@@ -89,8 +85,8 @@ app.get('/api/manager/WaitingList', onlyManager, (req, res, next) => {
 app.get('/api/manager/myUsers', onlyManager, (req, res, next) => {
   const id = getID(req)
   console.log(id)
-  
-  const sql = "select * from users where activated=true and id != manager and manager = ? "
+
+  const sql = 'select * from users where activated=true and id != manager and manager = ? '
   const params = [id]
 
   db.all(sql, params, (err, rows) => {
@@ -107,15 +103,14 @@ app.get('/api/manager/myUsers', onlyManager, (req, res, next) => {
   })
 })
 
-
-///MODIFY WHEN FRIENDS SYSTEM ADDED 
-///MODIFY WHEN FRIENDS SYSTEM ADDED 
-///MODIFY WHEN FRIENDS SYSTEM ADDED 
+/// MODIFY WHEN FRIENDS SYSTEM ADDED
+/// MODIFY WHEN FRIENDS SYSTEM ADDED
+/// MODIFY WHEN FRIENDS SYSTEM ADDED
 app.get('/api/user/user&friends', (req, res, next) => {
   const id = getID(req)
   console.log(id)
-  
-  const sql = "select * from users where activated=true and id = ? "
+
+  const sql = 'select * from users where activated=true and id = ? '
   const params = [id]
 
   db.all(sql, params, (err, rows) => {
@@ -132,9 +127,9 @@ app.get('/api/user/user&friends', (req, res, next) => {
   })
 })
 
-app.get('/api/UserWorkouts',(req, res, next) => {
+app.get('/api/UserWorkouts', (req, res, next) => {
   const id = getID(req)
-  const sql = "select workout_events.id, workout_events.date, workout_events.workout_id, workout_events.is_done, workout_events.client_comment, workout_events.manager_comment from training_plans Inner join workout_events on training_plans.id= workout_events.training_plan_id where training_plans.client_id = ?"
+  const sql = 'select workout_events.id, workout_events.date, workout_events.workout_id, workout_events.is_done, workout_events.client_comment, workout_events.manager_comment from training_plans Inner join workout_events on training_plans.id= workout_events.training_plan_id where training_plans.client_id = ?'
   const params = [id]
   db.all(sql, params, (err, rows) => {
     if (err) {
@@ -149,8 +144,8 @@ app.get('/api/UserWorkouts',(req, res, next) => {
     })
   })
 })
-app.get('/api/UserWorkoutsByInput/:id',(req, res, next) => {
-  const sql = "select workout_events.id, workout_events.is_done, workout_events.date, workout_events.workout_id from training_plans Inner join workout_events on training_plans.id= workout_events.training_plan_id where training_plans.client_id = ?"
+app.get('/api/UserWorkoutsByInput/:id', (req, res, next) => {
+  const sql = 'select workout_events.id, workout_events.is_done, workout_events.date, workout_events.workout_id from training_plans Inner join workout_events on training_plans.id= workout_events.training_plan_id where training_plans.client_id = ?'
   const params = [req.params.id]
   db.all(sql, params, (err, rows) => {
     if (err) {
@@ -166,10 +161,10 @@ app.get('/api/UserWorkoutsByInput/:id',(req, res, next) => {
   })
 })
 
-app.get('/api/UserWorkoutsExercises/:id/:date',(req, res, next) => {
-  const sql = 
-  "select workouts.name,exercises.name,exercises.description,exercises.video_link, workout_exercises.num_sets, workout_exercises.num_reps, workout_exercises.num_seconds from training_plans Inner join workout_events on training_plans.id= workout_events.training_plan_id Inner join  workouts on workout_events.workout_id= workouts.id Inner join  workout_exercises on workout_events.workout_id= workout_exercises.workout_id Inner join  exercises on workout_exercises.exercise_id = exercises.id where training_plans.client_id = ? AND workout_events.date= ? "
-  const params = [req.params.id,req.params.date]
+app.get('/api/UserWorkoutsExercises/:id/:date', (req, res, next) => {
+  const sql =
+  'select workouts.name,exercises.name,exercises.description,exercises.video_link, workout_exercises.num_sets, workout_exercises.num_reps, workout_exercises.num_seconds from training_plans Inner join workout_events on training_plans.id= workout_events.training_plan_id Inner join  workouts on workout_events.workout_id= workouts.id Inner join  workout_exercises on workout_events.workout_id= workout_exercises.workout_id Inner join  exercises on workout_exercises.exercise_id = exercises.id where training_plans.client_id = ? AND workout_events.date= ? '
+  const params = [req.params.id, req.params.date]
   db.all(sql, params, (err, rows) => {
     if (err) {
       res.status(400).json({ error: err.message })
@@ -184,11 +179,10 @@ app.get('/api/UserWorkoutsExercises/:id/:date',(req, res, next) => {
   })
 })
 
-
-app.get('/api/GetUser&UserManagerWorkouts/:id',(req, res, next) => {
-  const sql = 
-  "SELECT workouts.id,workouts.name from users Inner join workouts on users.id =workouts.creator where users.id= ? or users.id in ( select users.manager from users where users.id= ?)"
-  const params = [req.params.id,req.params.id]
+app.get('/api/GetUser&UserManagerWorkouts/:id', (req, res, next) => {
+  const sql =
+  'SELECT workouts.id,workouts.name from users Inner join workouts on users.id =workouts.creator where users.id= ? or users.id in ( select users.manager from users where users.id= ?)'
+  const params = [req.params.id, req.params.id]
   db.all(sql, params, (err, rows) => {
     if (err) {
       res.status(400).json({ error: err.message })
@@ -203,9 +197,8 @@ app.get('/api/GetUser&UserManagerWorkouts/:id',(req, res, next) => {
   })
 })
 
-
-app.get('/api/GetTrainingplanIdByClientID/:id',(req, res, next) => {
-  const sql = "select * from training_plans where training_plans.client_id = ?"
+app.get('/api/GetTrainingplanIdByClientID/:id', (req, res, next) => {
+  const sql = 'select * from training_plans where training_plans.client_id = ?'
   const params = [req.params.id]
   db.all(sql, params, (err, rows) => {
     if (err) {
@@ -220,11 +213,8 @@ app.get('/api/GetTrainingplanIdByClientID/:id',(req, res, next) => {
     })
   })
 })
-
-
 
 app.post('/api/AddWorkOutToUser/', (req, res, next) => {
-
   const errors = validationResult(req)
   if (errors.isEmpty()) {
     const data = {
@@ -233,7 +223,7 @@ app.post('/api/AddWorkOutToUser/', (req, res, next) => {
       date: req.body.date,
       is_done: req.body.is_done
     }
-    const sql='INSERT INTO  workout_events (training_plan_id,workout_id,date,is_done) VALUES (?,?,?,?)'
+    const sql = 'INSERT INTO  workout_events (training_plan_id,workout_id,date,is_done) VALUES (?,?,?,?)'
     const params = [data.training_plan_id, data.workout_id, data.date, data.is_done]
     db.run(sql, params, function (err, result) {
       if (err) {
@@ -247,15 +237,6 @@ app.post('/api/AddWorkOutToUser/', (req, res, next) => {
     })
   };
 })
-
-
-
-
-
-
-
-
-
 
 // Default response for any other request
 app.use(function (req, res) {

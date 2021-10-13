@@ -8,7 +8,7 @@ export default function EditWorkout (props) {
   const [selectedExercisesList, setSelectedExerciseslist] = useState([])
 
   const [hasUpdated, setUpdated] = useState(false)
-  
+
   const [currentExercise, setCurrentExercise] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [searchName, setSearchName] = useState('')
@@ -20,7 +20,6 @@ export default function EditWorkout (props) {
     num_seconds: null,
     comment: ''
   })
-
 
   useEffect(() => {
     setWorkoutId(
@@ -145,212 +144,216 @@ export default function EditWorkout (props) {
         </Link>
       </div>
       <div className='col-md-6'>
-        {currentExercise ? (
-          <div>
-            <h4>Exercise</h4>
+        {currentExercise
+          ? (
             <div>
-              <label>
-                <strong>Name:</strong>
-              </label>{' '}
-              {currentExercise.name}
+              <h4>Exercise</h4>
+              <div>
+                <label>
+                  <strong>Name:</strong>
+                </label>{' '}
+                {currentExercise.name}
+              </div>
+              <div>
+                <label>
+                  <strong>Description:</strong>
+                </label>{' '}
+                {currentExercise.description}
+              </div>
+              <div>
+                <label>
+                  <strong>Updated:</strong>
+                </label>{' '}
+                {currentExercise.last_updated} GMT
+              </div>
+              <div className='form-group'>
+                <label htmlFor='num_sets'>Number of sets</label>
+                <input
+                  type='number'
+                  className='form-control'
+                  id='num_sets'
+                  value={currentWorkoutExercise.num_sets}
+                  onChange={handleChange('num_sets')}
+                  name='num_sets'
+                  placeholder='Enter number of sets for this exercise'
+                />
+              </div>
+              <div className='form-group'>
+                <label htmlFor='num_reps'>Number of reps</label>
+                <input
+                  type='number'
+                  className='form-control'
+                  id='num_reps'
+                  value={currentWorkoutExercise.num_reps}
+                  onChange={handleChange('num_reps')}
+                  name='num_reps'
+                  placeholder='Enter number of reps for this exercise'
+                />
+              </div>
+              <div className='form-group'>
+                <label htmlFor='num_seconds'>Number of seconds</label>
+                <input
+                  type='number'
+                  className='form-control'
+                  id='num_seconds'
+                  value={currentWorkoutExercise.num_seconds}
+                  onChange={handleChange('num_seconds')}
+                  name='num_seconds'
+                  placeholder='Enter number of seconds for this exercise'
+                />
+              </div>
+              <div className='form-group'>
+                <label htmlFor='comment'>Comment to client</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  id='comment'
+                  value={currentWorkoutExercise.comment}
+                  onChange={handleChange('comment')}
+                  name='comment'
+                  placeholder='Enter comment to client'
+                />
+              </div>
+              <button
+                type='submit'
+                className='m-3 btn btn-sm btn-success'
+                onClick={saveWorkoutExercise}
+              >
+                Add to Workout
+              </button>
             </div>
+            )
+          : (
             <div>
-              <label>
-                <strong>Description:</strong>
-              </label>{' '}
-              {currentExercise.description}
+              <br />
+              <p>Please click on an Exercise...</p>
             </div>
-            <div>
-              <label>
-                <strong>Updated:</strong>
-              </label>{' '}
-              {currentExercise.last_updated} GMT
-            </div>
-            <div className='form-group'>
-              <label htmlFor='num_sets'>Number of sets</label>
-              <input
-                type='number'
-                className='form-control'
-                id='num_sets'
-                value={currentWorkoutExercise.num_sets}
-                onChange={handleChange('num_sets')}
-                name='num_sets'
-                placeholder='Enter number of sets for this exercise'
-              />
-            </div>
-            <div className='form-group'>
-              <label htmlFor='num_reps'>Number of reps</label>
-              <input
-                type='number'
-                className='form-control'
-                id='num_reps'
-                value={currentWorkoutExercise.num_reps}
-                onChange={handleChange('num_reps')}
-                name='num_reps'
-                placeholder='Enter number of reps for this exercise'
-              />
-            </div>
-            <div className='form-group'>
-              <label htmlFor='num_seconds'>Number of seconds</label>
-              <input
-                type='number'
-                className='form-control'
-                id='num_seconds'
-                value={currentWorkoutExercise.num_seconds}
-                onChange={handleChange('num_seconds')}
-                name='num_seconds'
-                placeholder='Enter number of seconds for this exercise'
-              />
-            </div>
-            <div className='form-group'>
-              <label htmlFor='comment'>Comment to client</label>
-              <input
-                type='text'
-                className='form-control'
-                id='comment'
-                value={currentWorkoutExercise.comment}
-                onChange={handleChange('comment')}
-                name='comment'
-                placeholder='Enter comment to client'
-              />
-            </div>
-            <button
-              type='submit'
-              className='m-3 btn btn-sm btn-success'
-              onClick={saveWorkoutExercise}
-            >
-              Add to Workout
-            </button>
-          </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please click on an Exercise...</p>
-          </div>
-        )}
+            )}
       </div>
       <div />
 
       <h4>Exercises in workout:</h4>
       <div className='container'>
-        {selectedExercisesList.length > 0 ? (
-          <table
-            style={{
-              borderWidth: '1px',
-              borderColor: 'black',
-              borderStyle: 'solid'
-            }}
-          >
-            <thead>
-              <tr>
-                <th
-                  style={{
-                    borderWidth: '1px',
-                    borderColor: 'black',
-                    borderStyle: 'solid'
-                  }}
-                >
-                  Exercise name
-                </th>
-                <th
-                  style={{
-                    borderWidth: '1px',
-                    borderColor: 'black',
-                    borderStyle: 'solid'
-                  }}
-                >
-                  Number of sets
-                </th>
-                <th
-                  style={{
-                    borderWidth: '1px',
-                    borderColor: 'black',
-                    borderStyle: 'solid'
-                  }}
-                >
-                  Number of reps
-                </th>
-                <th
-                  style={{
-                    borderWidth: '1px',
-                    borderColor: 'black',
-                    borderStyle: 'solid'
-                  }}
-                >
-                  Number of seconds
-                </th>
-                <th
-                  style={{
-                    borderWidth: '1px',
-                    borderColor: 'black',
-                    borderStyle: 'solid'
-                  }}
-                >
-                  Remove
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {selectedExercisesList.map((exercise) => (
-                <tr key={exercise.id}>
-                  <td
+        {selectedExercisesList.length > 0
+          ? (
+            <table
+              style={{
+                borderWidth: '1px',
+                borderColor: 'black',
+                borderStyle: 'solid'
+              }}
+            >
+              <thead>
+                <tr>
+                  <th
                     style={{
                       borderWidth: '1px',
                       borderColor: 'black',
                       borderStyle: 'solid'
                     }}
                   >
-                    {exercise.name}
-                  </td>
-                  <td
+                    Exercise name
+                  </th>
+                  <th
                     style={{
                       borderWidth: '1px',
                       borderColor: 'black',
                       borderStyle: 'solid'
                     }}
                   >
-                    {exercise.num_sets}
-                  </td>
-                  <td
+                    Number of sets
+                  </th>
+                  <th
                     style={{
                       borderWidth: '1px',
                       borderColor: 'black',
                       borderStyle: 'solid'
                     }}
                   >
-                    {exercise.num_reps}
-                  </td>
-                  <td
+                    Number of reps
+                  </th>
+                  <th
                     style={{
                       borderWidth: '1px',
                       borderColor: 'black',
                       borderStyle: 'solid'
                     }}
                   >
-                    {exercise.num_seconds}
-                  </td>
-                  <td
+                    Number of seconds
+                  </th>
+                  <th
                     style={{
                       borderWidth: '1px',
                       borderColor: 'black',
                       borderStyle: 'solid'
                     }}
                   >
-                    <button
-                      type='submit'
-                      className='btn btn-sm btn-danger'
-                      onClick={() => removeExercise(exercise.id)}
-                    >
-                      Remove
-                    </button>
-                  </td>
+                    Remove
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <div />
-        )}
+              </thead>
+              <tbody>
+                {selectedExercisesList.map((exercise) => (
+                  <tr key={exercise.id}>
+                    <td
+                      style={{
+                        borderWidth: '1px',
+                        borderColor: 'black',
+                        borderStyle: 'solid'
+                      }}
+                    >
+                      {exercise.name}
+                    </td>
+                    <td
+                      style={{
+                        borderWidth: '1px',
+                        borderColor: 'black',
+                        borderStyle: 'solid'
+                      }}
+                    >
+                      {exercise.num_sets}
+                    </td>
+                    <td
+                      style={{
+                        borderWidth: '1px',
+                        borderColor: 'black',
+                        borderStyle: 'solid'
+                      }}
+                    >
+                      {exercise.num_reps}
+                    </td>
+                    <td
+                      style={{
+                        borderWidth: '1px',
+                        borderColor: 'black',
+                        borderStyle: 'solid'
+                      }}
+                    >
+                      {exercise.num_seconds}
+                    </td>
+                    <td
+                      style={{
+                        borderWidth: '1px',
+                        borderColor: 'black',
+                        borderStyle: 'solid'
+                      }}
+                    >
+                      <button
+                        type='submit'
+                        className='btn btn-sm btn-danger'
+                        onClick={() => removeExercise(exercise.id)}
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            )
+          : (
+            <div />
+            )}
       </div>
     </div>
   )

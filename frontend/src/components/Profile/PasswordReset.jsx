@@ -43,7 +43,8 @@ export default class Profile extends Component {
     axios.get('/api/profile/' + id, {
       headers: {
         'x-access-token': GetToken()
-      } })
+      }
+    })
       .then(response => {
         this.setState({
           currentProfile: response.data.data
@@ -55,7 +56,8 @@ export default class Profile extends Component {
     axios.patch('/api/password/', this.state.currentProfile, {
       headers: {
         'x-access-token': GetToken()
-      }})
+      }
+    })
       .then(response => {
         console.log(response.data.data)
         this.setState({
@@ -81,41 +83,43 @@ export default class Profile extends Component {
             Back
           </Link>
         </div>
-        {currentProfile ? (
-          <div className='edit-form'>
-            <h4>Change Password</h4>
-            <form>
-              <div className='form-group'>
-                <label htmlFor='password'>New Password</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='password'
-                  onChange={this.onChangePassword}
-                />
-              </div>
+        {currentProfile
+          ? (
+            <div className='edit-form'>
+              <h4>Change Password</h4>
+              <form>
+                <div className='form-group'>
+                  <label htmlFor='password'>New Password</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='password'
+                    onChange={this.onChangePassword}
+                  />
+                </div>
 
-            </form>
+              </form>
 
-            <Link to={'/profile/' + currentProfile.id}>
-              <button
-                type='submit'
-                className='m-3 btn btn-sm btn-success'
-                onClick={this.updatePassword}
-              >
-                Update
-              </button>
-            </Link>
-            <p>
-              {this.state.message}
-            </p>
-          </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please write again...</p>
-          </div>
-        )}
+              <Link to={'/profile/' + currentProfile.id}>
+                <button
+                  type='submit'
+                  className='m-3 btn btn-sm btn-success'
+                  onClick={this.updatePassword}
+                >
+                  Update
+                </button>
+              </Link>
+              <p>
+                {this.state.message}
+              </p>
+            </div>
+            )
+          : (
+            <div>
+              <br />
+              <p>Please write again...</p>
+            </div>
+            )}
       </div>
     )
   }

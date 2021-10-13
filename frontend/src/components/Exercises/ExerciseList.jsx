@@ -1,29 +1,35 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 export default function ExercisesList (props) {
+  // States
   const [exercisesList, setExercisesList] = useState([])
   const [currentExercise, setCurrentExercise] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [searchName, setSearchName] = useState('')
 
+  // Sets initial states
   useEffect(() => {
     axios.get('/api/exercises').then((response) => {
       setExercisesList(response.data.data)
     })
   }, [])
 
+  // Functions
   const handleChange = () => (e) => {
+    // Handles changes in the search field, updates the variable containing the search term
     setSearchName(e.target.value)
   }
 
   function setActiveExercise (exercise, index) {
+    // Set which exercise is currently selected
     setCurrentExercise(exercise)
     setCurrentIndex(index)
   }
 
   function search () {
+    // Handles when the user searches for a exercise, fetches the exercises that match the search name
     axios.get('/api/exercises?search=' + searchName).then((response) => {
       setExercisesList(response.data.data)
     })
@@ -72,41 +78,43 @@ export default function ExercisesList (props) {
         </ul>
       </div>
       <div className='col-md-6'>
-        {currentExercise ? (
-          <div>
-            <h4>Exercise</h4>
+        {currentExercise
+          ? (
             <div>
-              <label>
-                <strong>Name:</strong>
-              </label>{' '}
-              {currentExercise.name}
+              <h4>Exercise</h4>
+              <div>
+                <label>
+                  <strong>Name:</strong>
+                </label>{' '}
+                {currentExercise.name}
+              </div>
+              <div>
+                <label>
+                  <strong>Description:</strong>
+                </label>{' '}
+                {currentExercise.description}
+              </div>
+              <div>
+                <label>
+                  <strong>Updated:</strong>
+                </label>{' '}
+                {currentExercise.last_updated} GMT
+              </div>
+              <Link
+                to={'/exercises/edit?id=' + currentExercise.id}
+                className='btn btn-warning'
+                style={{ marginTop: 25 }}
+              >
+                Edit
+              </Link>
             </div>
+            )
+          : (
             <div>
-              <label>
-                <strong>Description:</strong>
-              </label>{' '}
-              {currentExercise.description}
+              <br />
+              <p>Please click on an Exercise...</p>
             </div>
-            <div>
-              <label>
-                <strong>Updated:</strong>
-              </label>{' '}
-              {currentExercise.last_updated} GMT
-            </div>
-            <Link
-              to={'/exercises/edit?id=' + currentExercise.id}
-              className='btn btn-warning'
-              style={{ marginTop: 25 }}
-            >
-              Edit
-            </Link>
-          </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please click on an Exercise...</p>
-          </div>
-        )}
+            )}
       </div>
       <div>
         <Link

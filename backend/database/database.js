@@ -162,32 +162,32 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
     id_sender INTEGER,
     id_reciever INTEGER
     )`,
-    (err) => {
-      if (err) {
-        // Table already created
-      } else {
-        // Table just created, creating some rows
-        const insert_request = 'INSERT INTO friendsrequest (id_sender, id_reciever) VALUES (?,?)'
-        db.run(insert_request, [1, 2])
-        db.run(insert_request, [3, 2])
-      }
-    })
+  (err) => {
+    if (err) {
+      // Table already created
+    } else {
+      // Table just created, creating some rows
+      const insert_request = 'INSERT INTO friendsrequest (id_sender, id_reciever) VALUES (?,?)'
+      db.run(insert_request, [1, 2])
+      db.run(insert_request, [3, 2])
+    }
+  })
 
-    db.run(`CREATE TABLE friendsList (
+  db.run(`CREATE TABLE friendsList (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       id_user1 INTEGER,
       id_user2 INTEGER
       )`,
-      (err) => {
-        if (err) {
-          // Table already created
-        } else {
-          // Table just created, creating some rows
-          const insert_request = 'INSERT INTO friendsList (id_user1, id_user2) VALUES (?,?)'
-          db.run(insert_request, [1, 2])
-          db.run(insert_request, [3, 2])
-        }
-      })
+  (err) => {
+    if (err) {
+      // Table already created
+    } else {
+      // Table just created, creating some rows
+      const insert_request = 'INSERT INTO friendsList (id_user1, id_user2) VALUES (?,?)'
+      db.run(insert_request, [1, 2])
+      db.run(insert_request, [3, 2])
+    }
+  })
 })
 
 module.exports = db
