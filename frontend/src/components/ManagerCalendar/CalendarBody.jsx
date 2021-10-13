@@ -28,7 +28,7 @@ const CalendarBody = props => {
             currentYearNum, 
             selectedDay, 
             setSelectedDay, 
-            actualMonth, 
+            actualMonthNum, 
             actualYear, 
             weekdays, 
             ActiveDates, 
@@ -94,7 +94,10 @@ const CalendarBody = props => {
                         }
                     }
 
-                    else if((currentMonth() < actualMonth()) && (currentYear() === actualYear())){
+                    else if((currentMonthNum() < actualMonthNum()) && (currentYear() === actualYear())){
+                       console.log(currentMonthNum() )
+                       console.log( actualMonthNum() )
+
                         console.log("past month")
 
                         if(ActiveDates[Date].is_done === 2){
@@ -108,7 +111,7 @@ const CalendarBody = props => {
                         }
                     }
 
-                    else if((d <= currentDay()) && (currentMonth() === actualMonth()) && (currentYear() === actualYear()) ){
+                    else if((d <= currentDay()) && (currentMonthNum() === actualMonthNum()) && (currentYear() === actualYear()) ){
                         console.log("past day")
 
                         if(ActiveDates[Date].is_done === 2){
@@ -128,7 +131,7 @@ const CalendarBody = props => {
         }
 
         // Check if day is today
-        if (currentDay() === d && currentMonth() === actualMonth() && currentYear() === actualYear()) currDay = 'today'
+        if (currentDay() === d && currentMonthNum() === actualMonthNum() && currentYear() === actualYear()) currDay = 'today'
 
         // Check if day is selected day
         if (selectedDay !== undefined) {
