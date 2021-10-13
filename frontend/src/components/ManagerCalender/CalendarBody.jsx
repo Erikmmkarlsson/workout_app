@@ -15,7 +15,26 @@ import Paper from '@material-ui/core/Paper'
 
 
 const CalendarBody = props => {
-    const { setSelectedEvent, toggleModal, added, firstDayOfMonth, daysInMonth, currentDay, currentMonth, currentYear, currentMonthNum, currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays, ActiveDates, SelectedUserID, setSelectedWorkoutExercises, setWorkoutListDropdown } = props
+    const { setSelectedEvent, 
+            toggleModal, 
+            added, 
+            firstDayOfMonth, 
+            daysInMonth, 
+            currentDay, 
+            currentMonth, 
+            currentYear, 
+            currentMonthNum, 
+            currentYearNum, 
+            selectedDay, 
+            setSelectedDay, 
+            actualMonth, 
+            actualYear, 
+            weekdays, 
+            ActiveDates, 
+            SelectedUserID, 
+            setSelectedWorkoutExercises, 
+            setWorkoutListDropdown 
+    } = props
 
     const blanks = []
     for (let i = 1; i < firstDayOfMonth(); i++) {
