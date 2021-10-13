@@ -153,7 +153,7 @@ function Calendar(props) {
   const currentYearNum = () => dateObject.year();
   const daysInMonth = () => dateObject.daysInMonth();
   const currentDay = () => moment().date();
-  const actualMonth = () => moment().format("MMMM");
+  const actualMonthNum = () => moment().month() + 1;
   const actualYear = () => moment().format("YYYY");
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
@@ -216,7 +216,7 @@ function Calendar(props) {
                 currentYearNum={currentYearNum}
                 selectedDay={selectedDay}
                 setSelectedDay={setSelectedDay}
-                actualMonth={actualMonth}
+                actualMonthNum={actualMonthNum}
                 actualYear={actualYear}
                 weekdays={weekdays}
                 ActiveDates={ActiveDates}

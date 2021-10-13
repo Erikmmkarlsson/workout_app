@@ -21,7 +21,6 @@ const CalendarBody = props => {
             firstDayOfMonth, 
             daysInMonth, 
             currentDay, 
-            currentMonth, 
             currentYear, 
             currentMonthNum, 
             currentYearNum, 
