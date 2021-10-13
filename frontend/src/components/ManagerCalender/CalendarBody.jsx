@@ -15,7 +15,26 @@ import Paper from '@material-ui/core/Paper'
 
 
 const CalendarBody = props => {
-    const { setSelectedEvent, toggleModal, added, firstDayOfMonth, daysInMonth, currentDay, currentMonth, currentYear, currentMonthNum, currentYearNum, selectedDay, setSelectedDay, actualMonthNum, actualYear, weekdays, ActiveDates, SelectedUserID, setSelectedWorkoutExercises, setWorkoutListDropdown } = props
+    const { setSelectedEvent, 
+            toggleModal, 
+            added, 
+            firstDayOfMonth, 
+            daysInMonth, 
+            currentDay, 
+            currentMonth, 
+            currentYear, 
+            currentMonthNum, 
+            currentYearNum, 
+            selectedDay, 
+            setSelectedDay, 
+            actualMonthNum, 
+            actualYear, 
+            weekdays, 
+            ActiveDates, 
+            SelectedUserID, 
+            setSelectedWorkoutExercises, 
+            setWorkoutListDropdown 
+    } = props
 
     const blanks = []
     for (let i = 1; i < firstDayOfMonth(); i++) {
@@ -91,7 +110,7 @@ const CalendarBody = props => {
                         }
                     }
 
-                    else if((d < currentDay()) && (currentMonthNum() === actualMonthNum()) && (currentYear() === actualYear()) ){
+                    else if((d <= currentDay()) && (currentMonthNum() === actualMonthNum()) && (currentYear() === actualYear()) ){
                         console.log("past day")
 
                         if(ActiveDates[Date].is_done === 2){
