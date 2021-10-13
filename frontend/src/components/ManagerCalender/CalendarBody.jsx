@@ -15,7 +15,7 @@ import Paper from '@material-ui/core/Paper'
 
 
 const CalendarBody = props => {
-    const { setSelectedEvent, toggleModal, added, firstDayOfMonth, daysInMonth, currentDay, currentMonth, currentYear, currentMonthNum, currentYearNum, selectedDay, setSelectedDay, actualMonth, actualYear, weekdays, ActiveDates, SelectedUserID, setSelectedWorkoutExercises, setWorkoutListDropdown } = props
+    const { setSelectedEvent, toggleModal, added, firstDayOfMonth, daysInMonth, currentDay, currentMonth, currentYear, currentMonthNum, currentYearNum, selectedDay, setSelectedDay, actualMonthNum, actualYear, weekdays, ActiveDates, SelectedUserID, setSelectedWorkoutExercises, setWorkoutListDropdown } = props
 
     const blanks = []
     for (let i = 1; i < firstDayOfMonth(); i++) {
@@ -74,7 +74,10 @@ const CalendarBody = props => {
                         }
                     }
 
-                    else if((currentMonth() < actualMonth()) && (currentYear() === actualYear())){
+                    else if((currentMonthNum() < actualMonthNum()) && (currentYear() === actualYear())){
+                       console.log(currentMonthNum() )
+                       console.log( actualMonthNum() )
+
                         console.log("past month")
 
                         if(ActiveDates[Date].is_done === 2){
@@ -88,7 +91,7 @@ const CalendarBody = props => {
                         }
                     }
 
-                    else if((d < currentDay()) && (currentMonth() === actualMonth()) && (currentYear() === actualYear()) ){
+                    else if((d < currentDay()) && (currentMonthNum() === actualMonthNum()) && (currentYear() === actualYear()) ){
                         console.log("past day")
 
                         if(ActiveDates[Date].is_done === 2){
@@ -108,7 +111,7 @@ const CalendarBody = props => {
         }
 
         // Check if day is today
-        if (currentDay() === d && currentMonth() === actualMonth() && currentYear() === actualYear()) currDay = 'today'
+        if (currentDay() === d && currentMonthNum() === actualMonthNum() && currentYear() === actualYear()) currDay = 'today'
 
         // Check if day is selected day
         if (selectedDay !== undefined) {
