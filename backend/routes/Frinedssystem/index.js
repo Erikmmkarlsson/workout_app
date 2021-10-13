@@ -155,8 +155,9 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       */
     console.log('Deleting friendsrequest...')
   
-    const sql = 'delete from friendsrequest where id = ?'
+    const sql = 'delete from friendsrequest where friendsrequest.id_reciever = ?'
     const params = [getID(req)]
+    
     db.get(sql, params, function (err, result) {
       if (err) {
         res.status(400).json({ error: err.message })
