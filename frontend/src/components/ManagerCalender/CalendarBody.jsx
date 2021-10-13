@@ -88,7 +88,7 @@ const CalendarBody = props => {
                         }
                     }
 
-                    else if((d < currentDay()) && (currentMonth() === actualMonth()) && (currentYear() === actualYear()) ){
+                    else if((d <= currentDay()) && (currentMonth() === actualMonth()) && (currentYear() === actualYear()) ){
                         console.log("past day")
 
                         if(ActiveDates[Date].is_done === 2){
