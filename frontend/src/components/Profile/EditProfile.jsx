@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { GetID, GetToken } from '../auth'
 import './Profile.css'
 export default class Profile extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onChangeName = this.onChangeName.bind(this)
     this.onChangeEmail = this.onChangeEmail.bind(this)
@@ -27,11 +27,11 @@ export default class Profile extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.getProfile(GetID())
   }
 
-  onChangeName (e) {
+  onChangeName(e) {
     const name = e.target.value
 
     this.setState(prevState => ({
@@ -42,7 +42,7 @@ export default class Profile extends Component {
     }))
   }
 
-  onChangeEmail (e) {
+  onChangeEmail(e) {
     const email = e.target.value
 
     this.setState(prevState => ({
@@ -64,7 +64,7 @@ export default class Profile extends Component {
     }))
   }*/
 
-  getProfile (id) {
+  getProfile(id) {
     axios.get('/api/profile/' + id, {
       headers: {
         'x-access-token': GetToken()
@@ -77,7 +77,7 @@ export default class Profile extends Component {
       })
   }
 
-  updateProfile () {
+  updateProfile() {
     axios.patch('/api/profile/', this.state.currentProfile, {
       headers: {
         'x-access-token': GetToken()
@@ -95,11 +95,11 @@ export default class Profile extends Component {
   }
 
   // TODO: Improve this functionality
-  deleteProfile () {
+  deleteProfile() {
     axios.delete('/api/profile/')
   }
 
-  render () {
+  render() {
     const { currentProfile } = this.state
 
     return (
@@ -133,7 +133,7 @@ export default class Profile extends Component {
                 />
               </div>
 
-              
+
 
             </form>
             <div className='SameLine'>
@@ -142,34 +142,35 @@ export default class Profile extends Component {
                   type='submit'
                   className='m-3 btn btn-sm btn-success'
                   onClick={this.updateProfile}
+                >              update    </button>
+
+                <button
+                  type='submit'
+                  className='m-3 btn btn-sm btn-warning'
                 >
-                  <button
-                    type='submit'
-                    className='m-3 btn btn-sm btn-warning'
-                  >
-                    Change Password
-                  </button>
-                </Link>
-                <Link to='/editprofile'>
-                  <button
-                    className='m-3 btn btn-sm btn-danger'
-                    onClick={this.deleteProfile}
-                  >
-                    Delete Account
-                  </button>
-                </Link>
-              </div>
-              <p>
-                {this.state.message}
-              </p>
+                  Change Password
+                </button>
+              </Link>
+              <Link to='/editprofile'>
+                <button
+                  className='m-3 btn btn-sm btn-danger'
+                  onClick={this.deleteProfile}
+                >
+                  Delete Account
+                </button>
+              </Link>
             </div>
-            )
+            <p>
+              {this.state.message}
+            </p>
+          </div>
+        )
           : (
             <div>
               <br />
               <p>Please choose right person...</p>
             </div>
-            )}
+          )}
       </div>
     )
   }
