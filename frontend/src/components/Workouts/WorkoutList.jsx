@@ -32,6 +32,7 @@ export default function WorkoutList (props) {
       <Link to='/'>
         <button className='m-3 btn-sm btn-warning'>Return to dashboard</button>
       </Link>
+      <div className="workoutBody">
       <div className='col-md-6'>
         <h4>Your workouts</h4>
         <ul className='list-group'>
@@ -86,6 +87,7 @@ export default function WorkoutList (props) {
               <p>Please click on a Workout...</p>
             </div>
             )}
+      </div>
       </div>
       <div>
         <Link

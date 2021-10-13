@@ -126,6 +126,7 @@ export default function EditWorkout(props) {
           </div>
         </div>
       </div>
+      <div className="workoutBody">
       <div className='col-md-6'>
         <h4>Add exercises to workout {workout_id}</h4>
         <ul className='list-group'>
@@ -223,7 +224,8 @@ export default function EditWorkout(props) {
               </div>
               <button
                 type='submit'
-                className='m-3 btn btn-sm btn-success'
+                style={{ marginTop: 25 }}
+                className='btn btn-success'
                 onClick={saveWorkoutExercise}
               >
                 Add to Workout
@@ -236,6 +238,7 @@ export default function EditWorkout(props) {
               <p>Please click on an Exercise...</p>
             </div>
             )}
+      </div>
       </div>
       <div />
 

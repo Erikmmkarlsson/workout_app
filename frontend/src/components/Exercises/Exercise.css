@@ -10,3 +10,12 @@
         margin-left: 210px;
     }
 }
+
+.exerciseBody{
+    display: flex;
+    flex-direction: row;
+}
+
+.exerciseBody div{
+    margin-right: 1rem;
+}
