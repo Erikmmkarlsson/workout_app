@@ -6,10 +6,11 @@ import {
   Table
 
 } from 'reactstrap';
-export default class AcceptFriends extends Component {
+export default class Friends extends Component {
 
   state = {
     RequestList: [],
+    FriendsList: []
   };
 
   componentDidMount() {
@@ -20,9 +21,16 @@ export default class AcceptFriends extends Component {
     }).then(response => {
       this.setState({ RequestList: response.data.data })
     });
+    axios.get('/api/FriendsList/', {
+      headers: {
+        'x-access-token': GetToken()
+      }
+    }).then(response => {
+      this.setState({ FriendsList: response.data.data })
+    });
   }
 
-  handleSubmit = event => {
+  handleSubmitAccept = event => {
     event.preventDefault();
     axios.all([
     axios({
@@ -47,14 +55,57 @@ export default class AcceptFriends extends Component {
     })
   ])
   }
+  handleSubmitDelete = event => {
+    event.preventDefault();
+    axios({
+      method: 'delete',
+      url: '/api/removefriend/',
+      headers: {
+        'x-access-token': GetToken()
+      },
+      data: {
+        id: event.target.id
+      }
+    })
+
+  }
   render() {
     return (
       <div className='AcceptUsers'>
+      <h4>Friends:</h4>
+      <Table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.FriendsList.map(friend =>
+              <tr>
+                <td >{friend.name}</td>
+                <td >{friend.email}</td>
+                <td>
+                  <Button
+                    id={friend.id}
+                    color="danger"
+                    onClick={this.handleSubmitDelete}
+                  >Remove
+                  </Button>
+                </td>
+              </tr>)}
+
+          </tbody>
+        </Table>
+
+        <h4 style={{marginTop: '5rem'}}>Incoming friend requests:</h4>
         <Table>
           <thead>
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -66,7 +117,7 @@ export default class AcceptFriends extends Component {
                   <Button
                     id={user.id}
                     color="success"
-                    onClick={this.handleSubmit}
+                    onClick={this.handleSubmitAccept}
                   >Accept
                   </Button>
                 </td>
