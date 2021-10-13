@@ -43,7 +43,7 @@ export default class AcceptFriends extends Component {
         'x-access-token': GetToken()
       },
       data: {
-        id: event.target.id
+        id: ''
       }
     })
   ])

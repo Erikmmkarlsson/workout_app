@@ -9,7 +9,7 @@ export default class Profile extends Component {
     this.onChangeName = this.onChangeName.bind(this)
     this.onChangeEmail = this.onChangeEmail.bind(this)
 
-    this.onChangeRole = this.onChangeRole.bind(this)
+    /*this.onChangeRole = this.onChangeRole.bind(this)*/
 
     this.getProfile = this.getProfile.bind(this)
     this.updateProfile = this.updateProfile.bind(this)
@@ -53,7 +53,7 @@ export default class Profile extends Component {
     }))
   }
 
-  onChangeRole (e) {
+  /*onChangeRole (e) {
     const role = e.target.value
 
     this.setState(prevState => ({
@@ -62,7 +62,7 @@ export default class Profile extends Component {
         role: role
       }
     }))
-  }
+  }*/
 
   getProfile (id) {
     axios.get('/api/profile/' + id, {
@@ -104,59 +104,44 @@ export default class Profile extends Component {
 
     return (
       <div>
-        <div />
+        <div>
+        </div>
 
-        {currentProfile
-          ? (
-            <div className='Profile edit-form'>
-              <h4>Edit Profile</h4>
-              <form>
-                <div className='form-group'>
-                  <label htmlFor='name'>Name</label>
-                  <input
-                    type='text'
-                    className='form-control'
-                    id='name'
-                    value={currentProfile.name}
-                    onChange={this.onChangeName}
-                  />
-                </div>
+        {currentProfile ? (
+          <div className='Profile edit-form'>
+            <h4>Edit Profile</h4>
+            <form>
+              <div className='form-group'>
+                <label htmlFor='name'>Name</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  id='name'
+                  value={currentProfile.name}
+                  onChange={this.onChangeName}
+                />
+              </div>
 
-                <div className='form-group'>
-                  <label htmlFor='email'>Email</label>
-                  <input
-                    type='text'
-                    className='form-control'
-                    id='email'
-                    value={currentProfile.email}
-                    onChange={this.onChangeEmail}
-                  />
-                </div>
+              <div className='form-group'>
+                <label htmlFor='email'>Email</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  id='email'
+                  value={currentProfile.email}
+                  onChange={this.onChangeEmail}
+                />
+              </div>
 
-                <div className='form-group'>
-                  <label htmlFor='role'>Role</label>
-                  <input
-                    type='text'
-                    className='form-control'
-                    id='role'
-                    value={currentProfile.role}
-                    onChange={this.onChangeRole}
-                  />
-                </div>
+              
 
-              </form>
-              <div className='SameLine'>
-                <Link to='/profile/'>
-                  <button
-                    type='submit'
-                    className='m-3 btn btn-sm btn-success'
-                    onClick={this.updateProfile}
-                  >
-                    Update Profile
-                  </button>
-                </Link>
-                <Link
-                  to='/passwordreset/'
+            </form>
+            <div className='SameLine'>
+              <Link to={'/profile/'}>
+                <button
+                  type='submit'
+                  className='m-3 btn btn-sm btn-success'
+                  onClick={this.updateProfile}
                 >
                   <button
                     type='submit'
