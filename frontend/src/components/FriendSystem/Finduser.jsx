@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { GetID, GetToken } from '../auth'
-import './Finduser.css'
-export default function Finduser (props) {
+import { GetID ,GetToken} from '../auth'
+import "./Finduser.css";
+export default function Finduser(props) {
   const [usersList, setusersList] = useState([])
   const [currentuser, setCurrentuser] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [searchName, setSearchName] = useState('')
-  const [reciever, setreciever] = useState('')
+  const [reciever, setreciever]= useState('')
+  const [requestList, setrequestList]= useState('')
+  const [requestList2, setrequestList2]= useState('')
 
   useEffect(() => {
-    axios.get('/api/reqList', {
+    axios.get('/api/reqList',{
       headers: {
         'x-access-token': GetToken()
       }
@@ -24,25 +26,54 @@ export default function Finduser (props) {
     setSearchName(e.target.value)
   }
 
-  function setActiveuser (user, index) {
+  function setActiveuser(user, index) {
     setCurrentuser(user)
     setCurrentIndex(index)
+    
   }
 
-  function search () {
-    axios.get('/api/reqList?search=' + searchName, {
+  function search() {
+    axios.get('/api/reqList?search=' + searchName,{
       headers: {
         'x-access-token': GetToken()
       }
     }).then((response) => {
       setusersList(response.data.data)
     })
+    
+    console.log(requestList);
+    if(requestList.length)
+    {
+      console.log('NOOOOOO')
+
+    }
+
   }
 
-  const handleSubmit = async (e) => {
+  
+
+  const handleSubmit = async (e) =>{
     e.preventDefault()
-    const request_data = { id_sender: GetID(), id_reciever: reciever }
-    await axios.post('/api/reqList', request_data)
+    axios.get('/api/UserrequestList/'+GetID()+'/'+reciever 
+    ).then(response => {setrequestList(response.data.data)
+    });
+    axios.get('/api/UserrequestList/'+reciever+'/'+GetID()
+    ).then(response => {setrequestList2(response.data.data)
+    });
+    if(requestList.length !==0)
+    {
+      console.log('Already sent')
+    }
+    if(requestList2.length !==0)
+    {
+      console.log('Go accept')
+    }
+    if(requestList.length === 0 && requestList2.length === 0 )
+    {
+      const request_data = { id_sender:GetID(), id_reciever:reciever }
+      axios.post('/api/reqList', request_data)
+
+    }
   }
 
   return (
@@ -79,7 +110,7 @@ export default function Finduser (props) {
                 className={
                   'list-group-item ' + (index === currentIndex ? 'active' : '')
                 }
-                onClick={() => { setActiveuser(user, index); setreciever(user.id) }}
+                onClick={() => {setActiveuser(user, index); setreciever(user.id);}}
                 key={index}
               >
                 {user.name}
@@ -88,40 +119,38 @@ export default function Finduser (props) {
         </ul>
       </div>
       <div className='col-md-6'>
-        {currentuser
-          ? (
+        {currentuser ? (
+          <div>
+            <h4>Information</h4>
             <div>
-              <h4>Information</h4>
-              <div>
-                <label>
-                  <strong>Name:</strong>
-                </label>{' '}
-                {currentuser.name}
-              </div>
-              <div>
-                <label>
-                  <strong>Email:</strong>
-                </label>{' '}
-                {currentuser.email}
-              </div>
-              <button
-                onClick={handleSubmit}
-                className='btn btn-warning'
-                type='button'
-                style={{ marginTop: 25 }}
-              >
-                Send request
-              </button>
+              <label>
+                <strong>Name:</strong>
+              </label>{' '}
+              {currentuser.name}
             </div>
-            )
-          : (
             <div>
-              <br />
-              <p>Please click on an Name...</p>
+              <label>
+                <strong>Email:</strong>
+              </label>{' '}
+              {currentuser.email}
             </div>
-            )}
+            <button
+              onClick={handleSubmit}
+              className='btn btn-warning'
+              type='button'
+              style={{ marginTop: 25 }}
+            >
+              Send request
+            </button>
+          </div>
+        ) : (
+          <div>
+            <br />
+            <p>Please click on an Name...</p>
+          </div>
+        )}
       </div>
 
     </div>
-  )
+  )     
 }
