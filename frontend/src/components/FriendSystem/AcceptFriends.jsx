@@ -34,8 +34,7 @@ export default class AcceptFriends extends Component {
       data: {
         id: event.target.id
       }
-    }
-    ),
+    }),
     axios({
       method: 'delete',
       url: '/api/reqList/',
@@ -43,7 +42,7 @@ export default class AcceptFriends extends Component {
         'x-access-token': GetToken()
       },
       data: {
-        id: ''
+        id: event.target.id
       }
     })
   ])
