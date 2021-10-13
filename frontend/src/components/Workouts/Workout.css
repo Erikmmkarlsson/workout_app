@@ -11,3 +11,11 @@
         margin-left: 210px;
     }
 }
+
+.workoutBody{
+    display: flex;
+    flex-direction: row;
+}
+.workoutBody div {
+    margin-right: 1rem;
+}

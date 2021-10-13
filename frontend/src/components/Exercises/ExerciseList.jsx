@@ -60,6 +60,7 @@ export default function ExercisesList (props) {
           </div>
         </div>
       </div>
+      <div className='exerciseBody'>
       <div className='col-md-6'>
         <h4>Exercises</h4>
         <ul className='list-group'>
@@ -77,7 +78,7 @@ export default function ExercisesList (props) {
             ))}
         </ul>
       </div>
-      <div className='col-md-6'>
+      <div className='col-md-4'>
         {currentExercise
           ? (
             <div>
@@ -116,6 +117,8 @@ export default function ExercisesList (props) {
             </div>
             )}
       </div>
+      </div>
+
       <div>
         <Link
           to='/exercises/add'
