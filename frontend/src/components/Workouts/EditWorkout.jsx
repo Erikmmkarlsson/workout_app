@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
-export default function EditWorkout (props) {
+export default function EditWorkout(props) {
+  //States
   const [workout_id, setWorkoutId] = useState(null)
   const [exercisesList, setExerciseslist] = useState([])
   const [selectedExercisesList, setSelectedExerciseslist] = useState([])
-
   const [hasUpdated, setUpdated] = useState(false)
-
   const [currentExercise, setCurrentExercise] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(-1)
-  const [searchName, setSearchName] = useState('')
+  const [searchName, setSearchName] = useState("")
   const [currentWorkoutExercise, setCurrentWorkoutExercise] = useState({
     workout_id: null,
     exercise_id: null,
@@ -21,6 +20,7 @@ export default function EditWorkout (props) {
     comment: ''
   })
 
+  //Set intial states
   useEffect(() => {
     setWorkoutId(
       parseInt(new URLSearchParams(window.location.search).get('id'), 10)
@@ -31,14 +31,16 @@ export default function EditWorkout (props) {
     axios
       .get(
         '/api/workout_exercises?workout_id=' +
-          parseInt(new URLSearchParams(window.location.search).get('id'), 10)
+        parseInt(new URLSearchParams(window.location.search).get("id"), 10)
       )
       .then((response) => {
         setSelectedExerciseslist(response.data.data)
       })
   }, [hasUpdated])
 
+  //Functions
   const handleChange = (name) => (e) => {
+    //Handles when a user makes changes to a workout, updates the variable
     setCurrentWorkoutExercise({
       ...currentWorkoutExercise,
       [name]: e.target.value
@@ -46,10 +48,12 @@ export default function EditWorkout (props) {
   }
 
   const handleSearchChange = () => (e) => {
+    //Handles changes to the search field
     setSearchName(e.target.value)
   }
 
-  function setActiveExercise (exercise, index) {
+  function setActiveExercise(exercise, index) {
+    //Set the selected exercise as active, updates variable
     setCurrentExercise(exercise)
     setCurrentIndex(index)
     setCurrentWorkoutExercise({
@@ -59,33 +63,36 @@ export default function EditWorkout (props) {
     })
   }
 
-  function search () {
-    axios.get('/api/exercises?search=' + searchName).then((response) => {
+  function search() {
+    //Handles when a user searches, fetches the database entries that match
+    axios.get("/api/exercises?search=" + searchName).then((response) => {
       setExerciseslist(response.data.data)
     })
   }
 
-  function removeExercise (id) {
-    axios.delete('http://localhost:8000/api/workout_exercises/' + id)
+  function removeExercise(id) {
+    //Handles when a user deletes an exercise, removes it from the database
+    axios.delete("http://localhost:8000/api/workout_exercises/" + id)
     axios
       .get(
-        'http://localhost:8000/api/workout_exercises?workout_id=' + workout_id
+        "http://localhost:8000/api/workout_exercises?workout_id=" + workout_id
       )
       .then(() => {
         setUpdated(!hasUpdated)
       })
   }
 
-  function saveWorkoutExercise () {
+  function saveWorkoutExercise() {
+    //Handles when the user finishes adding the exercise to the workout
     axios({
-      method: 'post',
-      url: 'http://localhost:8000/api/workout_exercises',
+      method: "post",
+      url: "http://localhost:8000/api/workout_exercises",
       data: currentWorkoutExercise
     })
     axios
       .get(
-        'http://localhost:8000/api/workout_exercises?workout_id=' +
-          parseInt(workout_id, 10)
+        "http://localhost:8000/api/workout_exercises?workout_id=" +
+        parseInt(workout_id, 10)
       )
       .then(() => {
         setUpdated(!hasUpdated)
@@ -106,7 +113,7 @@ export default function EditWorkout (props) {
             className='form-control'
             placeholder='Search by exercise name'
             value={searchName}
-            onChange={handleSearchChange('searchName')}
+            onChange={handleSearchChange("searchName")}
           />
           <div className='input-group-append'>
             <button
@@ -127,7 +134,7 @@ export default function EditWorkout (props) {
             exercisesList.map((exercise, index) => (
               <li
                 className={
-                  'list-group-item ' + (index === currentIndex ? 'active' : '')
+                  "list-group-item " + (index === currentIndex ? "active" : "")
                 }
                 onClick={() => setActiveExercise(exercise, index)}
                 key={index}
@@ -250,45 +257,45 @@ export default function EditWorkout (props) {
                 <tr>
                   <th
                     style={{
-                      borderWidth: '1px',
-                      borderColor: 'black',
-                      borderStyle: 'solid'
+                      borderWidth: "1px",
+                      borderColor: "black",
+                      borderStyle: "solid"
                     }}
                   >
                     Exercise name
                   </th>
                   <th
                     style={{
-                      borderWidth: '1px',
-                      borderColor: 'black',
-                      borderStyle: 'solid'
+                      borderWidth: "1px",
+                      borderColor: "black",
+                      borderStyle: "solid"
                     }}
                   >
                     Number of sets
                   </th>
                   <th
                     style={{
-                      borderWidth: '1px',
-                      borderColor: 'black',
-                      borderStyle: 'solid'
+                      borderWidth: "1px",
+                      borderColor: "black",
+                      borderStyle: "solid"
                     }}
                   >
                     Number of reps
                   </th>
                   <th
                     style={{
-                      borderWidth: '1px',
-                      borderColor: 'black',
-                      borderStyle: 'solid'
+                      borderWidth: "1px",
+                      borderColor: "black",
+                      borderStyle: "solid"
                     }}
                   >
                     Number of seconds
                   </th>
                   <th
                     style={{
-                      borderWidth: '1px',
-                      borderColor: 'black',
-                      borderStyle: 'solid'
+                      borderWidth: "1px",
+                      borderColor: "black",
+                      borderStyle: "solid"
                     }}
                   >
                     Remove
