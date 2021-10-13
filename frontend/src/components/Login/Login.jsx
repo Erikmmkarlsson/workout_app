@@ -25,7 +25,7 @@ export default function Login () {
     e.preventDefault()
     console.log('You pressed login')
     const credentials = {
-      email: email,
+      email: email.toLowerCase(),
       password: password
     }
 
@@ -78,8 +78,11 @@ export default function Login () {
               <div style={{ textAlign: 'center', marginTop: 30 }}>
                 <FormGroup>
                   <Input
-                    style={{ textAlign: 'center', marginBottom: '10px' }}
-                    type='text'
+                    
+                    style={{ textAlign: 'center', marginBottom: '10px'}}
+                    
+                    type="text"
+        
                     placeholder='Email'
                     onChange={handleUsernameChange}
                     value={email}
