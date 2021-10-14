@@ -19,7 +19,7 @@ import {
   Modal
 } from 'reactstrap'
 
-function Calendar (props) {
+function Calendar(props) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   /* HOOKS */
 
@@ -70,7 +70,7 @@ function Calendar (props) {
       })
   }, [])
 
-  function handleButton () {
+  function handleButton() {
     const data = {
       training_plan_id: selectedUserTrainingplan.id,
       workout_id: selectedWorkoutID,
@@ -82,7 +82,7 @@ function Calendar (props) {
     hasAdded(!added)
   }
 
-  function handleSelect (selectedID, selectedName) {
+  function handleSelect(selectedID, selectedName) {
     setSelectedUserName(selectedName)
     axios
       .get('/api/GetTrainingplanIdByClientID/' + selectedID, {
@@ -140,11 +140,11 @@ function Calendar (props) {
     hasSelected(true)
   }
 
-  function OpenLink (link) {
+  function OpenLink(link) {
     window.open(link)
   }
 
-  function handleDropdownSelect (WorkoutId, WorkoutName) {
+  function handleDropdownSelect(WorkoutId, WorkoutName) {
     setSelectedWorkoutID(WorkoutId)
     setSelectedWorkoutName(WorkoutName)
   }
@@ -204,7 +204,7 @@ function Calendar (props) {
                   showMonthTable={showMonthTable}
                   toggleMonthSelect={toggleMonthSelect}
                 />
-                )
+              )
               : null}
             {(!showMonthTable && selectedUserTrainingplan)
               ? (
@@ -229,9 +229,9 @@ function Calendar (props) {
                   toggleModal={toggleModal}
                   setSelectedEvent={setSelectedEvent}
                 />
-                )
+              )
               : <div><br /><br /><br /><br /></div>}
-            {selected
+            {(selected && selectedEvent === undefined)
               ? (
                 <div>
                   <div class='calendButtons'>
@@ -265,7 +265,7 @@ function Calendar (props) {
                           {workoutListDropdown.map((Workout) => (
                             <DropdownItem
                               onClick={() =>
-                  handleDropdownSelect(Workout.id, Workout.name)}
+                                handleDropdownSelect(Workout.id, Workout.name)}
                             >
                               {Workout.name}
                             </DropdownItem>
@@ -283,45 +283,49 @@ function Calendar (props) {
                       </Button>
                     </FormGroup>
                   </div>
-                  <Modal isOpen={modal} toggle={toggleModal}>
-                    <Table
-                      hover
-                      style={{
-                        background: 'white',
-                        marginTop: '1rem',
-                        width: '100%'
-                      }}
-                    >
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Sets</th>
-                          <th>reps</th>
-                          <th>Video</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {selectedWorkoutExercises.map((workout) => (
-                          <tr>
-                            <td>{workout.name}</td>
-                            <td>{workout.num_sets}</td>
-                            <td>{workout.num_reps}</td>
-                            <td>
-                              <Button
-                  color='primary'
-                  onClick={() => OpenLink(workout.video_link)}
-                >
-                              Video
-                </Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  </Modal>
                 </div>
-                )
+              )
               : null}
+
+            {(selected && selectedEvent !== undefined) ? (
+              <Modal isOpen={modal} toggle={toggleModal}>
+                <Table
+                  hover
+                  style={{
+                    background: 'white',
+                    marginTop: '1rem',
+                    width: '100%'
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Sets</th>
+                      <th>reps</th>
+                      <th>Video</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedWorkoutExercises.map((workout) => (
+                      <tr>
+                        <td>{workout.name}</td>
+                        <td>{workout.num_sets}</td>
+                        <td>{workout.num_reps}</td>
+                        <td>
+                          <Button
+                            color='primary'
+                            onClick={() => OpenLink(workout.video_link)}
+                          >
+                            Video
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Modal>
+            ) : null}
+
           </Grid>
         </Grid>
       </Container>
