@@ -74,19 +74,37 @@ const EventModal = props => {
         ))}
       </tbody>
     </Table>
+    <ModalFooter>
+      {(workoutEvent && workoutEvent.is_done) ? (
+        <div>Workout completed</div>
+      ) : <Button color='warning'>Delete Workout</Button>}
 
-    {(GetRole() === 'client') ? (
-      <ModalFooter>
-        <StartWorkout
-          exerciseList={selectedWorkoutExercises} />
+      {(GetRole() === 'client' && !(workoutEvent && workoutEvent.is_done)) ? (
+        <React.Fragment>
+          <StartWorkout
+            exerciseList={selectedWorkoutExercises} />
 
-        <WorkoutReport
-          toggleModal={toggleModal}
-          selectedEvent={selectedEvent.id}
-          added={added}
-          hasAdded={hasAdded} />
-      </ModalFooter>
-    ) : null}
+          <WorkoutReport
+            toggleModal={toggleModal}
+            selectedEvent={selectedEvent.id}
+            added={added}
+            hasAdded={hasAdded} />
+        </React.Fragment>
+      ) : null}
+
+      {(GetRole() === 'client' && (workoutEvent && workoutEvent.is_done)) ? (
+        <React.Fragment>
+
+          <WorkoutReport
+            workoutEvent={workoutEvent}
+            toggleModal={toggleModal}
+            selectedEvent={selectedEvent.id}
+            added={added}
+            hasAdded={hasAdded} />
+        </React.Fragment>
+      ) : null}
+    </ModalFooter>
+
 
   </Modal>)
 }
