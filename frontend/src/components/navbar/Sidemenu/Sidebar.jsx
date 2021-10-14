@@ -10,8 +10,10 @@ import SubMenu from './SubMenu'
 import { IconContext } from 'react-icons/lib'
 import { useMediaQuery } from 'react-responsive'
 import { DeviceSize } from './size'
-import { GetRole } from '../../auth'
+import { GetRole, GetName } from '../../auth'
+import * as CgIcons from 'react-icons/cg'
 import './sidebar.css'
+
 const Nav = styled.div`
   background: rgba(0,0,0,0);
   color: black;
@@ -81,9 +83,18 @@ const Sidebar = () => {
             <NavIcon to='#'>
               {isMobile && <AiIcons.AiOutlineClose onClick={showSidebar} />}
             </NavIcon>
+
+            <SubMenu item={{
+              title: GetName(),
+              path: '/profile',
+              icon: <CgIcons.CgProfile />
+
+            }} />
+
             {data.map((item, index) => {
               return <SubMenu item={item} key={index} />
             })}
+
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>

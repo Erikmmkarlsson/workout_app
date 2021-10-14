@@ -7,15 +7,9 @@ import * as CgIcons from 'react-icons/cg'
 import * as BsIcons from 'react-icons/bs'
 import * as GiIcons from 'react-icons/gi'
 import * as MdIcons from 'react-icons/md'
-import { GetName } from '../../auth'
 
 export const SidebarData = [
-  {
-    title: GetName(),
-    path: '/profile',
-    icon: <CgIcons.CgProfile />
 
-  },
   {
     title: 'Calendar',
     path: '/',
