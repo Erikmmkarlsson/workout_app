@@ -60,13 +60,16 @@ const calendButtons = props => {
                     </Dropdown>
                 </FormGroup>
                 <FormGroup>
-                    <Button
+                    {(selectedWorkoutName !== 'Select a Workout') ?(
+                        <Button
                         color='primary'
                         onClick={() => handleButton()}
                         type='submit'
                     >
                         Add workout
                     </Button>
+                    ): null}
+                    
                 </FormGroup>
             </div>
         </div>
