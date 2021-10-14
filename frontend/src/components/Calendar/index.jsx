@@ -8,7 +8,7 @@ import CalendarBody from './CalendarBody'
 import CalendarHead from './CalendarHead'
 import CalendButtons from './CalendButtons'
 import './calendar.css'
-import eventModal from './UserCalendar/eventModal'
+import EventModal from './UserCalendar/eventModal'
 
 import {
   Dropdown,
@@ -162,16 +162,15 @@ function Calendar(props) {
     })
   }
   console.log(ActiveDates)
-
   return (
     <div className='calend'>
       <Container disableGutters='false'>
         <Grid container>
           <Grid item xs={8} md={20} lg={30}>
-          
+
             {dropdownUsers(dropdownOpenUsers, toggle, selectedUserName, usersList, handleSelect)}
 
-
+            {/* Only displays when a user is selected */}
             {selectedUserTrainingplan
               ? (
                 <CalendarHead
@@ -184,6 +183,9 @@ function Calendar(props) {
                 />
               )
               : null}
+
+            {/* if you show the month selector table,
+             don't display the CalendarBody at the same time. */}
             {(!showMonthTable && selectedUserTrainingplan)
               ? (
                 <CalendarBody
@@ -208,22 +210,35 @@ function Calendar(props) {
                   setSelectedEvent={setSelectedEvent}
                 />
               )
-              : <div><br /><br /><br /><br /><br /><br /><br /><br /></div>}
+              :    //spaces added to prevent bug that the dropdown is getting clipped
+              <div><br /><br /><br /><br /><br /><br /><br /><br /></div>}
+
+            {/* if you've selected a date, and there's no current event
+             don't display the buttons to add a workout. */}
             {(selected && selectedEvent === undefined)
               ? (
                 <CalendButtons
-                dropdownOpenWorkouts={dropdownOpenWorkouts}
-                toggleWorkouts={toggleWorkouts}
-                selectedWorkoutName={selectedWorkoutName}
-                workoutListDropdown={workoutListDropdown}
-                handleDropdownSelect={handleDropdownSelect}
-                handleButton={handleButton}
-              />
+                  dropdownOpenWorkouts={dropdownOpenWorkouts}
+                  toggleWorkouts={toggleWorkouts}
+                  selectedWorkoutName={selectedWorkoutName}
+                  workoutListDropdown={workoutListDropdown}
+                  handleDropdownSelect={handleDropdownSelect}
+                  handleButton={handleButton}
+                />
               )
               : null}
 
+            {/*If what you've selected has an event, display
+              the event modal. */}
             {(selected && selectedEvent !== undefined) ? (
-              eventModal(modal, toggleModal, selectedWorkoutExercises, OpenLink)
+              <EventModal
+                modal={modal}
+                toggleModal={toggleModal}
+                selectedWorkoutExercises={selectedWorkoutExercises}
+                OpenLink={OpenLink}
+                selectedEvent={selectedEvent}
+                added={added}
+                hasAdded={hasAdded} />
             ) : null}
 
           </Grid>
@@ -236,6 +251,7 @@ function Calendar(props) {
 export default Calendar
 
 
+//Dropdown to select users
 function dropdownUsers(dropdownOpenUsers, toggle, selectedUserName, usersList, handleSelect) {
   return <Dropdown
     style={{ marginTop: '1rem', width: '100%' }}

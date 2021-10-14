@@ -8,12 +8,13 @@ import CalendarBody from '../CalendarBody'
 import CalendarHead from '../CalendarHead'
 import CalendButtons from '../CalendButtons'
 import '../calendar.css'
-import eventModal from './eventModal'
+import EventModal from './eventModal'
 
 function Calendar(props) {
+
+  // ** States and constants
+
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  /* HOOKS */
-  // Later add hook for active days from database
 
   // States handling the user
   const [userTrainingplan, setUserTrainingplan] = useState({ id: null, client_id: null, manager_id: null })
@@ -85,12 +86,6 @@ function Calendar(props) {
   }
 
   // Calendar variables and functions
-  const defaultSelectedDay = {
-    day: moment().date(),
-    month: moment().month(),
-    year: moment().year()
-  }
-  const [selectedDay, setSelected] = useState(defaultSelectedDay)
 
   /* CALENDAR HEAD */
   const allMonths = moment.months()
@@ -104,9 +99,18 @@ function Calendar(props) {
     setdateObject(newDateObject)
     setShowMonthTable(false)
   }
-
   const toggleMonthSelect = () => setShowMonthTable(!showMonthTable)
+
+
   /** * CALENDAR BODY ***/
+
+  //Selected day
+  const defaultSelectedDay = {
+    day: moment().date(),
+    month: moment().month(),
+    year: moment().year()
+  }
+  const [selectedDay, setSelected] = useState(defaultSelectedDay)
   const setSelectedDay = (day) => {
     setSelected({
       day,
@@ -127,6 +131,7 @@ function Calendar(props) {
   const toggleModal = () => setModal(!modal)
 
   const firstDayOfMonth = () => moment(dateObject).startOf('month').format('d')
+
   const ActiveDates = []
   for (const workout of eventList) {
     ActiveDates.push({
@@ -195,10 +200,19 @@ function Calendar(props) {
               )
               : null}
 
-              {/*If what you've selected has an event, display
+            {/*If what you've selected has an event, display
               the event modal. */}
             {(selected && selectedEvent !== undefined) ? (
-              eventModal(modal, toggleModal, selectedWorkoutExercises, OpenLink, selectedEvent, added, hasAdded)) : null}
+              <EventModal
+                modal={modal}
+                toggleModal={toggleModal}
+                selectedWorkoutExercises={selectedWorkoutExercises}
+                OpenLink={OpenLink}
+                selectedEvent={selectedEvent}
+                added={added}
+                hasAdded={hasAdded}
+              />
+            ) : null}
 
           </Grid>
         </Grid>
