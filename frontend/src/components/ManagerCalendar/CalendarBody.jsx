@@ -112,6 +112,10 @@ const CalendarBody = props => {
         }
       }
     }
+    if (activeDay === undefined){
+      selectEvent = undefined
+    }
+
 
     // Check if day is today
     if (currentDay() === d && currentMonthNum() === actualMonthNum() && currentYear() === actualYear()) currDay = 'today'
@@ -126,9 +130,9 @@ const CalendarBody = props => {
         className={`week-day ${currDay} ${selectDay}`}
         onClick={() => {
           setSelectedDay(d)
-          if (selectEvent !== undefined) {
-            setSelectedEvent(selectEvent)
-          }
+
+          setSelectedEvent(selectEvent)
+          
 
           if (activeDay !== undefined) {
             toggleModal()
