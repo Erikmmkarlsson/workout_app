@@ -226,8 +226,10 @@ export default class RegisterUser extends Component {
                             <Col>
                             <FormGroup>
                                 <Label for="email">Enter Email:</Label>
+
                                 <Input 
-                                    type="text"
+                                   
+                                    type="text:lowercase"
                                     name="email"
                                     id="email"
                                     placeholder="email"

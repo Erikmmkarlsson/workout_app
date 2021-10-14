@@ -14,8 +14,15 @@ export const SidebarDataUser = [
   },
   {
     title: 'Friends',
-    path: '/findfriend',
-    icon: <FaIcons.FaUserFriends />
+    path: '/requestlist',
+    icon: <FaIcons.FaUserFriends />,
+    subNav: [
+      {
+        title: 'Add Friends',
+        path: "/findfriend"
+      }
+
+    ]
   },
   {
     title: 'Profile',
