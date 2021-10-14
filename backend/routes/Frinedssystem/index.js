@@ -106,8 +106,10 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       $ curl http://localhost:8000/api/reqList -X GET
        */
 
-    var sql = 'select * from friendsList where id_user1 != ? or id_user1 != ?'
-    const params = [getID(req),[getID(req)]]
+    var sql = 'select users.id,users.name,users.email from friendsList inner join users on friendsList.id_user1= users.id or friendsList.id_user2= users.id where ((friendsList.id_user2 = ?) OR (friendsList.id_user1 = ?)) and users.id != ?'
+    
+
+    const params = [getID(req),getID(req),getID(req)]
    
     console.log(params)
     console.log(sql)
@@ -176,6 +178,30 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
     }
     const sql = 'delete from friendsrequest where id_sender = ? and id_reciever = ?'
     const params = [data.id, getID(req)]
+    db.run(sql, params, function (err, result) {
+      if (err) {
+        res.status(400).json({ error: err.message })
+        return
+      }
+      res.json({
+        message: 'success',
+        data: data
+      })
+    })
+  })
+
+  app.delete('/api/removefriend/',verifyToken, (req, res, next) => {
+    const errors = []
+
+    if (errors.length) {
+      res.status(400).json({ error: errors.join(',') })
+      return
+    }
+    const data = {
+      id: req.body.id,
+    }
+    const sql = 'delete from friendsList where (id_user1 = ? and id_user2 = ?) or (id_user1 = ? and id_user2 = ?) '
+    const params = [data.id, getID(req),getID(req),data.id]
     db.run(sql, params, function (err, result) {
       if (err) {
         res.status(400).json({ error: err.message })
