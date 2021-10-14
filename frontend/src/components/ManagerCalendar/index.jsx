@@ -6,24 +6,19 @@ import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import CalendarBody from './CalendarBody'
 import CalendarHead from './CalendarHead'
+import CalendButtons from './CalendButtons'
 import './calendar.css'
+import eventModal from './UserCalendar/eventModal'
 
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
-  Table,
-  Button,
-  FormGroup,
-  Modal
+  DropdownItem
 } from 'reactstrap'
 
 function Calendar(props) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  /* HOOKS */
-
-  // Later add hook for active days from database
 
   const toggle = () => setDropdownOpen((prevState) => !prevState)
   const toggleWorkouts = () =>
@@ -167,33 +162,16 @@ function Calendar(props) {
     })
   }
   console.log(ActiveDates)
+
   return (
     <div className='calend'>
       <Container disableGutters='false'>
         <Grid container>
           <Grid item xs={8} md={20} lg={30}>
-            <Dropdown
-              style={{ marginTop: '1rem', width: '100%' }}
-              group
-              isOpen={dropdownOpenUsers}
-              toggle={toggle}
-            >
-              <DropdownToggle
-                caret
-                style={{ marginTop: '1rem', width: '100%' }}
-              >
-                {selectedUserName}
-              </DropdownToggle>
-              <DropdownMenu style={{ marginTop: '1rem', width: '100%' }}>
-                {usersList.map((User) => (
-                  <DropdownItem
-                    onClick={() => handleSelect(User.id, User.name)}
-                  >
-                    {User.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
+          
+            {dropdownUsers(dropdownOpenUsers, toggle, selectedUserName, usersList, handleSelect)}
+
+
             {selectedUserTrainingplan
               ? (
                 <CalendarHead
@@ -230,100 +208,22 @@ function Calendar(props) {
                   setSelectedEvent={setSelectedEvent}
                 />
               )
-              : <div><br /><br /><br /><br /></div>}
+              : <div><br /><br /><br /><br /><br /><br /><br /><br /></div>}
             {(selected && selectedEvent === undefined)
               ? (
-                <div>
-                  <div class='calendButtons'>
-                    <FormGroup>
-                      <Dropdown
-                        group
-                        isOpen={dropdownOpenWorkouts}
-                        toggle={toggleWorkouts}
-                      >
-                        <DropdownToggle color='secondary' caret>
-                          {selectedWorkoutName}
-                        </DropdownToggle>
-                        <DropdownMenu
-                          modifiers={{
-                            setMaxHeight: {
-                              enabled: true,
-                              order: 890,
-                              fn: (data) => {
-                                return {
-                                  ...data,
-                                  styles: {
-                                    ...data.styles,
-                                    overflow: 'auto',
-                                    maxHeight: '100px'
-                                  }
-                                }
-                              }
-                            }
-                          }}
-                        >
-                          {workoutListDropdown.map((Workout) => (
-                            <DropdownItem
-                              onClick={() =>
-                                handleDropdownSelect(Workout.id, Workout.name)}
-                            >
-                              {Workout.name}
-                            </DropdownItem>
-                          ))}
-                        </DropdownMenu>
-                      </Dropdown>
-                    </FormGroup>
-                    <FormGroup>
-                      <Button
-                        color='success'
-                        onClick={() => handleButton()}
-                        type='submit'
-                      >
-                        Add workout
-                      </Button>
-                    </FormGroup>
-                  </div>
-                </div>
+                <CalendButtons
+                dropdownOpenWorkouts={dropdownOpenWorkouts}
+                toggleWorkouts={toggleWorkouts}
+                selectedWorkoutName={selectedWorkoutName}
+                workoutListDropdown={workoutListDropdown}
+                handleDropdownSelect={handleDropdownSelect}
+                handleButton={handleButton}
+              />
               )
               : null}
 
             {(selected && selectedEvent !== undefined) ? (
-              <Modal isOpen={modal} toggle={toggleModal}>
-                <Table
-                  hover
-                  style={{
-                    background: 'white',
-                    marginTop: '1rem',
-                    width: '100%'
-                  }}
-                >
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Sets</th>
-                      <th>reps</th>
-                      <th>Video</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedWorkoutExercises.map((workout) => (
-                      <tr>
-                        <td>{workout.name}</td>
-                        <td>{workout.num_sets}</td>
-                        <td>{workout.num_reps}</td>
-                        <td>
-                          <Button
-                            color='primary'
-                            onClick={() => OpenLink(workout.video_link)}
-                          >
-                            Video
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Modal>
+              eventModal(modal, toggleModal, selectedWorkoutExercises, OpenLink)
             ) : null}
 
           </Grid>
@@ -334,3 +234,30 @@ function Calendar(props) {
 }
 
 export default Calendar
+
+
+function dropdownUsers(dropdownOpenUsers, toggle, selectedUserName, usersList, handleSelect) {
+  return <Dropdown
+    style={{ marginTop: '1rem', width: '100%' }}
+    group
+    isOpen={dropdownOpenUsers}
+    toggle={toggle}
+  >
+    <DropdownToggle
+      caret
+      style={{ marginTop: '1rem', width: '100%' }}
+    >
+      {selectedUserName}
+    </DropdownToggle>
+    <DropdownMenu style={{ marginTop: '1rem', width: '100%' }}>
+      {usersList.map((User) => (
+        <DropdownItem
+          onClick={() => handleSelect(User.id, User.name)}
+        >
+          {User.name}
+        </DropdownItem>
+      ))}
+    </DropdownMenu>
+  </Dropdown>
+}
+

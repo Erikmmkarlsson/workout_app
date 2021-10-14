@@ -6,20 +6,9 @@ import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import CalendarBody from '../CalendarBody'
 import CalendarHead from '../CalendarHead'
+import CalendButtons from '../CalendButtons'
 import '../calendar.css'
-import WorkoutReport from './WorkoutReport'
-import StartWorkout from './StartWorkout'
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Table,
-  Button,
-  FormGroup,
-  Modal,
-  ModalFooter
-} from 'reactstrap'
+import eventModal from './eventModal'
 
 function Calendar(props) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -161,6 +150,9 @@ function Calendar(props) {
               showMonthTable={showMonthTable}
               toggleMonthSelect={toggleMonthSelect}
             />
+
+            {/* if you show the month selector table,
+             don't display the CalendarBody at the same time. */}
             {!showMonthTable
               ? (
                 <CalendarBody
@@ -187,112 +179,26 @@ function Calendar(props) {
                 />
               )
               : null}
+
+            {/* if you've selected a date, and there's no current event
+             don't display the buttons to add a workout. */}
             {(selected && selectedEvent === undefined)
               ? (
-                <div>
-                  <div class='calendButtons'>
-                    <FormGroup>
-                      <Dropdown
-                        group
-                        isOpen={dropdownOpenWorkouts}
-                        toggle={toggleWorkouts}
-                      >
-                        <DropdownToggle caret>
-                          {selectedWorkoutName}
-                        </DropdownToggle>
-                        <DropdownMenu
-                          modifiers={{
-                            setMaxHeight: {
-                              enabled: true,
-                              order: 890,
-                              fn: (data) => {
-                                return {
-                                  ...data,
-                                  styles: {
-                                    ...data.styles,
-                                    overflow: 'auto',
-                                    maxHeight: '100px'
-                                  }
-                                }
-                              }
-                            }
-                          }}
-                        >
-                          {workoutListDropdown.map((workout) => (
-                            <DropdownItem
-                              onClick={() =>
-                                handleDropdownSelect(workout.id, workout.name)}
-                            >
-                              {workout.name}
-                            </DropdownItem>
-                          ))}
-                        </DropdownMenu>
-                      </Dropdown>
-                    </FormGroup>
-                    <FormGroup>
-                      <Button
-                        color='primary'
-                        onClick={() => handleButton()}
-                        type='submit'
-                      >
-                        Add workout
-                      </Button>
-                    </FormGroup>
-                  </div>
-
-
-                </div>
+                <CalendButtons
+                  dropdownOpenWorkouts={dropdownOpenWorkouts}
+                  toggleWorkouts={toggleWorkouts}
+                  selectedWorkoutName={selectedWorkoutName}
+                  workoutListDropdown={workoutListDropdown}
+                  handleDropdownSelect={handleDropdownSelect}
+                  handleButton={handleButton}
+                />
               )
               : null}
+
+              {/*If what you've selected has an event, display
+              the event modal. */}
             {(selected && selectedEvent !== undefined) ? (
-              <Modal isOpen={modal} toggle={toggleModal}>
-                <Table
-                  hover
-                  style={{
-                    background: 'white',
-                    marginTop: '1rem',
-                    width: '100%'
-                  }}
-                >
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Sets</th>
-                      <th>reps</th>
-                      <th>Video</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedWorkoutExercises.map((workout) => (
-                      <tr>
-                        <td>{workout.name}</td>
-                        <td>{workout.num_sets}</td>
-                        <td>{workout.num_reps}</td>
-                        <td>
-                          <Button
-                            color='primary'
-                            onClick={() => OpenLink(workout.video_link)}
-                          >
-                            Video
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-
-                <ModalFooter>
-                  <StartWorkout
-                    exerciseList={selectedWorkoutExercises} />
-
-                  <WorkoutReport
-                    toggleModal={toggleModal}
-                    selectedEvent={selectedEvent.id}
-                    added={added}
-                    hasAdded={hasAdded}
-                  />
-                </ModalFooter>
-              </Modal>) : null}
+              eventModal(modal, toggleModal, selectedWorkoutExercises, OpenLink, selectedEvent, added, hasAdded)) : null}
 
           </Grid>
         </Grid>
@@ -302,3 +208,4 @@ function Calendar(props) {
 }
 
 export default Calendar
+
