@@ -8,6 +8,7 @@ import CalendarBody from '../CalendarBody'
 import CalendarHead from '../CalendarHead'
 import '../calendar.css'
 import WorkoutReport from './WorkoutReport'
+import StartWorkout from './StartWorkout'
 import {
   Dropdown,
   DropdownToggle,
@@ -20,7 +21,7 @@ import {
   ModalFooter
 } from 'reactstrap'
 
-function Calendar (props) {
+function Calendar(props) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   /* HOOKS */
   // Later add hook for active days from database
@@ -73,7 +74,7 @@ function Calendar (props) {
   }, [added])
 
   // Functions
-  function handleButton () {
+  function handleButton() {
     const data = {
       training_plan_id: userTrainingplan.id,
       workout_id: selectedWorkoutID,
@@ -85,11 +86,11 @@ function Calendar (props) {
     axios.post('api/AddWorkOutToUser', data).then(() => hasAdded(!added))
   }
 
-  function OpenLink (link) {
+  function OpenLink(link) {
     window.open(link)
   }
 
-  function handleDropdownSelect (workoutId, workoutName) {
+  function handleDropdownSelect(workoutId, workoutName) {
     setSelectedWorkoutID(workoutId)
     setSelectedWorkoutName(workoutName)
   }
@@ -184,7 +185,7 @@ function Calendar (props) {
                   toggleModal={toggleModal}
                   added={added}
                 />
-                )
+              )
               : null}
             {selected
               ? (
@@ -220,7 +221,7 @@ function Calendar (props) {
                           {workoutListDropdown.map((workout) => (
                             <DropdownItem
                               onClick={() =>
-                  handleDropdownSelect(workout.id, workout.name)}
+                                handleDropdownSelect(workout.id, workout.name)}
                             >
                               {workout.name}
                             </DropdownItem>
@@ -264,11 +265,11 @@ function Calendar (props) {
                             <td>{workout.num_reps}</td>
                             <td>
                               <Button
-                  color='primary'
-                  onClick={() => OpenLink(workout.video_link)}
-                >
-                              Video
-                </Button>
+                                color='primary'
+                                onClick={() => OpenLink(workout.video_link)}
+                              >
+                                Video
+                              </Button>
                             </td>
                           </tr>
                         ))}
@@ -276,6 +277,9 @@ function Calendar (props) {
                     </Table>
 
                     <ModalFooter>
+                      <StartWorkout
+                        exerciseList={selectedWorkoutExercises} />
+
                       <WorkoutReport
                         toggleModal={toggleModal}
                         selectedEvent={selectedEvent.id}
@@ -285,7 +289,7 @@ function Calendar (props) {
                     </ModalFooter>
                   </Modal>
                 </div>
-                )
+              )
               : null}
           </Grid>
         </Grid>
