@@ -7,7 +7,8 @@ import {
   Button,
   Modal,
   ModalFooter,
-  Alert
+  Alert,
+  ModalHeader
 } from 'reactstrap'
 import { GetRole } from '../../auth'
 
@@ -16,26 +17,33 @@ const EventModal = props => {
   const { modal, toggleModal, selectedWorkoutExercises, OpenLink, selectedEvent, added, hasAdded } = props
 
   const [workoutEvent, setWorkoutEvent] = useState(null)
+  const [workoutName, setWorkoutName] = useState('')
 
   //Get event every time event is updated
   useEffect(() => {
     axios.get('/api/workout_events/' + selectedEvent.id)
       .then((response) => {
         setWorkoutEvent(response.data.data)
-      }).then(console.log(workoutEvent))
+        return response.data.data
+      }).then((workoutEvent) =>
+        axios.get('/api/workouts/' + workoutEvent.workout_id)
+          .then((response) =>
+          setWorkoutName(response.data.data.name)
+        )
+      );
   }, [selectedEvent])
 
 
 
   return (<Modal isOpen={modal} toggle={toggleModal}>
-
+    <ModalHeader>{workoutName}</ModalHeader>
     {(workoutEvent && workoutEvent.manager_comment) ? (<Alert>
-      <h4 className="alert-heading">Tip from the coach</h4>
+      <h5 className="alert-heading">Tip from the coach</h5>
       <p>{workoutEvent.manager_comment}</p>
     </Alert>) : null}
 
     {(workoutEvent && workoutEvent.client_comment) ? (<Alert color="secondary">
-      <h4 className="alert-heading">Client thoughts</h4>
+      <h5 className="alert-heading">Client thoughts</h5>
       <p>{workoutEvent.client_comment}</p>
     </Alert>) : null}
 
