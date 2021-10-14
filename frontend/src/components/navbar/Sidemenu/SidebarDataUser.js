@@ -5,8 +5,15 @@ import * as IoIcons from 'react-icons/io'
 import * as HiIcons from 'react-icons/hi'
 import * as CgIcons from 'react-icons/cg'
 import * as MdIcons from 'react-icons/md'
+import { GetName } from '../../auth'
 
 export const SidebarDataUser = [
+  {
+    title: GetName(),
+    path: '/profile',
+    icon: <CgIcons.CgProfile />
+
+  },
   {
     title: 'Calendar',
     path: '/',
@@ -23,12 +30,6 @@ export const SidebarDataUser = [
       }
 
     ]
-  },
-  {
-    title: 'Profile',
-    path: '/profile',
-    icon: <CgIcons.CgProfile />
-
   },
   {
     title: 'Statistics',
