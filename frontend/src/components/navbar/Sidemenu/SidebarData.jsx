@@ -9,6 +9,7 @@ import * as GiIcons from 'react-icons/gi'
 import * as MdIcons from 'react-icons/md'
 
 export const SidebarData = [
+
   {
     title: 'Calendar',
     path: '/',
@@ -38,12 +39,6 @@ export const SidebarData = [
     title: 'Statistics',
     path: '/statistics',
     icon: <MdIcons.MdQueryStats />
-
-  },
-  {
-    title: 'Profile',
-    path: '/profile',
-    icon: <CgIcons.CgProfile />
 
   },
   {

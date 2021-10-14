@@ -8,6 +8,7 @@ import CalendarBody from '../CalendarBody'
 import CalendarHead from '../CalendarHead'
 import '../calendar.css'
 import WorkoutReport from './WorkoutReport'
+import StartWorkout from './StartWorkout'
 import {
   Dropdown,
   DropdownToggle,
@@ -20,7 +21,7 @@ import {
   ModalFooter
 } from 'reactstrap'
 
-function Calendar (props) {
+function Calendar(props) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   /* HOOKS */
   // Later add hook for active days from database
@@ -73,7 +74,7 @@ function Calendar (props) {
   }, [added])
 
   // Functions
-  function handleButton () {
+  function handleButton() {
     const data = {
       training_plan_id: userTrainingplan.id,
       workout_id: selectedWorkoutID,
@@ -85,11 +86,11 @@ function Calendar (props) {
     axios.post('api/AddWorkOutToUser', data).then(() => hasAdded(!added))
   }
 
-  function OpenLink (link) {
+  function OpenLink(link) {
     window.open(link)
   }
 
-  function handleDropdownSelect (workoutId, workoutName) {
+  function handleDropdownSelect(workoutId, workoutName) {
     setSelectedWorkoutID(workoutId)
     setSelectedWorkoutName(workoutName)
   }
@@ -184,9 +185,9 @@ function Calendar (props) {
                   toggleModal={toggleModal}
                   added={added}
                 />
-                )
+              )
               : null}
-            {selected
+            {(selected && selectedEvent === undefined)
               ? (
                 <div>
                   <div class='calendButtons'>
@@ -220,7 +221,7 @@ function Calendar (props) {
                           {workoutListDropdown.map((workout) => (
                             <DropdownItem
                               onClick={() =>
-                  handleDropdownSelect(workout.id, workout.name)}
+                                handleDropdownSelect(workout.id, workout.name)}
                             >
                               {workout.name}
                             </DropdownItem>
@@ -239,54 +240,60 @@ function Calendar (props) {
                     </FormGroup>
                   </div>
 
-                  <Modal isOpen={modal} toggle={toggleModal}>
-                    <Table
-                      hover
-                      style={{
-                        background: 'white',
-                        marginTop: '1rem',
-                        width: '100%'
-                      }}
-                    >
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Sets</th>
-                          <th>reps</th>
-                          <th>Video</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {selectedWorkoutExercises.map((workout) => (
-                          <tr>
-                            <td>{workout.name}</td>
-                            <td>{workout.num_sets}</td>
-                            <td>{workout.num_reps}</td>
-                            <td>
-                              <Button
-                  color='primary'
-                  onClick={() => OpenLink(workout.video_link)}
-                >
-                              Video
-                </Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
 
-                    <ModalFooter>
-                      <WorkoutReport
-                        toggleModal={toggleModal}
-                        selectedEvent={selectedEvent.id}
-                        added={added}
-                        hasAdded={hasAdded}
-                      />
-                    </ModalFooter>
-                  </Modal>
                 </div>
-                )
+              )
               : null}
+            {(selected && selectedEvent !== undefined) ? (
+              <Modal isOpen={modal} toggle={toggleModal}>
+                <Table
+                  hover
+                  style={{
+                    background: 'white',
+                    marginTop: '1rem',
+                    width: '100%'
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Sets</th>
+                      <th>reps</th>
+                      <th>Video</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedWorkoutExercises.map((workout) => (
+                      <tr>
+                        <td>{workout.name}</td>
+                        <td>{workout.num_sets}</td>
+                        <td>{workout.num_reps}</td>
+                        <td>
+                          <Button
+                            color='primary'
+                            onClick={() => OpenLink(workout.video_link)}
+                          >
+                            Video
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+
+                <ModalFooter>
+                  <StartWorkout
+                    exerciseList={selectedWorkoutExercises} />
+
+                  <WorkoutReport
+                    toggleModal={toggleModal}
+                    selectedEvent={selectedEvent.id}
+                    added={added}
+                    hasAdded={hasAdded}
+                  />
+                </ModalFooter>
+              </Modal>) : null}
+
           </Grid>
         </Grid>
       </Container>
