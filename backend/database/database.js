@@ -188,6 +188,37 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
       db.run(insert_request, [3, 2])
     }
   })
+  db.run(`CREATE TABLE Giveaccess (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    from_user INTEGER,
+    to_user INTEGER
+    )`,
+  (err) => {
+    if (err) {
+      // Table already created
+    } else {
+      // Table just created, creating some rows
+      const insert_request = 'INSERT INTO Giveaccess (from_user, to_user) VALUES (?,?)'
+      db.run(insert_request, [1, 2])
+      db.run(insert_request, [1, 3])
+    }
+  })
+
+  db.run(`CREATE TABLE Pendingaccess (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    from_user INTEGER,
+    to_user INTEGER
+    )`,
+  (err) => {
+    if (err) {
+      // Table already created
+    } else {
+      // Table just created, creating some rows
+      const insert_request = 'INSERT INTO Pendingaccess (from_user, to_user) VALUES (?,?)'
+      db.run(insert_request, [2, 3])
+    }
+  })
+
 })
 
 module.exports = db
