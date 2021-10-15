@@ -30,7 +30,7 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         // Table just created, creating some rows
         const insert_user = 'INSERT INTO users (name, email, password, manager, role, activated) VALUES (?,?,?,?,?,?)'
         db.run(insert_user, ['Jennifer Renoux', 'manager1@example.com', md5('admin123456'), 1, 'manager', true])
-        db.run(insert_user, ['Erik', 'erik@example.com', md5('user123456'), 1, 'client', true])
+        db.run(insert_user, ['Erik', 'erik@example.com', md5('user123456'), 1, 'client', false])
         db.run(insert_user, ['Stewart Little', 'manager2@example.com', md5('user123456'), 2, 'manager', true])
       }
     })
@@ -84,8 +84,9 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
             num_reps INTEGER,
             num_seconds INTEGER,
             comment text,
-            FOREIGN KEY (workout_id) REFERENCES workouts(id),
-            FOREIGN KEY (exercise_id) REFERENCES exercise(id)
+            FOREIGN KEY (workout_id) REFERENCES workouts(id) ON DELETE CASCADE,
+            FOREIGN KEY (exercise_id) REFERENCES exercise(id) ON DELETE CASCADE
+
             )`,
     (err) => {
       if (err) {

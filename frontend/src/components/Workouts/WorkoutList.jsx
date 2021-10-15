@@ -23,9 +23,13 @@ export default function WorkoutList (props) {
 
   //Handles when user deletes a workout, deletes it from the database
   function removeWorkout (id) {
-    axios.delete('/api/workouts/' + id)
+    axios.all(axios.delete('/api/workouts/' + id),
+    axios.delete('/api/workout_exercises/' + id))
+    
     window.location.reload(false)
   }
+  
+
 
   return (
     <div className='Workout'>
@@ -54,10 +58,10 @@ export default function WorkoutList (props) {
         {currentWorkout
           ? (
             <div>
-              <h4>Selected workout:</h4>
+              <h4>Selected workout</h4>
               <div>
                 <label>
-                  <strong>Name</strong>
+                  <strong>Name:</strong>
                 </label>{' '}
                 {currentWorkout.name}
               </div>

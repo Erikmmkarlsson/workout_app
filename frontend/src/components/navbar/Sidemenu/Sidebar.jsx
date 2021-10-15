@@ -11,7 +11,9 @@ import { IconContext } from 'react-icons/lib'
 import { useMediaQuery } from 'react-responsive'
 import { DeviceSize } from './size'
 import { GetRole, GetName } from '../../auth'
+import * as CgIcons from 'react-icons/cg'
 import './sidebar.css'
+
 const Nav = styled.div`
   background: rgba(0,0,0,0);
   color: black;
@@ -71,7 +73,7 @@ const Sidebar = () => {
         <Nav style={{ marginBottom: '2rem' }}>
           {isMobile && <NavIcon to='#'>
             <FaIcons.FaBars onClick={showSidebar} />
-                       </NavIcon>}
+          </NavIcon>}
           <h1 className='navH1'>
             Gymific‎‎‎
           </h1>
@@ -81,11 +83,18 @@ const Sidebar = () => {
             <NavIcon to='#'>
               {isMobile && <AiIcons.AiOutlineClose onClick={showSidebar} />}
             </NavIcon>
-            {GetName()}
+
+            <SubMenu item={{
+              title: GetName(),
+              path: '/profile',
+              icon: <CgIcons.CgProfile />
+
+            }} />
 
             {data.map((item, index) => {
               return <SubMenu item={item} key={index} />
             })}
+
           </SidebarWrap>
         </SidebarNav>
       </IconContext.Provider>

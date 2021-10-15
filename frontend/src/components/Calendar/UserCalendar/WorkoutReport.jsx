@@ -9,7 +9,7 @@ const WorkoutReport = props => {
   const [selected, setSelected] = useState('')
   const toggle = () => setModal(!modal)
 
-  const { toggleModal, selectedEvent, added, hasAdded } = props
+  const { workoutEvent, toggleModal, selectedEvent, added, hasAdded } = props
 
   const handleMarkChange = e => {
     if (e.target.value === 'complete') {
@@ -26,15 +26,18 @@ const WorkoutReport = props => {
   }
 
   const handleSubmit = () => {
-    const data = { is_done: done, client_comment: comment }
+    const data = { is_done: done, client_comment: comment }
     axios.patch('/api/workout_events/' + selectedEvent, data)
       .then(() => hasAdded(!added))
   }
 
   return (
     <div className='report'>
-      <Button onClick={toggle} color='success'>Complete workout</Button>
-
+      {(workoutEvent && workoutEvent.is_done) ? (
+        <Button onClick={toggle} color='success'>Update workout report</Button>
+      ) :
+        <Button onClick={toggle} color='success'>Complete workout</Button>
+      }
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>How did it go?</ModalHeader>
         <ModalBody>
@@ -75,7 +78,7 @@ const WorkoutReport = props => {
           {selected !== ''
             ? (
               <Input type='textarea' name='text' id='comment' value={comment} onChange={handleCommentChange} />
-              )
+            )
             : null}
 
         </ModalBody>
