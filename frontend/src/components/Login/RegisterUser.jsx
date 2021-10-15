@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { GetToken, GetID } from "../auth"
 import axios from 'axios';
 import{
     Button,

@@ -1,9 +1,9 @@
 import React, { useState, useEffect} from 'react';
-import { GetToken, GetID } from "../auth"
+import { GetToken } from "../auth"
 import axios from 'axios';
 import { VscAccount } from "react-icons/vsc";
 import {
-  Button,Table,Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle
+  Button,Card, CardBody,CardTitle, CardSubtitle
 } from 'reactstrap';
 import './Friends.css'
 
@@ -64,9 +64,9 @@ function Friends (props) {
   },[hasUpdated])
 
   useEffect(()=>{
-    {FriendWaitingForAccess.map(friend =>
+    FriendWaitingForAccess.map(friend =>
       showorange.push(friend)
-      )}
+      )
   })
 
 

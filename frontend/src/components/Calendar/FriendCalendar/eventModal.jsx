@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import WorkoutReport from './WorkoutReport'
-import StartWorkout from '../UserCalendar/StartWorkout'
 import {
   Table,
   Button,
@@ -10,11 +8,9 @@ import {
   Alert,
   ModalHeader
 } from 'reactstrap'
-import { GetRole } from '../../auth'
-
 
 const EventModal = props => {
-  const { modal, toggleModal, selectedWorkoutExercises, OpenLink, selectedEvent, added, hasAdded } = props
+  const { modal, toggleModal, selectedWorkoutExercises, OpenLink, selectedEvent} = props
 
   const [workoutEvent, setWorkoutEvent] = useState(null)
   const [workoutName, setWorkoutName] = useState('')

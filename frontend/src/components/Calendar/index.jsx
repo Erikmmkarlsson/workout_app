@@ -20,7 +20,7 @@ import {
 function Calendar(props) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-  const toggle = () => setDropdownOpen((prevState) => prevState)
+  const toggle = () => setDropdownOpen((prevState) => !prevState)
   const toggleWorkouts = () =>
     setDropdownOpenWorkouts((prevState) => !prevState)
 

@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import axios from 'axios'
-import { GetToken, GetID } from '../../auth'
+import { GetToken } from '../../auth'
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
 import CalendarBody from '../CalendarBody'
 import CalendarHead from '../CalendarHead'
-import CalendButtons from '../CalendButtons'
 import '../calendar.css'
 import EventModal from './eventModal'
-import { useParams } from "react-router";
 function Calendar(props) {
 
   // ** States and constants
-
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
   // States handling the user
@@ -25,10 +22,6 @@ function Calendar(props) {
   const [selected, hasSelected] = useState(false)
 
   // States handling the dropdown menu selecting workouts and adding workouts
-  const [workoutListDropdown, setWorkoutListDropdown] = useState([])
-  const [dropdownOpenWorkouts, setDropdownOpenWorkouts] = useState(false)
-  const [selectedWorkoutName, setSelectedWorkoutName] = useState('Select a Workout')
-  const [selectedWorkoutID, setSelectedWorkoutID] = useState('')
   const [added, hasAdded] = useState(false)
 
   // States handling the workouts that are connected to the user's training plan
@@ -36,8 +29,6 @@ function Calendar(props) {
   const [selectedEvent, setSelectedEvent] = useState({ id: 0 })
   const [selectedWorkoutExercises, setSelectedWorkoutExercises] = useState([])
   const [id,setid]=useState('')
-
-  const toggleWorkouts = () => setDropdownOpenWorkouts((prevState) => !prevState)
 
   // Set initial state
 
@@ -77,18 +68,6 @@ function Calendar(props) {
   }, [added,id])
 
   // Functions
-  function handleButton() {
-    const data = {
-      training_plan_id: userTrainingplan.id,
-      workout_id: selectedWorkoutID,
-      date: selectedDay.year + '-' + selectedDay.month + '-' + selectedDay.day,
-      is_done: 0
-    }
-    console.log(userTrainingplan)
-    console.log(data)
-    axios.post('api/AddWorkOutToUser', data).then(() => hasAdded(!added))
-  }
-
   function OpenLink(link) {
     window.open(link)
   }
@@ -187,7 +166,6 @@ function Calendar(props) {
                   ActiveDates={ActiveDates}
                   SelectedUserID={id.selected}
                   setSelectedWorkoutExercises={setSelectedWorkoutExercises}
-                  setWorkoutListDropdown={setWorkoutListDropdown}
                   toggleModal={toggleModal}
                   added={added}
                 />

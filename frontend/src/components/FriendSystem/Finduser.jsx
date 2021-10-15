@@ -44,19 +44,6 @@ export default function Finduser(props) {
     })
   }
 
-  useEffect(() => {
-    axios.get('/api/UserrequestList/'+GetID()+'/'+reciever 
-    ).then(response => {setrequestList(response.data.data)
-    });
-    axios.get('/api/UserrequestList/'+reciever+'/'+GetID()
-    ).then(response => {setrequestList2(response.data.data)
-    });
-  }, [reciever,handleSubmit])
-
-  
-
-  
-
   const handleSubmit = async (e) =>{
     e.preventDefault()
     if(requestList.length !==0)
@@ -81,6 +68,19 @@ export default function Finduser(props) {
 
     }
   }
+
+  useEffect(() => {
+    axios.get('/api/UserrequestList/'+GetID()+'/'+reciever 
+    ).then(response => {setrequestList(response.data.data)
+    });
+    axios.get('/api/UserrequestList/'+reciever+'/'+GetID()
+    ).then(response => {setrequestList2(response.data.data)
+    });
+  }, [reciever,handleSubmit])
+
+  
+
+  
 
   return (
     <div className='Finduser'>
