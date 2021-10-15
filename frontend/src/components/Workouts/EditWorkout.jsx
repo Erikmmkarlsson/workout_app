@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { Table } from 'reactstrap'
 import axios from 'axios'
 
 export default function EditWorkout(props) {
   //States
+  const [modal, setModal] = useState(false)
   const [workout_id, setWorkoutId] = useState(null)
   const [exercisesList, setExerciseslist] = useState([])
   const [selectedExercisesList, setSelectedExerciseslist] = useState([])
   const [hasUpdated, setUpdated] = useState(false)
   const [currentExercise, setCurrentExercise] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(-1)
-  const [searchName, setSearchName] = useState("")
+  const [searchName, setSearchName] = useState('')
+  const [currentWorkout, setCurrentWorkout] = useState({
+    id: null,
+    name: '',
+    creator: null
+  })
   const [currentWorkoutExercise, setCurrentWorkoutExercise] = useState({
     workout_id: null,
     exercise_id: null,
@@ -19,6 +26,8 @@ export default function EditWorkout(props) {
     num_seconds: null,
     comment: ''
   })
+
+  const toggle = () => setModal(!modal)
 
   //Set intial states
   useEffect(() => {
@@ -36,6 +45,9 @@ export default function EditWorkout(props) {
       .then((response) => {
         setSelectedExerciseslist(response.data.data)
       })
+    axios.get('/api/workouts/'+ parseInt(new URLSearchParams(window.location.search).get('id'), 10)).then((response) => {
+      setCurrentWorkout(response.data.data)
+    })
   }, [hasUpdated])
 
   //Functions
@@ -128,7 +140,7 @@ export default function EditWorkout(props) {
       </div>
       <div className="workoutBody">
       <div className='col-md-6'>
-        <h4>Add exercises to workout {workout_id}</h4>
+        <h4>Add exercises to {currentWorkout.name}</h4>
         <ul className='list-group'>
           {exercisesList &&
             exercisesList.map((exercise, index) => (
@@ -155,7 +167,7 @@ export default function EditWorkout(props) {
         {currentExercise
           ? (
             <div>
-              <h4>Exercise</h4>
+              <h4>Add {currentExercise.name} to workout</h4>
               <div>
                 <label>
                   <strong>Name:</strong>
@@ -167,12 +179,6 @@ export default function EditWorkout(props) {
                   <strong>Description:</strong>
                 </label>{' '}
                 {currentExercise.description}
-              </div>
-              <div>
-                <label>
-                  <strong>Updated:</strong>
-                </label>{' '}
-                {currentExercise.last_updated} GMT
               </div>
               <div className='form-group'>
                 <label htmlFor='num_sets'>Number of sets</label>
@@ -241,63 +247,37 @@ export default function EditWorkout(props) {
       </div>
       </div>
       <div />
+      <div><br></br></div>
 
       <h4>Exercises in workout:</h4>
       <div className='container'>
         {selectedExercisesList.length > 0
           ? (
-            <table
-              style={{
-                borderWidth: '1px',
-                borderColor: 'black',
-                borderStyle: 'solid'
-              }}
-            >
+            <Table
+                  bordered
+                  responsive
+                  hover
+                  style={{
+                    background: 'white',
+                    marginTop: '1rem',
+                    width: '100%'
+                  }}
+                >
               <thead>
                 <tr>
-                  <th
-                    style={{
-                      borderWidth: "1px",
-                      borderColor: "black",
-                      borderStyle: "solid"
-                    }}
-                  >
+                  <th>
                     Exercise name
                   </th>
-                  <th
-                    style={{
-                      borderWidth: "1px",
-                      borderColor: "black",
-                      borderStyle: "solid"
-                    }}
-                  >
+                  <th>
                     Number of sets
                   </th>
-                  <th
-                    style={{
-                      borderWidth: "1px",
-                      borderColor: "black",
-                      borderStyle: "solid"
-                    }}
-                  >
+                  <th>
                     Number of reps
                   </th>
-                  <th
-                    style={{
-                      borderWidth: "1px",
-                      borderColor: "black",
-                      borderStyle: "solid"
-                    }}
-                  >
+                  <th>
                     Number of seconds
                   </th>
-                  <th
-                    style={{
-                      borderWidth: "1px",
-                      borderColor: "black",
-                      borderStyle: "solid"
-                    }}
-                  >
+                  <th>
                     Remove
                   </th>
                 </tr>
@@ -305,49 +285,19 @@ export default function EditWorkout(props) {
               <tbody>
                 {selectedExercisesList.map((exercise) => (
                   <tr key={exercise.id}>
-                    <td
-                      style={{
-                        borderWidth: '1px',
-                        borderColor: 'black',
-                        borderStyle: 'solid'
-                      }}
-                    >
+                    <td>
                       {exercise.name}
                     </td>
-                    <td
-                      style={{
-                        borderWidth: '1px',
-                        borderColor: 'black',
-                        borderStyle: 'solid'
-                      }}
-                    >
+                    <td>
                       {exercise.num_sets}
                     </td>
-                    <td
-                      style={{
-                        borderWidth: '1px',
-                        borderColor: 'black',
-                        borderStyle: 'solid'
-                      }}
-                    >
+                    <td>
                       {exercise.num_reps}
                     </td>
-                    <td
-                      style={{
-                        borderWidth: '1px',
-                        borderColor: 'black',
-                        borderStyle: 'solid'
-                      }}
-                    >
+                    <td>
                       {exercise.num_seconds}
                     </td>
-                    <td
-                      style={{
-                        borderWidth: '1px',
-                        borderColor: 'black',
-                        borderStyle: 'solid'
-                      }}
-                    >
+                    <td>
                       <button
                         type='submit'
                         className='btn btn-sm btn-danger'
@@ -359,7 +309,7 @@ export default function EditWorkout(props) {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </Table>
             )
           : (
             <div />

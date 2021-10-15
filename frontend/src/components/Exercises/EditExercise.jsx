@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import { Modal } from 'reactstrap'
 import axios from 'axios'
 
-export default function EditExercise (props) {
+export default function EditExercise(props) {
   // States
+  const [modal, setModal] = useState(false)
   const [id, setId] = useState(null)
   const [values, setValues] = useState({
     description: '',
@@ -12,6 +14,7 @@ export default function EditExercise (props) {
 
   // Variables
   const history = useHistory()
+  const toggle = () => setModal(!modal)
 
   // Handles initial state
   useEffect(() => {
@@ -41,13 +44,32 @@ export default function EditExercise (props) {
     history.goBack()
   }
 
-  function deleteExercise () {
+  function deleteExercise() {
     // Handles when the user clicks on "delete", removes the exercise from the database
     axios.delete('/api/exercises/' + id)
   }
 
   return (
     <div className='Exercise'>
+      <Modal isOpen={modal} toggle={toggle}>
+        <div><h4>Are you sure you want to delete this exercise?</h4></div>
+        <div>
+          <Link to='/exercises'>
+            <button
+              className='m-3 btn btn-sm btn-danger'
+              onClick={deleteExercise}
+            >
+              Delete
+            </button>
+          </Link>
+          <button
+              className='m-3 btn btn-sm btn-warning'
+              onClick={toggle}
+            >
+              Cancel
+            </button>
+        </div>
+      </Modal>
       <div>
         <Link
           to='/exercises/'
@@ -82,14 +104,12 @@ export default function EditExercise (props) {
             />
           </div>
         </form>
-        <Link to='/exercises'>
-          <button
-            className='m-3 btn btn-sm btn-danger'
-            onClick={deleteExercise}
-          >
-            Delete
-          </button>
-        </Link>
+        <button
+          className='m-3 btn btn-sm btn-danger'
+          onClick={toggle}
+        >
+          Delete
+        </button>
         <button onClick={handleSubmit} className='m-3 btn btn-sm btn-success'>
           Update
         </button>

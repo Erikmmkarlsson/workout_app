@@ -54,10 +54,10 @@ export default function WorkoutList (props) {
         {currentWorkout
           ? (
             <div>
-              <h4>Selected workout:</h4>
+              <h4>Selected workout</h4>
               <div>
                 <label>
-                  <strong>Name</strong>
+                  <strong>Name:</strong>
                 </label>{' '}
                 {currentWorkout.name}
               </div>
