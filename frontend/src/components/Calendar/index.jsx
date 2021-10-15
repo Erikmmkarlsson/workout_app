@@ -20,7 +20,7 @@ import {
 function Calendar(props) {
   const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-  const toggle = () => setDropdownOpen((prevState) => !prevState)
+  const toggle = () => setDropdownOpen((prevState) => prevState)
   const toggleWorkouts = () =>
     setDropdownOpenWorkouts((prevState) => !prevState)
 
@@ -32,7 +32,7 @@ function Calendar(props) {
     manager_id: null
   })
   const [selectedUserName, setSelectedUserName] = useState('Select a client')
-  const [dropdownOpenUsers, setDropdownOpen] = useState(false)
+  const [dropdownOpenUsers, setDropdownOpen] = useState(true)
 
   // States handling the calendar and month dropdowntable
   const [dateObject, setdateObject] = useState(moment())
@@ -265,7 +265,7 @@ function dropdownUsers(dropdownOpenUsers, toggle, selectedUserName, usersList, h
     >
       {selectedUserName}
     </DropdownToggle>
-    <DropdownMenu style={{ marginTop: '1rem', width: '100%' }}>
+    <DropdownMenu style={{ zIndex:'0', marginTop: '1rem', width: '100%' }}>
       {usersList.map((User) => (
         <DropdownItem
           onClick={() => handleSelect(User.id, User.name)}
