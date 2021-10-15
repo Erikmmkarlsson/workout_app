@@ -70,8 +70,8 @@ const CalendarBody = props => {
 
     for (const Date in ActiveDates) {
       if (moment(ActiveDates[Date].date).date() === d &&
-                moment(ActiveDates[Date].date).month() + 1 === currentMonthNum() &&
-                moment(ActiveDates[Date].date).year() === currentYearNum()) {
+        moment(ActiveDates[Date].date).month() + 1 === currentMonthNum() &&
+        moment(ActiveDates[Date].date).year() === currentYearNum()) {
         selectEvent = { id: ActiveDates[Date].id, is_done: ActiveDates[Date].is_done }
         console.log(selectEvent)
         if (currentYear() < actualYear()) {
@@ -112,7 +112,7 @@ const CalendarBody = props => {
         }
       }
     }
-    if (activeDay === undefined){
+    if (activeDay === undefined) {
       selectEvent = undefined
     }
 
@@ -132,7 +132,7 @@ const CalendarBody = props => {
           setSelectedDay(d)
 
           setSelectedEvent(selectEvent)
-          
+
 
           if (activeDay !== undefined) {
             toggleModal()
@@ -169,23 +169,23 @@ const CalendarBody = props => {
         <TableHead>
           <TableRow>
             {
-                            weekdays.map((day, i) => (
-                              <TableCell key={i}>
-                                {day}
-                              </TableCell>
-                            ))
-                        }
+              weekdays.map((day, i) => (
+                <TableCell key={i}>
+                  {day}
+                </TableCell>
+              ))
+            }
           </TableRow>
         </TableHead>
         <TableBody>
           {
-                        rows.map((day, i) =>
-                          <TableRow
-                            key={i}
-                          >
-                            {day}
-                          </TableRow>)
-                    }
+            rows.map((day, i) =>
+              <TableRow
+                key={i}
+              >
+                {day}
+              </TableRow>)
+          }
         </TableBody>
       </Table>
     </TableContainer>

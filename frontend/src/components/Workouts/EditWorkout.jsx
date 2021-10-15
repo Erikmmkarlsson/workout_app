@@ -184,6 +184,7 @@ export default function EditWorkout(props) {
                 <label htmlFor='num_sets'>Number of sets</label>
                 <input
                   type='number'
+                  min='0'
                   className='form-control'
                   id='num_sets'
                   value={currentWorkoutExercise.num_sets}
@@ -196,6 +197,7 @@ export default function EditWorkout(props) {
                 <label htmlFor='num_reps'>Number of reps</label>
                 <input
                   type='number'
+                  min='0'
                   className='form-control'
                   id='num_reps'
                   value={currentWorkoutExercise.num_reps}
@@ -208,6 +210,7 @@ export default function EditWorkout(props) {
                 <label htmlFor='num_seconds'>Number of seconds</label>
                 <input
                   type='number'
+                  min='0'
                   className='form-control'
                   id='num_seconds'
                   value={currentWorkoutExercise.num_seconds}
