@@ -49,10 +49,10 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         const insert_exercise = 'INSERT INTO exercises (name, description, video_link) VALUES (?,?,?)'
         db.run(insert_exercise, ['Squats', 'Bend your legs, push up your body. Make sure to keep your core and hips active.', 'https://www.youtube.com/watch?v=aclHkVaku9U&ab_channel=Bowflex'])
         db.run(insert_exercise, ['Push ups', 'Stand on all four with your body straight. Push up your body using your arms, your core should stay active.', 'https://www.youtube.com/watch?v=Pkj8LLRsoDw&ab_channel=Bowflex'])
-        db.run(insert_exercise, ['Deadlifts', 'Pick up a heavy object and lift it using your legs and back.', 'youtube.com/watch?v=IiGk8g3e41w&ab_channel=Bowflex'])
-        db.run(insert_exercise, ['Bench press', 'Push up a heavy object while laying on a bench on your back.', 'youtube.com/watch?v=rT7DgCr-3pg&ab_channel=ScottHermanFitness'])
-        db.run(insert_exercise, ['Jumping jacks', 'Stand up, jump and spread your legs and arms. Jump back. Repeat.', 'youtube.com/watch?v=1b98WrRrmUs&ab_channel=WahooFitness'])
-        db.run(insert_exercise, ['Mountain climber', 'Stand on all four and walk on the spot with your legs.', 'youtube.com/watch?v=nmwgirgXLYM&ab_channel=Howcast'])
+        db.run(insert_exercise, ['Deadlifts', 'Pick up a heavy object and lift it using your legs and back.', 'https://www.youtube.com/watch?v=IiGk8g3e41w&ab_channel=Bowflex'])
+        db.run(insert_exercise, ['Bench press', 'Push up a heavy object while laying on a bench on your back.', 'https://www.youtube.com/watch?v=rT7DgCr-3pg&ab_channel=ScottHermanFitness'])
+        db.run(insert_exercise, ['Jumping jacks', 'Stand up, jump and spread your legs and arms. Jump back. Repeat.', 'https://www.youtube.com/watch?v=1b98WrRrmUs&ab_channel=WahooFitness'])
+        db.run(insert_exercise, ['Mountain climber', 'Stand on all four and walk on the spot with your legs.', 'https://www.youtube.com/watch?v=nmwgirgXLYM&ab_channel=Howcast'])
       }
     })
     db.run(`CREATE TABLE workouts (
