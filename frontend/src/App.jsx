@@ -42,7 +42,7 @@ function App () {
             <Route exact path='/workouts/'> <WorkoutList /> </Route>
             <Route exact path='/workouts/create'> <CreateWorkout /> </Route>
             <Route exact path='/workouts/edit'> <EditWorkout /> </Route>
-            <Route exact path='/friendcalendar/:id' render={(props) => <Calendar {...props} />} />
+            <Route exact path='/friendcalendar/'> <Calendar/> </Route>
             <Route path='/trainingplans'> <EditTrainingPlan /> </Route>
 
             <Route path='/editprofile'> <EditProfile /> </Route>
@@ -66,7 +66,7 @@ function App () {
             <Route path='/findfriend'> <FindFriend /> </Route>
             <Route path='/editprofile'> <EditProfile /> </Route>
             <Route path='/passwordreset'> <PasswordReset /> </Route>
-            <Route exact path='/friendcalendar/:id' render={(props) => <Calendar {...props} />} />
+            <Route exact path='/friendcalendar/'> <Calendar/> </Route>
             <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
             <Route path='/profile'> <Profile /> </Route>
             <Route exact path='/login'> <Login /> </Route>

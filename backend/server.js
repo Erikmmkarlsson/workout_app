@@ -6,7 +6,7 @@ const db = require('./database/database.js')
 const cors = require('cors')
 require('dotenv').config()
 const onlyManager = require('./auth/onlyManager.js')
-
+const verifyToken = require('./auth')
 const getID = require('./auth/getID')
 // Specify functionality to be used
 app.use(cors())
@@ -238,6 +238,79 @@ app.post('/api/AddWorkOutToUser/', (req, res, next) => {
   };
 })
 
+app.post('/api/addtoselecteduser/',(req, res, next) => {
+  const data = {
+    user: req.body.user
+  }
+  const sql='insert into SelectedUser ( user , selected )  values ( ? , ? )'
+  const params = [data.user,0]
+  console.log(sql)
+  console.log(params)
+  db.run(sql, params, function (err, result) {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    res.json({
+      message: 'success'
+    })
+  })
+})
+
+app.patch('/api/selecteduser/',verifyToken, (req, res, next) => {
+  const id = getID(req)
+  const data = {
+    selected: req.body.selecteduser
+  }
+  const sql = 'update SelectedUser set selected= ? where user=?'
+  const params = [data.selected,id]
+  db.run(sql, params, function (err, result) {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    res.json({
+      message: 'success',
+      data: data
+    })
+  })
+})
+
+app.delete('/api/removefromselecteduser/',(req, res, next) => {
+  const data = {
+    user: req.body.user
+  }
+  const sql='delete from SelectedUser where user = ?'
+  const params = [data.user]
+  console.log(sql)
+  console.log(params)
+  db.run(sql, params, function (err, result) {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    res.json({
+      message: 'success'
+    })
+  })
+})
+app.get('/api/Getselecteduser/',verifyToken, (req, res, next) => {
+  const id = getID(req)
+  const sql = 'select selected from SelectedUser where user=?'
+  const params = [id]
+  db.all(sql,params,(err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    console.log(rows)
+    res.json({
+      message: 'success',
+      data: rows
+
+    })
+  })
+})
 // Default response for any other request
 app.use(function (req, res) {
   res.status(404)

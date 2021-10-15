@@ -109,6 +109,7 @@ function Friends (props) {
     }).then(()=> {sethasUpdated(!hasUpdated)})
   }
   function handleSubmitDelete(friendid){
+    axios.all([
     axios({
       method: 'delete',
       url: '/api/removefriend/',
@@ -118,8 +119,20 @@ function Friends (props) {
       data: {
         id: friendid
       }
-    }).then(()=> {sethasUpdated(!hasUpdated)})
-  }
+    }),
+    axios({
+      method: 'delete',
+      url: '/api/reqList/',
+      headers: {
+        'x-access-token': GetToken()
+      },
+      data: {
+        id: friendid
+      }
+    }).then(()=> {sethasUpdated(!hasUpdated)}),
+
+  ])
+ }
   function handleSubmitAcceptTP(friendid){
     axios.all([
     axios({
@@ -206,6 +219,17 @@ function Friends (props) {
      .then(response => {
        sethasoutgoingpendingaccess(response.data.data[0])})
    }
+
+
+   function setselecteduserid(selecteduser){
+    const data = {selecteduser: selecteduser}
+    axios.patch('/api/selecteduser/', data, {
+      headers: {
+        'x-access-token': GetToken()
+      }
+    })
+    console.log('patch doneee')
+   }
   
   
   return (
@@ -247,7 +271,7 @@ function Friends (props) {
     
     <Button
       color="success"
-      href="/friendcalendar"
+      href="/friendcalendar/"
     >View Trainingplan
       </Button>
       </section></div>): null}
@@ -297,7 +321,7 @@ function Friends (props) {
         <CardSubtitle>{friend.email}</CardSubtitle>
         <Button
           color="primary"
-          onClick={()=> {hasAccess(friend.id);hasPendingAccess(friend.id);hasOutgoingPendingAccess(friend.id);setselecteduser(friend.id);setselectedusername(friend.name)}}
+          onClick={()=> {hasAccess(friend.id);hasPendingAccess(friend.id);hasOutgoingPendingAccess(friend.id);setselecteduser(friend.id);setselectedusername(friend.name);setselecteduserid(friend.id)}}
         >select
         </Button>
       </CardBody>

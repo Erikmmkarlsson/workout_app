@@ -8,7 +8,7 @@ import CalendarBody from '../CalendarBody'
 import CalendarHead from '../CalendarHead'
 import CalendButtons from '../CalendButtons'
 import '../calendar.css'
-import EventModal from '../UserCalendar/eventModal'
+import EventModal from './eventModal'
 import { useParams } from "react-router";
 function Calendar(props) {
 
@@ -35,16 +35,28 @@ function Calendar(props) {
   const [eventList, setEventList] = useState([])
   const [selectedEvent, setSelectedEvent] = useState({ id: 0 })
   const [selectedWorkoutExercises, setSelectedWorkoutExercises] = useState([])
+  const [id,setid]=useState('')
 
-  // Variables
-  let { id } = useParams()
-  console.log(id)
   const toggleWorkouts = () => setDropdownOpenWorkouts((prevState) => !prevState)
 
   // Set initial state
+
+  useEffect(()=>{
+    axios
+      .get('/api/Getselecteduser/',{
+        headers: {
+          'x-access-token': GetToken()
+        }
+      })
+      .then((response) => {
+        setid(response.data.data[0])
+      })
+      
+  },[])
+
   useEffect(() => {
     axios
-      .get('/api/GetTrainingplanIdByClientID/' + id, {
+      .get('/api/GetTrainingplanIdByClientID/' + id.selected, {
         headers: {
           'x-access-token': GetToken()
         }
@@ -52,9 +64,9 @@ function Calendar(props) {
       .then((response) => {
         setUserTrainingplan(response.data.data[0])
       })
-
+    
     axios
-      .get('/api/UserWorkouts', {
+      .get('/api/UserWorkoutsByInput/' + id.selected, {
         headers: {
           'x-access-token': GetToken()
         }
@@ -62,7 +74,7 @@ function Calendar(props) {
       .then((response) => {
         setEventList(response.data.data)
       })
-  }, [added])
+  }, [added,id])
 
   // Functions
   function handleButton() {
@@ -81,10 +93,6 @@ function Calendar(props) {
     window.open(link)
   }
 
-  function handleDropdownSelect(workoutId, workoutName) {
-    setSelectedWorkoutID(workoutId)
-    setSelectedWorkoutName(workoutName)
-  }
 
   // Calendar variables and functions
 
@@ -177,7 +185,7 @@ function Calendar(props) {
                   actualYear={actualYear}
                   weekdays={weekdays}
                   ActiveDates={ActiveDates}
-                  SelectedUserID={id}
+                  SelectedUserID={id.selected}
                   setSelectedWorkoutExercises={setSelectedWorkoutExercises}
                   setWorkoutListDropdown={setWorkoutListDropdown}
                   toggleModal={toggleModal}
@@ -190,14 +198,7 @@ function Calendar(props) {
              don't display the buttons to add a workout. */}
             {(selected && selectedEvent === undefined)
               ? (
-                <CalendButtons
-                  dropdownOpenWorkouts={dropdownOpenWorkouts}
-                  toggleWorkouts={toggleWorkouts}
-                  selectedWorkoutName={selectedWorkoutName}
-                  workoutListDropdown={workoutListDropdown}
-                  handleDropdownSelect={handleDropdownSelect}
-                  handleButton={handleButton}
-                />
+                null
               )
               : null}
 

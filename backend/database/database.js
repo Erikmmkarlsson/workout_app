@@ -220,6 +220,20 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
     }
   })
 
+  db.run(`CREATE TABLE SelectedUser(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user INTEGER,
+    selected INTEGER
+    )`,
+    (err) => {
+      if (err) {
+        // Table already created
+      } else {
+        // Table just created, creating some rows
+    
+      }
+    })
+
 })
 
 module.exports = db
