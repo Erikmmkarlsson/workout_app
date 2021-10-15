@@ -21,6 +21,7 @@ const calendButtons = props => {
 
     return (
         <div>
+            
             <div class='calendButtons'>
                 <FormGroup>
                     <Dropdown
@@ -58,6 +59,7 @@ const calendButtons = props => {
                             ))}
                         </DropdownMenu>
                     </Dropdown>
+                    
                 </FormGroup>
                 <FormGroup>
                     {(selectedWorkoutName !== 'Select a Workout') ?(
@@ -73,6 +75,7 @@ const calendButtons = props => {
                 </FormGroup>
             </div>
         </div>
+        
     )
 }
 

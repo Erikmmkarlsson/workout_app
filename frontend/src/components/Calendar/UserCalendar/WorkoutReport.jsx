@@ -30,13 +30,16 @@ const WorkoutReport = props => {
     axios.patch('/api/workout_events/' + selectedEvent, data)
       .then(() => hasAdded(!added))
   }
-
+  
   return (
     <div className='report'>
-      {(workoutEvent && workoutEvent.is_done) ? (
+      {(workoutEvent && workoutEvent.is_done ) ? (
         <Button onClick={toggle} color='success'>Update workout report</Button>
       ) :
-        <Button onClick={toggle} color='success'>Complete workout</Button>
+      
+      
+        <Button onClick={toggle} color='success'  >Complete workout</Button>
+
       }
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>How did it go?</ModalHeader>

@@ -87,6 +87,7 @@ export default function AddExercise(props) {
           >
             Submit
           </button>
+          
         </div>
       </div>
     </div>
