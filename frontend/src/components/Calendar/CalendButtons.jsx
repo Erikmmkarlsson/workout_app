@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
 import {
     FormGroup,
     Dropdown,
     DropdownToggle,
     DropdownItem,
     Button,
+    Input,
     DropdownMenu
 } from 'reactstrap'
+import { GetRole } from '../auth'
+
 
 
 const calendButtons = props => {
@@ -16,12 +20,37 @@ const calendButtons = props => {
         selectedWorkoutName,
         workoutListDropdown,
         handleDropdownSelect,
-        handleButton
+        selectedUserTrainingplan,
+        selectedWorkoutID,
+        selectedDay,
+        hasAdded,
+        added
     } = props
+
+    const [comment, setComment] = useState('')
+
+
+    function handleButton() {
+        const data = {
+            training_plan_id: selectedUserTrainingplan.id,
+            workout_id: selectedWorkoutID,
+            date: selectedDay.year + '-' + selectedDay.month + '-' + selectedDay.day,
+            is_done: 0,
+            manager_comment: comment
+        }
+        axios.post('api/workout_events', data)
+
+        hasAdded(!added)
+    }
+
+    const handleCommentChange = (e) => {
+        //Handles when user enters a comment, updates variable
+        setComment(e.target.value)
+    }
 
     return (
         <div>
-            
+
             <div class='calendButtons'>
                 <FormGroup>
                     <Dropdown
@@ -42,8 +71,8 @@ const calendButtons = props => {
                                             ...data,
                                             styles: {
                                                 ...data.styles,
-                                                overflow: 'auto',
-                                                maxHeight: '100px'
+                                                overflow: 'hidden',
+                                                maxHeight: '200px'
                                             }
                                         }
                                     }
@@ -59,23 +88,35 @@ const calendButtons = props => {
                             ))}
                         </DropdownMenu>
                     </Dropdown>
-                    
+                    {(GetRole === 'manager') ? (
+                        <Input
+                            type='textarea'
+                            name='text'
+                            id='comment'
+                            placeholder='Add a helpful comment...'
+                            onChange={handleCommentChange}
+                            value={comment}
+                            style={{ margin: '1rem 0rem' }}
+                        />) : null}
                 </FormGroup>
                 <FormGroup>
-                    {(selectedWorkoutName !== 'Select a Workout') ?(
+                    {(selectedWorkoutName !== 'Select a Workout') ? (
                         <Button
-                        color='primary'
-                        onClick={() => handleButton()}
-                        type='submit'
-                    >
-                        Add workout
-                    </Button>
-                    ): null}
-                    
+                            color='primary'
+                            onClick={() => {
+                                handleButton()
+
+                            }}
+                            type='submit'
+                        >
+                            Add workout
+                        </Button>
+                    ) : null}
+
                 </FormGroup>
             </div>
         </div>
-        
+
     )
 }
 

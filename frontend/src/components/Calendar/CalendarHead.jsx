@@ -90,11 +90,10 @@ const CalendarHead = props => {
       {!showMonthTable ? (
         <div class="popup" onclick="myFunction()">
           <details>
-            <span class="dott" ></span>
-            <summary>Workouts status:</summary>
+            <summary>Legend:</summary>
 
             <span class="dot1" ></span>
-            <label > completed &nbsp;&nbsp;</label>
+            <label >  &nbsp;completed &nbsp;&nbsp;</label>
             <span class="dot2"></span>
             <label>&nbsp;planned   &nbsp;&nbsp;</label>
             <span class="dot"></span>

@@ -64,18 +64,6 @@ function Calendar(props) {
   }, [added])
 
   // Functions
-  function handleButton() {
-    const data = {
-      training_plan_id: userTrainingplan.id,
-      workout_id: selectedWorkoutID,
-      date: selectedDay.year + '-' + selectedDay.month + '-' + selectedDay.day,
-      is_done: 0
-    }
-    console.log(userTrainingplan)
-    console.log(data)
-    axios.post('api/AddWorkOutToUser', data).then(() => hasAdded(!added))
-  }
-
   function OpenLink(link) {
     window.open(link)
   }
@@ -187,16 +175,20 @@ function Calendar(props) {
 
             {/* if you've selected a date, and there's no current event
              don't display the buttons to add a workout. */}
-            {(selected && selectedEvent === undefined)
+            {(selected && !showMonthTable && selectedEvent === undefined)
               ? (
                 <CalendButtons
-                  dropdownOpenWorkouts={dropdownOpenWorkouts}
-                  toggleWorkouts={toggleWorkouts}
-                  selectedWorkoutName={selectedWorkoutName}
-                  workoutListDropdown={workoutListDropdown}
-                  handleDropdownSelect={handleDropdownSelect}
-                  handleButton={handleButton}
-                />
+                dropdownOpenWorkouts={dropdownOpenWorkouts}
+                toggleWorkouts={toggleWorkouts}
+                selectedWorkoutName={selectedWorkoutName}
+                workoutListDropdown={workoutListDropdown}
+                handleDropdownSelect={handleDropdownSelect}
+                selectedUserTrainingplan={userTrainingplan}
+                selectedWorkoutID={selectedWorkoutID}
+                selectedDay={selectedDay}
+                hasAdded={hasAdded}
+                added={added}
+              />
               )
               : null}
 
