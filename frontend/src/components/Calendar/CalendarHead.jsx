@@ -47,10 +47,10 @@ const CalendarHead = props => {
 
   return (
     <TableContainer component={Paper} className='month-selector'>
-      
+
       <Table>
-      
-      
+
+
         <TableHead>
           <TableRow>
             <TableCell
@@ -67,14 +67,14 @@ const CalendarHead = props => {
               {currentYear()}
             </TableCell>
           </TableRow>
-          
+
         </TableHead>
-        
+
         {showMonthTable
           ? <TableBody>
-            
+
             <TableRow>
-              
+
               <TableCell
                 colSpan='5'
                 style={{ textAlign: 'center' }}
@@ -83,32 +83,34 @@ const CalendarHead = props => {
               </TableCell>
             </TableRow>
             {monthList}
-            </TableBody>
-            
+          </TableBody>
+
           : null}
       </Table>
-      <div class="popup" onclick="myFunction()">
-      <details>
-      <span class="dott" ></span>
-        <summary>Workouts status:</summary>
-        
-                    <span class="dot1" ></span>
-                    <label > completed &nbsp;&nbsp;</label>
-                    <span class="dot2"></span>
-                    <label>&nbsp;planned   &nbsp;&nbsp;</label>
-                    <span class="dot"></span>
-                    <label>&nbsp;incompleted &nbsp;&nbsp; </label>
-                    <span class="dot3"></span>
-                    <label>&nbsp;missed  </label>
-                    <span class="popuptext" id="myPopup"></span></details>
-                    </div>
-      
-      
+      {!showMonthTable ? (
+        <div class="popup" onclick="myFunction()">
+          <details>
+            <span class="dott" ></span>
+            <summary>Workouts status:</summary>
+
+            <span class="dot1" ></span>
+            <label > completed &nbsp;&nbsp;</label>
+            <span class="dot2"></span>
+            <label>&nbsp;planned   &nbsp;&nbsp;</label>
+            <span class="dot"></span>
+            <label>&nbsp;incompleted &nbsp;&nbsp; </label>
+            <span class="dot3"></span>
+            <label>&nbsp;missed  </label>
+            <span class="popuptext" id="myPopup"></span></details>
+        </div>) : null}
+
+
+
     </TableContainer>
-    
+
   )
 
-  
+
 }
 
 
