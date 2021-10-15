@@ -18,7 +18,7 @@ import { useAuth, GetRole } from './components/auth'
 import FindFriend from './components/FriendSystem/Finduser.jsx'
 import Friends from './components/FriendSystem/Friends.jsx'
 import Sidebar from './components/navbar/Sidemenu/Sidebar'
-import Calendar from './components/ManagerCalendar/FriendCalendar/index'
+import Calendar from './components/Calendar/FriendCalendar/index'
 function App () {
   const [loggedIn] = useAuth()
   const role = GetRole()
@@ -42,7 +42,7 @@ function App () {
             <Route exact path='/workouts/'> <WorkoutList /> </Route>
             <Route exact path='/workouts/create'> <CreateWorkout /> </Route>
             <Route exact path='/workouts/edit'> <EditWorkout /> </Route>
-
+            <Route exact path='/friendcalendar/:id' render={(props) => <Calendar {...props} />} />
             <Route path='/trainingplans'> <EditTrainingPlan /> </Route>
 
             <Route path='/editprofile'> <EditProfile /> </Route>
