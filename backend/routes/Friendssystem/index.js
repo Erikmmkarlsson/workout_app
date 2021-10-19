@@ -273,6 +273,27 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
     })
   })
 
+  app.get('/api/hasfriendaccess/:id',verifyToken, (req, res, next) => {
+
+
+    var sql = 'SELECT EXISTS(SELECT * FROM Giveaccess WHERE from_user = ? and to_user = ?) as a'
+    const params = [getID(req),parseInt(req.params.id)]
+    
+    console.log(params)
+    console.log(sql)
+    db.all(sql, params, (err, rows) => {
+      if (err) {
+        res.status(400).json({ error: err.message })
+        return
+      }
+      console.log(rows)
+      res.json({
+        message: 'success',
+        data: rows
+      })
+    })
+  })
+
   app.post('/api/giveaccess/',verifyToken ,(req, res, next) => {
 
     const data = {

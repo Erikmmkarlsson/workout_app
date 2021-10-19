@@ -17,6 +17,7 @@ function Friends (props) {
    const[FriendsListWithAccess,setFriendsListWithAccess]= useState([])
    const[FriendWaitingForAccess,setFriendWaitingForAccess]= useState([])
    const[hasaccess,sethasaccess]= useState('')
+   const[hasfriendsaccess,sethasfriendsaccess]= useState('')
    const[haspendingaccess,sethaspendingaccess]= useState('')
    const[hasoutgoingpendingaccess,sethasoutgoingpendingaccess]=useState('')
    const[hasUpdated,sethasUpdated] =useState(false)
@@ -169,7 +170,6 @@ function Friends (props) {
       }
     }).then(()=> {sethasUpdated(!hasUpdated)})
   }
-  
   function handleAskforTP(friendid){
     axios({
       method: 'post',
@@ -181,6 +181,19 @@ function Friends (props) {
         id: friendid
       }
     })
+  }
+  
+  function handleRemoveAccess(friendid){
+    axios({
+      method: 'delete',
+      url: '/api/removeaccess/',
+      headers: {
+        'x-access-token': GetToken()
+      },
+      data: {
+        id: friendid
+      }
+    }).then(()=> {sethasUpdated(!hasUpdated)})
   }
     
 
@@ -194,6 +207,19 @@ function Friends (props) {
     })
     .then(response => {
       sethasaccess(response.data.data[0])})
+
+  }
+
+  function getFriendAccess(friendid){
+    axios({
+      method: 'get',
+      url: '/api/hasfriendaccess/'+friendid,
+      headers: {
+        'x-access-token': GetToken()
+      },
+    })
+    .then(response => {
+      sethasfriendsaccess(response.data.data[0])})
 
   }
   function getPendingAccess(friendid){
@@ -264,6 +290,16 @@ function Friends (props) {
     </Button>
     </section>
     </div>): null }
+    {selecteduser && hasfriendsaccess['a']===1 ?(
+      <div>
+    <h5>Remove {selectedusername} to view your trainingplan:</h5>
+    <section class="basic-grid1">
+      <Button
+      color="danger"
+      onClick={() =>handleRemoveAccess(selecteduser)}
+    >Remove access
+      </Button>
+    </section></div>):null}
     {selecteduser && hasaccess['a']===1 ?(
     <div>
     <h5>View {selectedusername} trainingplan:</h5>
@@ -276,7 +312,7 @@ function Friends (props) {
       </Button>
       </section></div>): null}
       
-    {selecteduser ?(
+    {selecteduser? (
     <div>
     <h5>Remove {selectedusername} from friends:</h5>
     <section class="basic-grid1">
@@ -312,7 +348,7 @@ function Friends (props) {
     {FriendsList.map(friend =>
       <Card
       outline color="primary"
-      onClick={()=> {getAccess(friend.id);getPendingAccess(friend.id);getOutgoingPendingAccess(friend.id);setselecteduser(friend.id);setselectedusername(friend.name);setselecteduserid(friend.id)}}>
+      onClick={()=> {getAccess(friend.id);getFriendAccess(friend.id);getPendingAccess(friend.id);getOutgoingPendingAccess(friend.id);setselecteduser(friend.id);setselectedusername(friend.name);setselecteduserid(friend.id)}}>
       <CardBody className="crd-hover">
       <CardTitle tag="h5"><VscAccount/>
       {showorange.find(wfriend=> wfriend.id===friend.id) ?
