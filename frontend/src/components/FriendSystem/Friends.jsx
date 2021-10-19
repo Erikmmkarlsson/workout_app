@@ -184,7 +184,7 @@ function Friends (props) {
   }
     
 
-  function hasAccess(friendid){
+  function getAccess(friendid){
     axios({
       method: 'get',
       url: '/api/hasaccess/'+friendid,
@@ -196,7 +196,7 @@ function Friends (props) {
       setHasAccess(response.data.data[0])})
 
   }
-  function hasPendingAccess(friendid){
+  function getPendingAccess(friendid){
    axios({
       method: 'get',
       url: '/api/haspendingacces/'+friendid,
@@ -208,7 +208,7 @@ function Friends (props) {
       setHasPendingAccess(response.data.data[0])})
   }
 
-  function hasOutgoingPendingAccess(friendid){
+  function getOutgoingPendingAccess(friendid){
     axios({
        method: 'get',
        url: '/api/hasoutgoingpendingacces/'+friendid,
@@ -221,7 +221,7 @@ function Friends (props) {
    }
 
 
-   function setselecteduserid(selecteduser){
+   function setSelecteduserId(selecteduser){
     const data = {selecteduser: selecteduser}
     axios.patch('/api/selecteduser/', data, {
       headers: {
@@ -236,7 +236,7 @@ function Friends (props) {
   
     <div className='AcceptUsers'>
     <h4>Friends:</h4>
-    {selectedUser && hasPendingAccess['a']===1 ?(
+    {selectedUser && getPendingAccess['a']===1 ?(
       <div>
       <h5>🟠-Accept {selectedUsername} request to view your trainingplan:</h5>
       <section class="basic-grid1">
@@ -253,7 +253,7 @@ function Friends (props) {
       </section>
       </div>
     ): null }
-    {selectedUser && hasOutgoingPendingAccess['a']===0 && hasAccess['a']===0 ?(
+    {selectedUser && getOutgoingPendingAccess['a']===0 && getAccess['a']===0 ?(
     <div>
     <h5>Ask to view {selectedUsername} trainingplan</h5>
     <section class="basic-grid1">
@@ -264,7 +264,7 @@ function Friends (props) {
     </Button>
     </section>
     </div>): null }
-    {selectedUser && hasAccess['a']===1 ?(
+    {selectedUser && getAccess['a']===1 ?(
     <div>
     <h5>View {selectedUsername} trainingplan:</h5>
     <section class="basic-grid1">
@@ -321,7 +321,7 @@ function Friends (props) {
         <CardSubtitle>{friend.email}</CardSubtitle>
         <Button
           color="primary"
-          onClick={()=> {hasAccess(friend.id);hasPendingAccess(friend.id);hasOutgoingPendingAccess(friend.id);setSelectedUser(friend.id);setSelectedUsername(friend.name);setselecteduserid(friend.id)}}
+          onClick={()=> {getAccess(friend.id);getPendingAccess(friend.id);getOutgoingPendingAccess(friend.id);setSelectedUser(friend.id);setSelectedUsername(friend.name);setSelecteduserId(friend.id)}}
         >select
         </Button>
       </CardBody>
