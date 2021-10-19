@@ -103,24 +103,6 @@ module.exports = function (app, db) { // receiving "app" and "db" instance
       res.json({ message: 'deleted', changes: this.changes })
     })
   })
-  app.delete('/api/workout_exercises/:workout_id', (req, res, next) => {
-    /*
-
-    Deletes a workout from the db
-
-    */
-    console.log('Deleting workout...')
-
-    const sql = 'delete from workout_exercises where workout_id = ? '
-    const params = [req.params.id]
-    db.get(sql, params, function (err, result) {
-      if (err) {
-        res.status(400).json({ error: err.message })
-        return
-      }
-      res.json({ message: 'deleted', changes: this.changes })
-    })
-  })
   
   app.patch('/api/workouts/:id', (req, res, next) => {
     /*
