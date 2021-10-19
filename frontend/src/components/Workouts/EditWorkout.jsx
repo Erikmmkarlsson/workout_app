@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Table, Modal, Button } from 'reactstrap'
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import axios from 'axios'
 
 export default function EditWorkout(props) {
@@ -119,23 +119,24 @@ export default function EditWorkout(props) {
   return (
     <div className='Workout'>
       <Modal isOpen={modal} toggle={toggle}>
-        <div><h4>Are you sure you want to delete this workout?</h4></div>
-        <div>
+        <ModalHeader>Confirm delete</ModalHeader>
+        <ModalBody>Are you sure you want to delete this workout? This action will also delete any training plan entries.</ModalBody>
+        <ModalFooter>
           <Link to='/workouts'>
-            <button
-              className='m-3 btn btn-sm btn-danger'
+            <Button
+              color="danger"
               onClick={deleteWorkout}
             >
               Delete
-            </button>
+            </Button>
           </Link>
-          <button
-            className='m-3 btn btn-sm btn-warning'
+          <Button
+            color="secondary"
             onClick={toggle}
           >
             Cancel
-          </button>
-        </div>
+          </Button>
+        </ModalFooter>
       </Modal>
       <Link to='/workouts'>
         <Button color="secondary">Go back</Button>
