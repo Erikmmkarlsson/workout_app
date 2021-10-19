@@ -1,7 +1,9 @@
 
-import React from 'react'
+import React, {useEffect}  from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import './App.css'
+import WebFont from 'webfontloader';
+
 
 import { Navbar } from './components/navbar/'
 import { Hero } from './components/Landing Page/'
@@ -22,6 +24,15 @@ import Calendar from './components/Calendar/FriendCalendar/index'
 function App () {
   const [loggedIn] = useAuth()
   const role = GetRole()
+
+  //Loads fonts
+  useEffect(() => {
+    WebFont.load({
+      google: {
+        families: ['Roboto:300,400,700,900']
+      }
+    });
+   }, []);
 
   if (loggedIn && role === 'manager') {
     return (
