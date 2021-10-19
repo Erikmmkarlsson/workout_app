@@ -52,7 +52,7 @@ export default function EditExercise(props) {
   return (
     <div className='Exercise'>
       <Modal isOpen={modal} toggle={toggle}>
-      <ModalHeader>Confirm delete</ModalHeader>
+        <ModalHeader>Confirm delete</ModalHeader>
         <ModalBody>Are you sure you want to delete this exercise? This action will also delete any workout entries.</ModalBody>
         <ModalFooter>
           <Link to='/exercises'>
@@ -107,7 +107,7 @@ export default function EditExercise(props) {
           </div>
         </form>
         <div><br></br></div>
-        <Button 
+        <Button
           color="success"
           onClick={handleSubmit}
         >
