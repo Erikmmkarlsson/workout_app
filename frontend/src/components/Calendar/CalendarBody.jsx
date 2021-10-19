@@ -188,6 +188,19 @@ const CalendarBody = props => {
           }
         </TableBody>
       </Table>
+      <div class="popup" onclick="myFunction()">
+     <details>
+       <summary>Legend:</summary>
+       <span class="dot2"></span>
+       <label>&nbsp;planned   &nbsp;&nbsp;</label>
+       <span class="dot1" ></span>
+       <label >  &nbsp;complete &nbsp;&nbsp;</label>
+       <span class="dot"></span>
+       <label>&nbsp;incomplete &nbsp;&nbsp; </label>
+       <span class="dot3"></span>
+       <label>&nbsp;missed  </label>
+       <span class="popuptext" id="myPopup"></span></details>
+   </div>
     </TableContainer>
   )
 }
