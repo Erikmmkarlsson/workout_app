@@ -9,17 +9,17 @@ import './Friends.css'
 
 function Friends (props) {
     
-   const[RequestList,setRequestList]= useState([])
-   const[FriendsList,setFriendsList]= useState([])
-   const[selecteduser,setselecteduser]= useState('')
-   const[selectedusername,setselectedusername] =useState('')
-   const[showorange,setshoworangena]= useState([])
-   const[FriendsListWithAccess,setFriendsListWithAccess]= useState([])
-   const[FriendWaitingForAccess,setFriendWaitingForAccess]= useState([])
-   const[hasaccess,sethasaccess]= useState('')
-   const[haspendingaccess,sethaspendingaccess]= useState('')
-   const[hasoutgoingpendingaccess,sethasoutgoingpendingaccess]=useState('')
-   const[hasUpdated,sethasUpdated] =useState(false)
+   const[requestList,setRequestList]= useState([])
+   const[friendsList,setFriendsList]= useState([])
+   const[selectedUser,setSelectedUser]= useState('')
+   const[selectedUsername,setSelectedUsername] =useState('')
+   const[showOrange,setShowOrange]= useState([])
+   const[friendsListWithAccess,setFriendsListWithAccess]= useState([])
+   const[friendWaitingForAccess,setFriendWaitingForAccess]= useState([])
+   const[hasAccess,setHasAccess]= useState('')
+   const[hasPendingAccess,setHasPendingAccess]= useState('')
+   const[hasOutgoingPendingAccess,setHasOutgoingPendingAccess]=useState('')
+   const[hasUpdated,setHasUpdated] =useState(false)
   useEffect(() =>{
     axios.get('/api/requestList/', {
       headers: {
@@ -45,7 +45,7 @@ function Friends (props) {
     })
 
 
-    console.log(showorange)
+    console.log(showOrange)
     /*axios.get('/api/FriendsThatGaveMeAccess/', {
       headers: {
         'x-access-token': GetToken()
@@ -64,8 +64,8 @@ function Friends (props) {
   },[hasUpdated])
 
   useEffect(()=>{
-    FriendWaitingForAccess.map(friend =>
-      showorange.push(friend)
+    friendWaitingForAccess.map(friend =>
+      showOrange.push(friend)
       )
   })
 
@@ -93,7 +93,7 @@ function Friends (props) {
         id: friendid
       }
     })
-  ]).then(()=> {sethasUpdated(!hasUpdated)})
+  ]).then(()=> {setHasUpdated(!hasUpdated)})
 }
   
   function handleSubmitDecline(friendid){
@@ -106,7 +106,7 @@ function Friends (props) {
       data: {
         id: friendid
       }
-    }).then(()=> {sethasUpdated(!hasUpdated)})
+    }).then(()=> {setHasUpdated(!hasUpdated)})
   }
   function handleSubmitDelete(friendid){
     axios.all([
@@ -129,7 +129,7 @@ function Friends (props) {
       data: {
         id: friendid
       }
-    }).then(()=> {sethasUpdated(!hasUpdated)}),
+    }).then(()=> {setHasUpdated(!hasUpdated)}),
 
   ])
  }
@@ -155,7 +155,7 @@ function Friends (props) {
         id: friendid
       }
     })
-    ]).then(()=> {sethasUpdated(!hasUpdated)})
+    ]).then(()=> {setHasUpdated(!hasUpdated)})
   }
   function handleSubmitDeclineTP(friendid){
     axios({
@@ -167,7 +167,7 @@ function Friends (props) {
       data: {
         id: friendid
       }
-    }).then(()=> {sethasUpdated(!hasUpdated)})
+    }).then(()=> {setHasUpdated(!hasUpdated)})
   }
   
   function handleAskforTP(friendid){
@@ -193,7 +193,7 @@ function Friends (props) {
       },
     })
     .then(response => {
-      sethasaccess(response.data.data[0])})
+      setHasAccess(response.data.data[0])})
 
   }
   function hasPendingAccess(friendid){
@@ -205,7 +205,7 @@ function Friends (props) {
       },
     })
     .then(response => {
-      sethaspendingaccess(response.data.data[0])})
+      setHasPendingAccess(response.data.data[0])})
   }
 
   function hasOutgoingPendingAccess(friendid){
@@ -217,7 +217,7 @@ function Friends (props) {
        },
      })
      .then(response => {
-       sethasoutgoingpendingaccess(response.data.data[0])})
+       setHasOutgoingPendingAccess(response.data.data[0])})
    }
 
 
@@ -236,37 +236,37 @@ function Friends (props) {
   
     <div className='AcceptUsers'>
     <h4>Friends:</h4>
-    {selecteduser && haspendingaccess['a']===1 ?(
+    {selectedUser && hasPendingAccess['a']===1 ?(
       <div>
-      <h5>🟠-Accept {selectedusername} request to view your trainingplan:</h5>
+      <h5>🟠-Accept {selectedUsername} request to view your trainingplan:</h5>
       <section class="basic-grid1">
       <Button
             color="success"
-            onClick={() =>handleSubmitAcceptTP(selecteduser)}
+            onClick={() =>handleSubmitAcceptTP(selectedUser)}
           >Accept TP
         </Button>
       <Button
           color="danger"
-          onClick={() =>handleSubmitDeclineTP(selecteduser)}
+          onClick={() =>handleSubmitDeclineTP(selectedUser)}
         >Decline TP 
       </Button>
       </section>
       </div>
     ): null }
-    {selecteduser && hasoutgoingpendingaccess['a']===0 && hasaccess['a']===0 ?(
+    {selectedUser && hasOutgoingPendingAccess['a']===0 && hasAccess['a']===0 ?(
     <div>
-    <h5>Ask to view {selectedusername} trainingplan</h5>
+    <h5>Ask to view {selectedUsername} trainingplan</h5>
     <section class="basic-grid1">
     <Button
         color="primary"
-        onClick={() =>handleAskforTP(selecteduser)}
+        onClick={() =>handleAskforTP(selectedUser)}
       >Ask for TP
     </Button>
     </section>
     </div>): null }
-    {selecteduser && hasaccess['a']===1 ?(
+    {selectedUser && hasAccess['a']===1 ?(
     <div>
-    <h5>View {selectedusername} trainingplan:</h5>
+    <h5>View {selectedUsername} trainingplan:</h5>
     <section class="basic-grid1">
     
     <Button
@@ -276,21 +276,21 @@ function Friends (props) {
       </Button>
       </section></div>): null}
       
-    {selecteduser ?(
+    {selectedUser ?(
     <div>
-    <h5>Remove {selectedusername} from friends:</h5>
+    <h5>Remove {selectedUsername} from friends:</h5>
     <section class="basic-grid1">
     <Button
           color="danger"
-          onClick={() =>handleSubmitDelete(selecteduser)}
-          disabled={!selecteduser}
+          onClick={() =>handleSubmitDelete(selectedUser)}
+          disabled={!selectedUser}
         >Remove
     </Button>
     </section></div>): null}
 
 
     <section class="basic-grid">
-    {RequestList.map(user =>
+    {requestList.map(user =>
       <Card>
       <CardBody>
         <CardTitle tag="h5"><VscAccount/> {user.name}</CardTitle>
@@ -309,11 +309,11 @@ function Friends (props) {
         </Button>
       </CardBody>
     </Card>)}
-    {FriendsList.map(friend =>
+    {friendsList.map(friend =>
       <Card>
       <CardBody>
       <CardTitle tag="h5"><VscAccount/>
-      {showorange.find(wfriend=> wfriend.id===friend.id) ?
+      {showOrange.find(wfriend=> wfriend.id===friend.id) ?
         friend.name +'🟠'
       : friend.name}
       
@@ -321,7 +321,7 @@ function Friends (props) {
         <CardSubtitle>{friend.email}</CardSubtitle>
         <Button
           color="primary"
-          onClick={()=> {hasAccess(friend.id);hasPendingAccess(friend.id);hasOutgoingPendingAccess(friend.id);setselecteduser(friend.id);setselectedusername(friend.name);setselecteduserid(friend.id)}}
+          onClick={()=> {hasAccess(friend.id);hasPendingAccess(friend.id);hasOutgoingPendingAccess(friend.id);setSelectedUser(friend.id);setSelectedUsername(friend.name);setselecteduserid(friend.id)}}
         >select
         </Button>
       </CardBody>

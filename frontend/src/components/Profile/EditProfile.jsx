@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { GetID, GetToken } from '../auth'
 import './Profile.css'
+
 export default class Profile extends Component {
   constructor(props) {
     super(props)

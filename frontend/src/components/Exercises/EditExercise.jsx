@@ -9,7 +9,7 @@ export default function EditExercise(props) {
   const [id, setId] = useState(null)
   const [values, setValues] = useState({
     description: '',
-    video_link: ''
+    videoLink: ''
   })
 
   // Variables
@@ -24,7 +24,7 @@ export default function EditExercise(props) {
     axios.get('/api/exercises/' + id).then((response) => {
       setValues({
         description: response.data.data.description,
-        video_link: response.data.data.video_link
+        videoLink: response.data.data.video_link
       })
     })
   }, [])
@@ -38,8 +38,8 @@ export default function EditExercise(props) {
   const handleSubmit = async (e) => {
     // Handles when the user submits, patches the exercise in the database
     e.preventDefault()
-    const { description, video_link } = values
-    const exercise_data = { description, video_link }
+    const { description, videoLink } = values
+    const exercise_data = { description, videoLink }
     await axios.patch('/api/exercises/' + id, exercise_data)
     history.goBack()
   }
@@ -96,13 +96,13 @@ export default function EditExercise(props) {
           </div>
 
           <div className='form-group'>
-            <label htmlFor='video_link'>Video Link</label>
+            <label htmlFor='videoLink'>Video Link</label>
             <input
               type='text'
               className='form-control'
-              id='video_link'
-              value={values.video_link}
-              onChange={handleChange('video_link')}
+              id='videoLink'
+              value={values.videoLink}
+              onChange={handleChange('videoLink')}
             />
           </div>
         </form>

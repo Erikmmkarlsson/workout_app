@@ -9,7 +9,7 @@ export default function AddExercise(props) {
   const [values, setValues] = useState({
     name: "",
     description: '',
-    video_link: ''
+    videoLink: ''
   })
 
   const history = useHistory()
@@ -23,8 +23,8 @@ export default function AddExercise(props) {
   const handleSubmit = async (e) => {
     // Handles submit, posts the created exercise to the database
     e.preventDefault()
-    const { name, description, video_link } = values
-    const exercise_data = { name, description, video_link }
+    const { name, description, videoLink } = values
+    const exercise_data = { name, description, videoLink }
     await axios.post('/api/exercises', exercise_data)
     history.goBack()
   }
@@ -73,10 +73,10 @@ export default function AddExercise(props) {
             <input
               type='text'
               className='form-control'
-              id='video_link'
-              value={values.video_link}
-              onChange={handleChange('video_link')}
-              name='video_link'
+              id='videoLink'
+              value={values.videoLink}
+              onChange={handleChange('videoLink')}
+              name='videoLink'
               placeholder="Add a video link, format 'youtube.com/...'"
             />
           </div>
