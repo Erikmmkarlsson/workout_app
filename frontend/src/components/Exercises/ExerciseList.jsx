@@ -41,6 +41,7 @@ export default function ExercisesList (props) {
       <Link to='/'>
         <Button color="secondary">Go back</Button>
       </Link>
+      <div><br></br></div>
       <div className='col-md-8'>
         <div className='input-group mb-3'>
           <input
