@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import WorkoutReport from './WorkoutReport'
-import StartWorkout from './StartWorkout'
 import {
   Table,
   Button,
@@ -89,8 +88,6 @@ const EventModal = props => {
 
       {(GetRole() === 'client' && !(workoutEvent && workoutEvent.is_done)) ? (
         <React.Fragment>
-          <StartWorkout
-            exerciseList={selectedWorkoutExercises} />
 
           <WorkoutReport
             toggleModal={toggleModal}
