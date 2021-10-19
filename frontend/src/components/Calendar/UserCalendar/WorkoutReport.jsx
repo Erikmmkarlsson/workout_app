@@ -1,7 +1,7 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, FormGroup, Label, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap'
-
+import moment from 'moment'
 const WorkoutReport = props => {
   const [done, setDone] = useState(0)
   const [comment, setComment] = useState('')
@@ -9,7 +9,7 @@ const WorkoutReport = props => {
   const [selected, setSelected] = useState('')
   const toggle = () => setModal(!modal)
 
-  const { workoutEvent, toggleModal, selectedEvent, added, hasAdded } = props
+  const { workoutEvent, toggleModal, selectedEvent, added, hasAdded ,selectedDay} = props
 
   const handleMarkChange = e => {
     if (e.target.value === 'complete') {
@@ -30,17 +30,29 @@ const WorkoutReport = props => {
     axios.patch('/api/workout_events/' + selectedEvent, data)
       .then(() => hasAdded(!added))
   }
+
+  function IsInFuture(){
+    if(moment(selectedDay.year + '-' + (selectedDay.month) + '-' + selectedDay.day) > moment()){
+      return true
+    }
+    else{
+      return false
+    
+    }
+  }
+
+
   
   return (
     <div className='report'>
-      {(workoutEvent && workoutEvent.is_done ) ? (
+      {IsInFuture()? 
+      null
+      :(workoutEvent && workoutEvent.is_done) ? (
         <Button onClick={toggle} color='success'>Update workout report</Button>
       ) :
-      
-      
         <Button onClick={toggle} color='success'  >Complete workout</Button>
-
       }
+    
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>How did it go?</ModalHeader>
         <ModalBody>

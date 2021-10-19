@@ -203,6 +203,7 @@ function Calendar(props) {
                 selectedEvent={selectedEvent}
                 added={added}
                 hasAdded={hasAdded}
+                selectedDay={selectedDay}
               />
             ) : null}
 

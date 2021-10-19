@@ -14,7 +14,7 @@ import { GetRole } from '../../auth'
 
 
 const EventModal = props => {
-  const { modal, toggleModal, selectedWorkoutExercises, OpenLink, selectedEvent, added, hasAdded } = props
+  const { modal, toggleModal, selectedWorkoutExercises, OpenLink, selectedEvent, added, hasAdded,selectedDay } = props
 
   const [workoutEvent, setWorkoutEvent] = useState(null)
   const [workoutName, setWorkoutName] = useState('')
@@ -96,7 +96,8 @@ const EventModal = props => {
             toggleModal={toggleModal}
             selectedEvent={selectedEvent.id}
             added={added}
-            hasAdded={hasAdded} />
+            hasAdded={hasAdded}
+            selectedDay={selectedDay} />
         </React.Fragment>
       ) : null}
 
@@ -108,7 +109,9 @@ const EventModal = props => {
             toggleModal={toggleModal}
             selectedEvent={selectedEvent.id}
             added={added}
-            hasAdded={hasAdded} />
+            hasAdded={hasAdded} 
+            selectedDay={selectedDay}
+            />
         </React.Fragment>
       ) : null}
     </ModalFooter>
