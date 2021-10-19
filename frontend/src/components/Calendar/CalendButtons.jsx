@@ -88,7 +88,7 @@ const calendButtons = props => {
                             ))}
                         </DropdownMenu>
                     </Dropdown>
-                    {(GetRole === 'manager') ? (
+                    {(GetRole() === 'manager') ? (
                         <Input
                             type='textarea'
                             name='text'

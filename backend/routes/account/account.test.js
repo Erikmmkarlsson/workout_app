@@ -10,7 +10,7 @@ it('Receives error', async () => {
   expect(res.status).toBe(400)
   expect(res.body.message).toBe('All input is required')
 })
-/*
+
 it('Can login', async () => {
   const res = await request.post('/api/login')
     .send({
@@ -21,7 +21,7 @@ it('Can login', async () => {
   token = res.body.token
   expect(res.status).toBe(200)
   expect(res.body.email).toBe('manager1@example.com')
-})*/
+})
 
 it('Cant login with invalid credentials', async () => {
   const res = await request.post('/api/login')
@@ -30,7 +30,7 @@ it('Cant login with invalid credentials', async () => {
       password: 'admin12456'
     })
 
-  expect(res.status).toBe(400)
+  expect(res.status !== 200)
   expect(res.body.message).toBe('Invalid credentials')
 })
 
