@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { Button } from 'reactstrap'
 import axios from 'axios'
 import './Exercise.css'
 
@@ -8,7 +9,7 @@ export default function AddExercise(props) {
   const [values, setValues] = useState({
     name: "",
     description: '',
-    video_link: ''
+    videoLink: ''
   })
 
   const history = useHistory()
@@ -22,8 +23,8 @@ export default function AddExercise(props) {
   const handleSubmit = async (e) => {
     // Handles submit, posts the created exercise to the database
     e.preventDefault()
-    const { name, description, video_link } = values
-    const exercise_data = { name, description, video_link }
+    const { name, description, videoLink } = values
+    const exercise_data = { name, description, videoLink }
     await axios.post('/api/exercises', exercise_data)
     history.goBack()
   }
@@ -31,14 +32,14 @@ export default function AddExercise(props) {
   return (
     <div className='Exercise'>
       <div>
-        <button
-          className='btn btn-warning'
-          style={{ marginTop: 25 }}
+        <Button
+          color="secondary"
           onClick={() => history.goBack()}
         >
           Go back
-        </button>
+        </Button>
       </div>
+      <div><br></br></div>
       <div className='submit-form'>
         <div>
           <div className='form-group'>
@@ -72,10 +73,10 @@ export default function AddExercise(props) {
             <input
               type='text'
               className='form-control'
-              id='video_link'
-              value={values.video_link}
-              onChange={handleChange('video_link')}
-              name='video_link'
+              id='videoLink'
+              value={values.videoLink}
+              onChange={handleChange('videoLink')}
+              name='videoLink'
               placeholder="Add a video link, format 'youtube.com/...'"
             />
           </div>

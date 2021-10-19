@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { Button } from 'reactstrap'
 import axios from 'axios'
 
 export default function ExercisesList (props) {
@@ -38,8 +39,9 @@ export default function ExercisesList (props) {
   return (
     <div className='Exercise'>
       <Link to='/'>
-        <button className='m-3 btn-sm btn-warning'>Return to dashboard</button>
+        <Button color="secondary">Go back</Button>
       </Link>
+      <div><br></br></div>
       <div className='col-md-8'>
         <div className='input-group mb-3'>
           <input
@@ -106,7 +108,7 @@ export default function ExercisesList (props) {
                 className='btn btn-warning'
                 style={{ marginTop: 25 }}
               >
-                Edit
+                Edit exercise
               </Link>
             </div>
             )

@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
+import { Button } from 'reactstrap'
 import axios from "axios"
 import { GetID } from "../auth"
 import "./Workout.css"
@@ -32,14 +33,14 @@ export default function CreateWorkout(props) {
   return (
     <div className="Workout">
       <div>
-        <button
-          className="btn btn-warning"
-          style={{ marginTop: 25 }}
+        <Button
+          color="secondary"
           onClick={history.goBack}
         >
           Go back
-        </button>
+        </Button>
       </div>
+      <div><br></br></div>
       <div className="submit-form">
         <div>
           <div className="form-group">

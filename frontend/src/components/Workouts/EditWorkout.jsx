@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Table } from 'reactstrap'
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import axios from 'axios'
 
 export default function EditWorkout(props) {
@@ -45,7 +45,7 @@ export default function EditWorkout(props) {
       .then((response) => {
         setSelectedExerciseslist(response.data.data)
       })
-    axios.get('/api/workouts/'+ parseInt(new URLSearchParams(window.location.search).get('id'), 10)).then((response) => {
+    axios.get('/api/workouts/' + parseInt(new URLSearchParams(window.location.search).get('id'), 10)).then((response) => {
       setCurrentWorkout(response.data.data)
     })
   }, [hasUpdated])
@@ -111,13 +111,37 @@ export default function EditWorkout(props) {
       })
   }
 
+  //Handles when user deletes a workout, deletes it from the database
+  function deleteWorkout() {
+    axios.delete('/api/workouts/' + workout_id)
+  }
+
   return (
     <div className='Workout'>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader>Confirm delete</ModalHeader>
+        <ModalBody>Are you sure you want to delete this workout? This action will also delete any training plan entries.</ModalBody>
+        <ModalFooter>
+          <Link to='/workouts'>
+            <Button
+              color="danger"
+              onClick={deleteWorkout}
+            >
+              Delete
+            </Button>
+          </Link>
+          <Button
+            color="secondary"
+            onClick={toggle}
+          >
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
       <Link to='/workouts'>
-        <button className='m-3 btn-sm btn-warning'>
-          Return to your workouts
-        </button>
+        <Button color="secondary">Go back</Button>
       </Link>
+      <div><br></br></div>
       <div className='col-md-8'>
         <div className='input-group mb-3'>
           <input
@@ -139,115 +163,115 @@ export default function EditWorkout(props) {
         </div>
       </div>
       <div className="workoutBody">
-      <div className='col-md-6'>
-        <h4>Add exercises to {currentWorkout.name}</h4>
-        <ul className='list-group'>
-          {exercisesList &&
-            exercisesList.map((exercise, index) => (
-              <li
-                className={
-                  "list-group-item " + (index === currentIndex ? "active" : "")
-                }
-                onClick={() => setActiveExercise(exercise, index)}
-                key={index}
-              >
-                {exercise.name}
-              </li>
-            ))}
-        </ul>
-        <Link
-          to='/exercises/add'
-          className='btn btn-success'
-          style={{ marginTop: 25 }}
-        >
-          Add new
-        </Link>
-      </div>
-      <div className='col-md-6'>
-        {currentExercise
-          ? (
-            <div>
-              <h4>Add {currentExercise.name} to workout</h4>
+        <div className='col-md-6'>
+          <h4>Add exercises to {currentWorkout.name}</h4>
+          <ul className='list-group'>
+            {exercisesList &&
+              exercisesList.map((exercise, index) => (
+                <li
+                  className={
+                    "list-group-item " + (index === currentIndex ? "active" : "")
+                  }
+                  onClick={() => setActiveExercise(exercise, index)}
+                  key={index}
+                >
+                  {exercise.name}
+                </li>
+              ))}
+          </ul>
+          <Link
+            to='/exercises/add'
+            className='btn btn-success'
+            style={{ marginTop: 25 }}
+          >
+            Create new exercise
+          </Link>
+        </div>
+        <div className='col-md-6'>
+          {currentExercise
+            ? (
               <div>
-                <label>
-                  <strong>Name:</strong>
-                </label>{' '}
-                {currentExercise.name}
+                <h4>Add {currentExercise.name} to workout</h4>
+                <div>
+                  <label>
+                    <strong>Name:</strong>
+                  </label>{' '}
+                  {currentExercise.name}
+                </div>
+                <div>
+                  <label>
+                    <strong>Description:</strong>
+                  </label>{' '}
+                  {currentExercise.description}
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='num_sets'>Number of sets</label>
+                  <input
+                    type='number'
+                    min='0'
+                    className='form-control'
+                    id='num_sets'
+                    value={currentWorkoutExercise.num_sets}
+                    onChange={handleChange('num_sets')}
+                    name='num_sets'
+                    placeholder='Enter number of sets for this exercise'
+                  />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='num_reps'>Number of reps</label>
+                  <input
+                    type='number'
+                    min='0'
+                    className='form-control'
+                    id='num_reps'
+                    value={currentWorkoutExercise.num_reps}
+                    onChange={handleChange('num_reps')}
+                    name='num_reps'
+                    placeholder='Enter number of reps for this exercise'
+                  />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='num_seconds'>Number of seconds</label>
+                  <input
+                    type='number'
+                    min='0'
+                    className='form-control'
+                    id='num_seconds'
+                    value={currentWorkoutExercise.num_seconds}
+                    onChange={handleChange('num_seconds')}
+                    name='num_seconds'
+                    placeholder='Enter number of seconds for this exercise'
+                  />
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='comment'>Comment to client</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    id='comment'
+                    value={currentWorkoutExercise.comment}
+                    onChange={handleChange('comment')}
+                    name='comment'
+                    placeholder='Enter comment to client'
+                  />
+                </div>
+                <button
+                  type='submit'
+                  style={{ marginTop: 25 }}
+                  className='btn btn-success'
+                  onClick={saveWorkoutExercise}
+                >
+                  Add to Workout
+                </button>
               </div>
-              <div>
-                <label>
-                  <strong>Description:</strong>
-                </label>{' '}
-                {currentExercise.description}
-              </div>
-              <div className='form-group'>
-                <label htmlFor='num_sets'>Number of sets</label>
-                <input
-                  type='number'
-                  min='0'
-                  className='form-control'
-                  id='num_sets'
-                  value={currentWorkoutExercise.num_sets}
-                  onChange={handleChange('num_sets')}
-                  name='num_sets'
-                  placeholder='Enter number of sets for this exercise'
-                />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='num_reps'>Number of reps</label>
-                <input
-                  type='number'
-                  min='0'
-                  className='form-control'
-                  id='num_reps'
-                  value={currentWorkoutExercise.num_reps}
-                  onChange={handleChange('num_reps')}
-                  name='num_reps'
-                  placeholder='Enter number of reps for this exercise'
-                />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='num_seconds'>Number of seconds</label>
-                <input
-                  type='number'
-                  min='0'
-                  className='form-control'
-                  id='num_seconds'
-                  value={currentWorkoutExercise.num_seconds}
-                  onChange={handleChange('num_seconds')}
-                  name='num_seconds'
-                  placeholder='Enter number of seconds for this exercise'
-                />
-              </div>
-              <div className='form-group'>
-                <label htmlFor='comment'>Comment to client</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  id='comment'
-                  value={currentWorkoutExercise.comment}
-                  onChange={handleChange('comment')}
-                  name='comment'
-                  placeholder='Enter comment to client'
-                />
-              </div>
-              <button
-                type='submit'
-                style={{ marginTop: 25 }}
-                className='btn btn-success'
-                onClick={saveWorkoutExercise}
-              >
-                Add to Workout
-              </button>
-            </div>
             )
-          : (
-            <div>
-              <br />
-              <p>Please click on an Exercise...</p>
-            </div>
+            : (
+              <div>
+                <br />
+                <p>Please select an exercise to add...</p>
+              </div>
             )}
-      </div>
+        </div>
       </div>
       <div />
       <div><br></br></div>
@@ -257,15 +281,15 @@ export default function EditWorkout(props) {
         {selectedExercisesList.length > 0
           ? (
             <Table
-                  bordered
-                  responsive
-                  hover
-                  style={{
-                    background: 'white',
-                    marginTop: '1rem',
-                    width: '100%'
-                  }}
-                >
+              bordered
+              responsive
+              hover
+              style={{
+                background: 'white',
+                marginTop: '1rem',
+                width: '100%'
+              }}
+            >
               <thead>
                 <tr>
                   <th>
@@ -313,10 +337,19 @@ export default function EditWorkout(props) {
                 ))}
               </tbody>
             </Table>
-            )
+          )
           : (
             <div />
-            )}
+          )}
+      </div>
+      <div>
+        <button
+          onClick={toggle}
+          className='btn btn-danger'
+          style={{ marginTop: 25 }}
+        >
+          Delete workout
+        </button>
       </div>
     </div>
   )
