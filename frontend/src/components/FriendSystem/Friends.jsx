@@ -238,17 +238,17 @@ function Friends (props) {
     <h4>Friends:</h4>
     {selecteduser && haspendingaccess['a']===1 ?(
       <div>
-      <h5>🟠-Accept {selectedusername} request to view your trainingplan:</h5>
+      <h5>🔵-Accept {selectedusername} request to view your trainingplan:</h5>
       <section class="basic-grid1">
       <Button
             color="success"
             onClick={() =>handleSubmitAcceptTP(selecteduser)}
-          >Accept TP
+          >Accept
         </Button>
       <Button
           color="danger"
           onClick={() =>handleSubmitDeclineTP(selecteduser)}
-        >Decline TP 
+        >Decline 
       </Button>
       </section>
       </div>
@@ -310,20 +310,17 @@ function Friends (props) {
       </CardBody>
     </Card>)}
     {FriendsList.map(friend =>
-      <Card>
-      <CardBody>
+      <Card
+      outline color="primary"
+      onClick={()=> {hasAccess(friend.id);hasPendingAccess(friend.id);hasOutgoingPendingAccess(friend.id);setselecteduser(friend.id);setselectedusername(friend.name);setselecteduserid(friend.id)}}>
+      <CardBody className="crd-hover">
       <CardTitle tag="h5"><VscAccount/>
       {showorange.find(wfriend=> wfriend.id===friend.id) ?
-        friend.name +'🟠'
+        friend.name +'🔵'
       : friend.name}
       
       </CardTitle>
         <CardSubtitle>{friend.email}</CardSubtitle>
-        <Button
-          color="primary"
-          onClick={()=> {hasAccess(friend.id);hasPendingAccess(friend.id);hasOutgoingPendingAccess(friend.id);setselecteduser(friend.id);setselectedusername(friend.name);setselecteduserid(friend.id)}}
-        >select
-        </Button>
       </CardBody>
     </Card>)}
     </section>

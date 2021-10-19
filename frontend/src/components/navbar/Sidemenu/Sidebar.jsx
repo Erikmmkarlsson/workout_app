@@ -68,7 +68,7 @@ const Sidebar = () => {
     else{
       setSidebar(false)
     }
-  }, [])
+  }, [isMobile])
   return (
 
     <React.Fragment>

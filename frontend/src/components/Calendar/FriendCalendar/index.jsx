@@ -25,6 +25,7 @@ function Calendar(props) {
   const [added, hasAdded] = useState(false)
 
   // States handling the workouts that are connected to the user's training plan
+  const [workoutListDropdown, setWorkoutListDropdown] = useState([])
   const [eventList, setEventList] = useState([])
   const [selectedEvent, setSelectedEvent] = useState({ id: 0 })
   const [selectedWorkoutExercises, setSelectedWorkoutExercises] = useState([])
@@ -165,6 +166,7 @@ function Calendar(props) {
                   weekdays={weekdays}
                   ActiveDates={ActiveDates}
                   SelectedUserID={id.selected}
+                  setWorkoutListDropdown={setWorkoutListDropdown}
                   setSelectedWorkoutExercises={setSelectedWorkoutExercises}
                   toggleModal={toggleModal}
                   added={added}

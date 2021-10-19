@@ -10,3 +10,13 @@
     gap: 1rem;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
  }
+
+ 
+ .crd-hover{
+   background-color:#15171c;
+   color:#ebeff5;
+ }
+ .crd-hover:hover{
+   background-color: #ebeff5;
+   color:#15171c;
+ }
