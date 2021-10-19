@@ -5,7 +5,6 @@ import axios from 'axios'
 
 export default function EditWorkout(props) {
   //States
-  const [modal, setModal] = useState(false)
   const [workout_id, setWorkoutId] = useState(null)
   const [exercisesList, setExerciseslist] = useState([])
   const [selectedExercisesList, setSelectedExerciseslist] = useState([])
@@ -26,7 +25,7 @@ export default function EditWorkout(props) {
     num_seconds: null,
     comment: ''
   })
-
+  const [modal, setModal] = useState(false)
   const toggle = () => setModal(!modal)
 
   //Set intial states
