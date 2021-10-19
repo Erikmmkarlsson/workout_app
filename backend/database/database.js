@@ -172,8 +172,8 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
             is_done INTEGER,
             manager_comment text,
             client_comment text,
-            FOREIGN KEY (training_plan_id) REFERENCES training_plans(id),
-            FOREIGN KEY (workout_id) REFERENCES workouts(id)
+            FOREIGN KEY (training_plan_id) REFERENCES training_plans(id) ON DELETE CASCADE,
+            FOREIGN KEY (workout_id) REFERENCES workouts(id) ON DELETE CASCADE
             )`,
       (err) => {
         if (err) {
