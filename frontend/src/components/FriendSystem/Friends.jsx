@@ -9,17 +9,17 @@ import './Friends.css'
 
 function Friends (props) {
     
-   const[requestList,setRequestList]= useState([])
-   const[friendsList,setFriendsList]= useState([])
-   const[selectedUser,setSelectedUser]= useState('')
-   const[selectedUsername,setSelectedUsername] =useState('')
-   const[showOrange,setShowOrange]= useState([])
-   const[friendsListWithAccess,setFriendsListWithAccess]= useState([])
-   const[friendWaitingForAccess,setFriendWaitingForAccess]= useState([])
-   const[hasAccess,setHasAccess]= useState('')
-   const[hasPendingAccess,setHasPendingAccess]= useState('')
-   const[hasOutgoingPendingAccess,setHasOutgoingPendingAccess]=useState('')
-   const[hasUpdated,setHasUpdated] =useState(false)
+   const[RequestList,setRequestList]= useState([])
+   const[FriendsList,setFriendsList]= useState([])
+   const[selecteduser,setselecteduser]= useState('')
+   const[selectedusername,setselectedusername] =useState('')
+   const[showorange,setshoworangena]= useState([])
+   const[FriendsListWithAccess,setFriendsListWithAccess]= useState([])
+   const[FriendWaitingForAccess,setFriendWaitingForAccess]= useState([])
+   const[hasaccess,sethasaccess]= useState('')
+   const[haspendingaccess,sethaspendingaccess]= useState('')
+   const[hasoutgoingpendingaccess,sethasoutgoingpendingaccess]=useState('')
+   const[hasUpdated,sethasUpdated] =useState(false)
   useEffect(() =>{
     axios.get('/api/requestList/', {
       headers: {
@@ -45,7 +45,7 @@ function Friends (props) {
     })
 
 
-    console.log(showOrange)
+    console.log(showorange)
     /*axios.get('/api/FriendsThatGaveMeAccess/', {
       headers: {
         'x-access-token': GetToken()
@@ -64,8 +64,8 @@ function Friends (props) {
   },[hasUpdated])
 
   useEffect(()=>{
-    friendWaitingForAccess.map(friend =>
-      showOrange.push(friend)
+    FriendWaitingForAccess.map(friend =>
+      showorange.push(friend)
       )
   })
 
@@ -93,7 +93,7 @@ function Friends (props) {
         id: friendid
       }
     })
-  ]).then(()=> {setHasUpdated(!hasUpdated)})
+  ]).then(()=> {sethasUpdated(!hasUpdated)})
 }
   
   function handleSubmitDecline(friendid){
@@ -106,7 +106,7 @@ function Friends (props) {
       data: {
         id: friendid
       }
-    }).then(()=> {setHasUpdated(!hasUpdated)})
+    }).then(()=> {sethasUpdated(!hasUpdated)})
   }
   function handleSubmitDelete(friendid){
     axios.all([
@@ -129,7 +129,7 @@ function Friends (props) {
       data: {
         id: friendid
       }
-    }).then(()=> {setHasUpdated(!hasUpdated)}),
+    }).then(()=> {sethasUpdated(!hasUpdated)}),
 
   ])
  }
@@ -155,7 +155,7 @@ function Friends (props) {
         id: friendid
       }
     })
-    ]).then(()=> {setHasUpdated(!hasUpdated)})
+    ]).then(()=> {sethasUpdated(!hasUpdated)})
   }
   function handleSubmitDeclineTP(friendid){
     axios({
@@ -167,7 +167,7 @@ function Friends (props) {
       data: {
         id: friendid
       }
-    }).then(()=> {setHasUpdated(!hasUpdated)})
+    }).then(()=> {sethasUpdated(!hasUpdated)})
   }
   
   function handleAskforTP(friendid){
@@ -184,7 +184,7 @@ function Friends (props) {
   }
     
 
-  function getAccess(friendid){
+  function hasAccess(friendid){
     axios({
       method: 'get',
       url: '/api/hasaccess/'+friendid,
@@ -193,10 +193,10 @@ function Friends (props) {
       },
     })
     .then(response => {
-      setHasAccess(response.data.data[0])})
+      sethasaccess(response.data.data[0])})
 
   }
-  function getPendingAccess(friendid){
+  function hasPendingAccess(friendid){
    axios({
       method: 'get',
       url: '/api/haspendingacces/'+friendid,
@@ -205,10 +205,10 @@ function Friends (props) {
       },
     })
     .then(response => {
-      setHasPendingAccess(response.data.data[0])})
+      sethaspendingaccess(response.data.data[0])})
   }
 
-  function getOutgoingPendingAccess(friendid){
+  function hasOutgoingPendingAccess(friendid){
     axios({
        method: 'get',
        url: '/api/hasoutgoingpendingacces/'+friendid,
@@ -217,11 +217,11 @@ function Friends (props) {
        },
      })
      .then(response => {
-       setHasOutgoingPendingAccess(response.data.data[0])})
+       sethasoutgoingpendingaccess(response.data.data[0])})
    }
 
 
-   function setSelecteduserId(selecteduser){
+   function setselecteduserid(selecteduser){
     const data = {selecteduser: selecteduser}
     axios.patch('/api/selecteduser/', data, {
       headers: {
@@ -236,7 +236,7 @@ function Friends (props) {
   
     <div className='AcceptUsers'>
     <h4>Friends:</h4>
-    {selectedUser && getPendingAccess['a']===1 ?(
+    {selecteduser && haspendingaccess['a']===1 ?(
       <div>
       <h5>🔵-Accept {selectedusername} request to view your trainingplan:</h5>
       <section class="basic-grid1">
@@ -253,20 +253,20 @@ function Friends (props) {
       </section>
       </div>
     ): null }
-    {selectedUser && getOutgoingPendingAccess['a']===0 && getAccess['a']===0 ?(
+    {selecteduser && hasoutgoingpendingaccess['a']===0 && hasaccess['a']===0 ?(
     <div>
-    <h5>Ask to view {selectedUsername} trainingplan</h5>
+    <h5>Ask to view {selectedusername} trainingplan</h5>
     <section class="basic-grid1">
     <Button
         color="primary"
-        onClick={() =>handleAskforTP(selectedUser)}
+        onClick={() =>handleAskforTP(selecteduser)}
       >Ask for TP
     </Button>
     </section>
     </div>): null }
-    {selectedUser && getAccess['a']===1 ?(
+    {selecteduser && hasaccess['a']===1 ?(
     <div>
-    <h5>View {selectedUsername} trainingplan:</h5>
+    <h5>View {selectedusername} trainingplan:</h5>
     <section class="basic-grid1">
     
     <Button
@@ -276,21 +276,21 @@ function Friends (props) {
       </Button>
       </section></div>): null}
       
-    {selectedUser ?(
+    {selecteduser ?(
     <div>
-    <h5>Remove {selectedUsername} from friends:</h5>
+    <h5>Remove {selectedusername} from friends:</h5>
     <section class="basic-grid1">
     <Button
           color="danger"
-          onClick={() =>handleSubmitDelete(selectedUser)}
-          disabled={!selectedUser}
+          onClick={() =>handleSubmitDelete(selecteduser)}
+          disabled={!selecteduser}
         >Remove
     </Button>
     </section></div>): null}
 
 
     <section class="basic-grid">
-    {requestList.map(user =>
+    {RequestList.map(user =>
       <Card>
       <CardBody>
         <CardTitle tag="h5"><VscAccount/> {user.name}</CardTitle>
