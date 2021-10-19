@@ -184,7 +184,7 @@ function Friends (props) {
   }
     
 
-  function hasAccess(friendid){
+  function getAccess(friendid){
     axios({
       method: 'get',
       url: '/api/hasaccess/'+friendid,
@@ -196,7 +196,7 @@ function Friends (props) {
       sethasaccess(response.data.data[0])})
 
   }
-  function hasPendingAccess(friendid){
+  function getPendingAccess(friendid){
    axios({
       method: 'get',
       url: '/api/haspendingacces/'+friendid,
@@ -208,7 +208,7 @@ function Friends (props) {
       sethaspendingaccess(response.data.data[0])})
   }
 
-  function hasOutgoingPendingAccess(friendid){
+  function getOutgoingPendingAccess(friendid){
     axios({
        method: 'get',
        url: '/api/hasoutgoingpendingacces/'+friendid,
@@ -291,8 +291,8 @@ function Friends (props) {
 
     <section class="basic-grid">
     {RequestList.map(user =>
-      <Card>
-      <CardBody>
+      <Card outline color="primary">
+      <CardBody className="crd-hover">
         <CardTitle tag="h5"><VscAccount/> {user.name}</CardTitle>
         <CardSubtitle>{user.email}</CardSubtitle>
         <Button
@@ -312,7 +312,7 @@ function Friends (props) {
     {FriendsList.map(friend =>
       <Card
       outline color="primary"
-      onClick={()=> {hasAccess(friend.id);hasPendingAccess(friend.id);hasOutgoingPendingAccess(friend.id);setselecteduser(friend.id);setselectedusername(friend.name);setselecteduserid(friend.id)}}>
+      onClick={()=> {getAccess(friend.id);getPendingAccess(friend.id);getOutgoingPendingAccess(friend.id);setselecteduser(friend.id);setselectedusername(friend.name);setselecteduserid(friend.id)}}>
       <CardBody className="crd-hover">
       <CardTitle tag="h5"><VscAccount/>
       {showorange.find(wfriend=> wfriend.id===friend.id) ?

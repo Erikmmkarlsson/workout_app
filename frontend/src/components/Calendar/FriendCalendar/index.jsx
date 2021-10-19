@@ -7,6 +7,7 @@ import Container from '@material-ui/core/Container'
 import CalendarBody from '../CalendarBody'
 import CalendarHead from '../CalendarHead'
 import '../calendar.css'
+import '../../Dashboard/dashboard.css'
 import EventModal from './eventModal'
 function Calendar(props) {
 
@@ -132,6 +133,7 @@ function Calendar(props) {
   console.log(ActiveDates)
 
   return (
+    <div className='dashboard'>
     <div className='calend'>
       <Container disableGutters='false'>
         <Grid container>
@@ -199,6 +201,7 @@ function Calendar(props) {
           </Grid>
         </Grid>
       </Container>
+    </div>
     </div>
   )
 }
