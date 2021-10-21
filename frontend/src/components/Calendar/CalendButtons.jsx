@@ -102,7 +102,7 @@ const calendButtons = props => {
                 <FormGroup>
                     {(selectedWorkoutName !== 'Select a Workout') ? (
                         <Button
-                            color='primary'
+                            color='success'
                             onClick={() => {
                                 handleButton()
 
