@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { Button } from 'reactstrap'
+import { GetID } from '../auth'
 
 export default function WorkoutList(props) {
   //States
@@ -11,7 +12,8 @@ export default function WorkoutList(props) {
 
   //Set initial state
   useEffect(() => {
-    axios.get('/api/workouts').then((response) => {
+    const id = GetID();
+    axios.get('/api/GetUser&UserManagerWorkouts/' + id).then((response) => {
       setWorkoutList(response.data.data)
     })
   }, [])
@@ -21,10 +23,6 @@ export default function WorkoutList(props) {
     setCurrentWorkout(workout)
     setCurrentIndex(index)
   }
-
-
-
-
 
   return (
     <div className='Workout'>
