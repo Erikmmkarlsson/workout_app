@@ -17,7 +17,7 @@ const Example = (props) => {
 
   return (
     <div>
-      <Navbar color='light' light expand='md'>
+      <Navbar color='light' light expand='md' style={{zIndex:"100"}}>
         <NavbarBrand href='/' className='title'>Gymific</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>

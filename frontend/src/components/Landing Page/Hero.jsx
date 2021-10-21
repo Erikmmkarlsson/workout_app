@@ -21,6 +21,8 @@ const Hero = (props) => {
           </div>
         </Jumbotron>
       </div>
+      
+
     </div>
   )
 }
