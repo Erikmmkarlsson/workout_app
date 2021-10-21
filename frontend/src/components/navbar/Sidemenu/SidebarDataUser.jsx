@@ -4,6 +4,7 @@ import * as AiIcons from 'react-icons/ai'
 import * as IoIcons from 'react-icons/io'
 import * as HiIcons from 'react-icons/hi'
 import * as MdIcons from 'react-icons/md'
+import * as GiIcons from 'react-icons/gi'
 
 export const SidebarDataUser = [
   {
@@ -22,6 +23,11 @@ export const SidebarDataUser = [
       }
 
     ]
+  },
+  {
+    title: 'Workouts',
+    path: '/workouts',
+    icon: <GiIcons.GiGymBag />
   },
   {
     title: 'Statistics',

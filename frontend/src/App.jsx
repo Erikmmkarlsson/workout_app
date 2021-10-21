@@ -50,9 +50,11 @@ function App () {
             <Route exact path='/exercises/edit'> <EditExercise /> </Route>
             <Route path='/findfriend'> <FindFriend /> </Route>
             <Route path='/requestlist'> <Friends /> </Route>
+
             <Route exact path='/workouts/'> <WorkoutList /> </Route>
             <Route exact path='/workouts/create'> <CreateWorkout /> </Route>
             <Route exact path='/workouts/edit'> <EditWorkout /> </Route>
+            
             <Route exact path='/friendcalendar/'> <Calendar/> </Route>
             <Route path='/trainingplans'> <EditTrainingPlan /> </Route>
 
@@ -81,6 +83,10 @@ function App () {
             <Route exact path='/profile/:id' render={(props) => <Profile {...props} />} />
             <Route path='/profile'> <Profile /> </Route>
             <Route exact path='/login'> <Login /> </Route>
+
+            <Route exact path='/workouts/'> <WorkoutList /> </Route>
+            <Route exact path='/workouts/create'> <CreateWorkout /> </Route>
+            <Route exact path='/workouts/edit'> <EditWorkout /> </Route>
 
             <Route exactpath='/'>  <UserDashboard /></Route>
 

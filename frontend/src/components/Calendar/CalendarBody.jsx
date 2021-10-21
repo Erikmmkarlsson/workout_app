@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import './calendar.css'
 import nextId from 'react-id-generator'
 import axios from 'axios'
-import { GetToken } from '../auth'
+import { GetID, GetToken } from '../auth'
 
 import moment from 'moment'
 import Table from '@material-ui/core/Table'
@@ -53,7 +53,7 @@ const CalendarBody = props => {
         setSelectedWorkoutExercises(response.data.data)
       })
 
-    axios.get('/api/GetUser&UserManagerWorkouts/' + SelectedUserID, {
+    axios.get('/api/GetUser&UserManagerWorkouts/' + GetID(), {
       headers: {
         'x-access-token': GetToken()
       }

@@ -181,8 +181,8 @@ app.get('/api/UserWorkoutsExercises/:id/:date', (req, res, next) => {
 
 app.get('/api/GetUser&UserManagerWorkouts/:id', (req, res, next) => {
   const sql =
-  'SELECT workouts.id,workouts.name from users Inner join workouts on users.id =workouts.creator where users.id= ? or users.id in ( select users.manager from users where users.id= ?)'
-  const params = [req.params.id, req.params.id]
+  'SELECT workouts.id,workouts.name from users Inner join workouts on users.id =workouts.creator where users.id= ?'
+  const params = [req.params.id]
   db.all(sql, params, (err, rows) => {
     if (err) {
       res.status(400).json({ error: err.message })
