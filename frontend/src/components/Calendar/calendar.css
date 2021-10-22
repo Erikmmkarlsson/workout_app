@@ -14,7 +14,7 @@
 .dot {
     height: 10px;
     width: 10px;
-    background-color: rgb(196, 106, 23);
+    background-image: linear-gradient(120deg, #e26aa2 0%, #bb5ad8 100%);
     border-radius: 50%;
     display: inline-block;
     border: 3px;
@@ -26,7 +26,7 @@
   .dot1 {
     height: 10px;
     width: 10px;
-    background-color: rgb(64, 235, 87);
+    background-image: linear-gradient(120deg, #19e28ea6 0%, #67e96da9 100%);
     border-radius: 50%;
     display: inline-block;
     border: 3px;
@@ -39,7 +39,7 @@
   .dot2 {
     height: 10px;
     width: 10px;
-    background-color: rgba(109, 105, 105, 0.322);
+    background-image: linear-gradient(120deg, #5dbad656 0%, #579dd6 100%);
     border-radius: 50%;
     display: inline-block;
     border:3px;
@@ -49,7 +49,7 @@
   .dot3 {
     height: 10px;
     width: 10px;
-    background-color: rgb(164, 175, 13);
+    background-image: linear-gradient(120deg, #e7d8039c 0%, rgb(223, 195, 103) 100%);
     border-radius: 50%;
     display: inline-block;
     border: 3px;
@@ -82,28 +82,28 @@
 }
 
 .calendar .active {
-    background-image: linear-gradient(120deg, #cccccc00 0%, #919191 100%);
+    background-image: linear-gradient(120deg, #5dbad656 0%, #579dd6 100%);
     color: white;
     padding: 5px;
     border-radius: 50%;
 }
 
 .calendar .missed {
-    background-image: linear-gradient(120deg, #a08800 0%, #a5b100 100%);
+    background-image: linear-gradient(120deg, #e7d8039c 0%, rgb(223, 195, 103) 100%);
     color: white;
     padding: 5px;
     border-radius: 50%;
 }
 
 .calendar .waiting {
-    background-image: linear-gradient(120deg, #ff8800 0%, #ff0000 100%);
+    background-image: linear-gradient(120deg, #e26aa2 0%, #bb5ad8 100%);
     color: white;
     padding: 5px;
     border-radius: 50%;
 }
 
 .calendar .done {
-    background-image: linear-gradient(120deg, #00ff95 0%, #00ff0d 100%);
+    background-image: linear-gradient(120deg, #19e28ea6 0%, #67e96da9 100%);
     color: white;
     padding: 5px;
     border-radius: 50%;

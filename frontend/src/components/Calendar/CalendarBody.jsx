@@ -194,7 +194,7 @@ const CalendarBody = props => {
        <span class="dot2"></span>
        <label>&nbsp;planned   &nbsp;&nbsp;</label>
        <span class="dot1" ></span>
-       <label >  &nbsp;complete &nbsp;&nbsp;</label>
+       <label >  &nbsp;completed &nbsp;&nbsp;</label>
        <span class="dot"></span>
        <label>&nbsp;incomplete &nbsp;&nbsp; </label>
        <span class="dot3"></span>

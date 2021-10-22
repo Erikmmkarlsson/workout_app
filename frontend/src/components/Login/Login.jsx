@@ -135,7 +135,7 @@ export default function Login () {
               You sure you want to log out?
             </ToastHeader>
             <ToastBody>
-              <Button onClick={() => logout()}>Logout</Button>
+              <Button color="danger" onClick={() => logout()}>Logout</Button>
             </ToastBody>
           </Toast>
 
