@@ -45,23 +45,6 @@ function Friends (props) {
       setFriendsList(response.data.data)
     })
 
-
-    console.log(showorange)
-    /*axios.get('/api/FriendsThatGaveMeAccess/', {
-      headers: {
-        'x-access-token': GetToken()
-      }
-    }).then(response => {
-      this.setState({ FriendsListWithAccess: response.data.data })
-    });
-    axios.get('/api/FriendWaitingForAccess/', {
-      headers: {
-        'x-access-token': GetToken()
-      }
-    }).then(response => {
-      this.setState({ FriendWaitingForAccess: response.data.data })
-    });
-    */
   },[hasUpdated])
 
   useEffect(()=>{
@@ -95,6 +78,7 @@ function Friends (props) {
       }
     })
   ]).then(()=> {sethasUpdated(!hasUpdated)})
+  .then(()=>window.location.reload(false))
 }
   
   function handleSubmitDecline(friendid){
@@ -108,6 +92,7 @@ function Friends (props) {
         id: friendid
       }
     }).then(()=> {sethasUpdated(!hasUpdated)})
+    .then(()=>window.location.reload(false))
   }
   function handleSubmitDelete(friendid){
     axios.all([
@@ -130,9 +115,9 @@ function Friends (props) {
       data: {
         id: friendid
       }
-    }).then(()=> {sethasUpdated(!hasUpdated)}),
-
-  ])
+    })
+  ]).then(()=> {sethasUpdated(!hasUpdated)})
+  .then(()=>window.location.reload(false))
  }
   function handleSubmitAcceptTP(friendid){
     axios.all([
@@ -157,6 +142,7 @@ function Friends (props) {
       }
     })
     ]).then(()=> {sethasUpdated(!hasUpdated)})
+    .then(()=>window.location.reload(false))
   }
   function handleSubmitDeclineTP(friendid){
     axios({
@@ -169,6 +155,7 @@ function Friends (props) {
         id: friendid
       }
     }).then(()=> {sethasUpdated(!hasUpdated)})
+    .then(()=>window.location.reload(false))
   }
   function handleAskforTP(friendid){
     axios({
@@ -180,7 +167,8 @@ function Friends (props) {
       data: {
         id: friendid
       }
-    })
+    }).then(()=> {sethasUpdated(!hasUpdated)})
+    .then(()=>window.location.reload(false))
   }
   
   function handleRemoveAccess(friendid){
@@ -194,6 +182,7 @@ function Friends (props) {
         id: friendid
       }
     }).then(()=> {sethasUpdated(!hasUpdated)})
+    .then(()=>window.location.reload(false))
   }
     
 
