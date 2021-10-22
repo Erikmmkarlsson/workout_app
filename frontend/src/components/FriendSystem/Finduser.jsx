@@ -76,7 +76,7 @@ export default function Finduser(props) {
     axios.get('/api/UserrequestList/'+reciever+'/'+GetID()
     ).then(response => {setrequestList2(response.data.data)
     });
-  }, [reciever,handleSubmit])
+  }, [reciever])
 
   
 

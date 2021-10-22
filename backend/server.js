@@ -103,29 +103,7 @@ app.get('/api/manager/myUsers', onlyManager, (req, res, next) => {
   })
 })
 
-/// MODIFY WHEN FRIENDS SYSTEM ADDED
-/// MODIFY WHEN FRIENDS SYSTEM ADDED
-/// MODIFY WHEN FRIENDS SYSTEM ADDED
-app.get('/api/user/user&friends', (req, res, next) => {
-  const id = getID(req)
-  console.log(id)
 
-  const sql = 'select * from users where activated=true and id = ? '
-  const params = [id]
-
-  db.all(sql, params, (err, rows) => {
-    if (err) {
-      res.status(400).json({ error: err.message })
-      return
-    }
-    console.log(rows)
-    res.json({
-      message: 'success',
-      data: rows
-
-    })
-  })
-})
 
 app.get('/api/UserWorkouts', (req, res, next) => {
   const id = getID(req)
