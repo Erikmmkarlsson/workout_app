@@ -289,9 +289,5 @@ app.get('/api/Getselecteduser/',verifyToken, (req, res, next) => {
     })
   })
 })
-// Default response for any other request
-app.use(function (req, res) {
-  res.status(404)
-})
 
 module.exports = app

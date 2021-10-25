@@ -41,7 +41,7 @@ function App () {
         <div className='appBox'>
           <Switch>
             <PrivateRoute path='/MyUsers'> <AcceptUsers /> </PrivateRoute>
-            <Route exact path='/login'> <Login /> </Route>
+            <Route path='/login'> <Login /> </Route>
 
             <Route exact path='/managerdashboard/'> <ManagerDashboard /> </Route>
             <Route path='/friendcalendar'> <Calendar /> </Route>

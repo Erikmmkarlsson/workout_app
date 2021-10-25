@@ -8,7 +8,8 @@
     "test:watch": "jest --watch",
     "back": "node backend/start.js",
     "front": "cd frontend && npm start",
-    "dev": "concurrently \"npm run back\" \"npm run front\""
+    "dev": "concurrently \"npm run back\" \"npm run front\"",
+    "production": "node backend/production.js"
   },
   "keywords": [],
   "author": "",
