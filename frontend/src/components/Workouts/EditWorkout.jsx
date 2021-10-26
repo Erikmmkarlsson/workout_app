@@ -83,10 +83,10 @@ export default function EditWorkout(props) {
 
   function removeExercise(id) {
     //Handles when a user deletes an exercise, removes it from the database
-    axios.delete("http://localhost:8000/api/workout_exercises/" + id)
+    axios.delete("/api/workout_exercises/" + id)
     axios
       .get(
-        "http://localhost:8000/api/workout_exercises?workout_id=" + workout_id
+        "/api/workout_exercises?workout_id=" + workout_id
       )
       .then(() => {
         setUpdated(!hasUpdated)
@@ -97,12 +97,12 @@ export default function EditWorkout(props) {
     //Handles when the user finishes adding the exercise to the workout
     axios({
       method: "post",
-      url: "http://localhost:8000/api/workout_exercises",
+      url: "/api/workout_exercises",
       data: currentWorkoutExercise
     })
     axios
       .get(
-        "http://localhost:8000/api/workout_exercises?workout_id=" +
+        "/api/workout_exercises?workout_id=" +
         parseInt(workout_id, 10)
       )
       .then(() => {

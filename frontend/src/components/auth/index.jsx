@@ -8,7 +8,7 @@ Not the best. Vulnerable to XSS attacks.
 export const [useAuth, authFetch, login, logout] =
     createAuthProvider({
       accessTokenKey: 'access_token',
-      onUpdateToken: (token) => fetch('localhost:8000/api/refresh', {
+      onUpdateToken: (token) => fetch('/api/refresh', {
         method: 'POST',
         body: token.access_token
       })
