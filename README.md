@@ -6,6 +6,9 @@ software engineering course at Örebro University.
 
 ## `installation instructions`
 
+Prerequisites:
+* Node.js is installed on the system
+
 Clone the repository, then enter the repository with your prefered method (`cd workout_app` for example)
 
 Run these following commands to install everything:
